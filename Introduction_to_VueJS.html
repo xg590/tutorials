@@ -1,0 +1,104 @@
+<html>  
+<body>  
+	<meta charset="utf-8">  
+	<!-- Rewrite examples in https://vuejs.org/v2/guide/index.html for the sake of unambiguity-->
+	<div id="aaa">
+		{{bbb}}
+	</div><br>
+	
+	<div id="ccc">
+		<span v-if="ddd">Visible if "ddd: true" in JS</span>
+	</div><br>
+	
+	<div id="eee">
+		<li v-for="hhh in ggg"> {{ hhh.text }} </li>
+	</div><br>
+	
+	<div id="iii">
+		<p>{{ kkk }}</p>
+		<button v-on:click="jjj">Clicking</button>
+	</div><br>
+	
+	<div id="lll">
+		<p>{{ mmm }}</p>
+		<input v-model="mmm">
+	</div><br>
+	
+	<div id="nnn">
+		<ooo> Component will be inserted into HERE</ooo> 
+	</div><br>
+	
+	<div id="ppp"> 
+		<qqq 
+			v-bind:this_is_end_1="middleman_1" 
+			v-bind:this_is_end_2="middleman_2" 
+		></qqq> 
+	</div>
+	
+	<script src="https://unpkg.com/vue"> </script>
+	<script>
+  
+		var foo1 = new Vue({
+			el: '#aaa',
+			data: {
+				bbb: 'Pass text from JS to HTML'
+			}
+		})
+		
+		var foo2 = new Vue({
+			el: '#ccc',
+			data: {
+				ddd: true
+			}
+		})
+		
+		var foo3 = new Vue({
+			el: '#eee',
+			data: {
+				ggg: [
+					{ id: 0, text: 'This' },
+					{ id: 1, text: 'is' },
+					{ id: 2, text: 'a' },
+					{ id: 3, text: 'loop' }
+				]
+			}
+		}) 
+		
+		var foo4 = new Vue({
+			el: '#iii',
+			data: {
+				kkk: 'This will be reversed by'
+			},
+			methods: {
+				jjj: function () {
+				this.kkk = this.kkk.split('')
+				this.kkk = this.kkk.reverse().join('')
+				}
+			}
+		})
+		
+		var this_is_omittable = new Vue({
+			el: '#lll',
+			data: { mmm: 'Pass text between JS and HTML' }
+		})	
+ 
+		Vue.component('ooo', { 
+			template: '<li>Real component</li>'
+		}) 
+		new Vue({ el: '#nnn' })
+		
+		Vue.component('qqq', {
+			props: ['this_is_end_1', 'this_is_end_2'],
+			template: '<li>{{ this_is_end_1 }} and {{ this_is_end_2.rrr }}</li>'
+		}) 
+		new Vue({
+			el: '#ppp',
+			data: {
+				middleman_1: 'This_is_origin_1',
+				middleman_2: {rrr: 'This_is_origin_2'}
+			}
+		})
+	</script>
+</body>
+</html>
+
