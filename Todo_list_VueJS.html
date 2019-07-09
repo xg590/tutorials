@@ -1,0 +1,41 @@
+<html> <meta charset="utf-8">
+  <body> 
+    <div id="element_name_in_vue_line_28">
+      <form v-on:submit.prevent="function_name_in_vue_method_line_35">
+        <label>Here is for you to input note</label>
+        <input v-model="note_content_buffer" 
+               placeholder="E.g. Feed the cat" >
+        <button>content_on_button</button>
+      </form>
+      <ul>
+        <li is="template_line_20" 
+          v-for="(alias_for_item_in_note_list, this_is_index) in note_list_line_31" 
+          v-bind:note_content_buffer="alias_for_item_in_note_list.item_in_note_list" 
+          v-on:function_remove_button="note_list_line_31.splice(this_is_index, 1)"> 
+        </li>
+      </ul>
+    </div>
+    <script src="https://unpkg.com/vue"> </script>
+    <script>
+      Vue.component('template_line_20', {
+        template: '\
+          <li> {{ note_content_buffer }} \
+            <button v-on:click="$emit(\'function_remove_button\')">Remove</button> \
+          </li>',
+        props: ['note_content_buffer']
+      }) 
+      new Vue({
+        el: '#element_name_in_vue_line_28',
+        data: {
+          note_content_buffer: '',
+          note_list_line_31: [{ item_in_note_list: 'note_content_1'},
+                              { item_in_note_list: 'note_content_2'}
+        ]},
+        methods: {
+          function_name_in_vue_method_line_35: function () {
+            this.note_list_line_31.push({ item_in_note_list: this.note_content_buffer }) 
+            this.note_content_buffer = ''
+      }}})
+    </script> 
+  </body>
+</html>
