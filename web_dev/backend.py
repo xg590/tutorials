@@ -10,7 +10,7 @@ def random_number():
         'randomNumber': randint(1, 100)
     }
     return jsonify(response)
-@app.route('/'）
+@app.route('/')
 def frontpage():
     return render_template("frontend.html")
 app.run('127.0.0.1', 5000)
