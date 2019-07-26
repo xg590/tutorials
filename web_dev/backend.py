@@ -3,7 +3,8 @@
 from flask import Flask, render_template, jsonify
 from flask_cors import CORS
 from random import *
-app = Flask(__name__, template_folder = "./")
+app = Flask(__name__, template_folder = "./") # if you would like place frontend.html in another folder,
+                                              # change the template_folder
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 @app.route('/api/random')
 def random_number():
