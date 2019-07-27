@@ -1,0 +1,29 @@
+<html>
+  <head>
+     <title>VueJs Introduction</title>
+     <script type = "text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.3/vue.min.js">
+     </script>
+  </head>
+  <body>
+    <div id = "intro" style = "text-align:center;"> 
+      <div is="component"
+        v-for="(value,key) in message" 
+        v-bind:c = "value.a"  
+        v-bind:d = "value.b"  
+        v-bind:e = "key"> 
+      </div>  
+    </div>
+    <script type = "text/javascript"> 
+      Vue.component('component', { 
+        props: ['c','d', 'e'],  
+        template: '<p> {{c}} {{d}} {{e}}</p>', 
+      })  
+      var vue_det = new Vue({
+        el: '#intro',
+        data: {
+          message: {'cccccc':{"a":1, "b":2}, '2':{"a":3, "b":4}}
+        }
+      });
+    </script>
+  </body>
+</html>
