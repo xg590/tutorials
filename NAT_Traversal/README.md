@@ -35,7 +35,7 @@ def get_ip(nicName):
 nic_info = [(nicName, get_ip(nicName)) for i, nicName in socket.if_nameindex() if nicName!='lo'] 
 print(nic_info)
 ```
-### Full Cone NAT: the outbound port on NAT accepts any inbound connection.
+### Full Cone NAT: the outbound port on NAT accepts any inbound connection. (Example: Virtualbox NAT scheme)
 During NAT existence detection (if NAT does exist), the sever caught an addr ['128.111.111.111', 22222]. Port 22222 is opened on NAT for the reply from sever, and the opening is triggered by contacting from client to server. If the NAT is full cone, any third party can communicate with client via 128.111.111.111:22222]<br>
 A third party host:
 ```
@@ -46,7 +46,7 @@ s.sendto(b'NAT Traversed', ('128.111.111.111', 22222))
 ```
 If the client got 'NAT Traversed' from the third party, the NAT is full cone type.<br>
 Summary: if x.x.x.x:x (Client behind NAT) -> 128.111.111.111:22222 (NAT) -> xxx.com:12345 (Server) is OK, then y.y.y.y:y (any host) -> 128.111.111.111:22222 (NAT) -> x.x.x.x:x (Client behind NAT) is possible<br> 
-### Restricted Cone NAT: the outbound port on NAT accept only incoming connection from contacted ip. 
+### Restricted Cone NAT: the outbound port on NAT accept only incoming connection from contacted ip. (Mobile Network, router, AP)
 Server side:
 ```
 import socket
@@ -65,6 +65,5 @@ s.sendto(b'', ('xxx.com', 12345))
 print(s.recv(1024))
 ```
 Summary: if x.x.x.x:x (Client behind NAT) -> 128.111.111.111:22222 (NAT) -> xxx.com:12345 (Server) is OK, then xxx.com:y (only the same server but any port is OK) -> 128.111.111.111:22222 (NAT) -> x.x.x.x:x (Client behind NAT) is possible<br>
-### Port Restricted Cone NAT: the outbound port on NAT accept only incoming connection from contacted ip:port.
+### Port Restricted Cone NAT: the outbound port on NAT accept only incoming connection from contacted ip:port. (Haven't met)
 Summary: if x.x.x.x:x (Client behind NAT) -> 128.111.111.111:22222 (NAT) -> xxx.com:12345 (Server) is OK, then xxx.com:<b>12345</b>(only the same server and same port is OK) -> 128.111.111.111:22222 (NAT) -> x.x.x.x:x (Client behind NAT) is possible<br>
- 
