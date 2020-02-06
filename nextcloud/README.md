@@ -47,6 +47,10 @@ Don't forget change your_domain_name
 # systemctl start nginx 
 # systemctl start php7.2-fpm
 ```
+8. Your nextcloud server will open to public at https://your_domain_name:4433 (see nextcloud.conf for detail)<br>
+Setup admin account when first login.<br>
+Download <b>Nextcloud Talk</b> on Android / iOS for mobile use.<br>
+
 Reference:
 1. [Install NextCloud On Ubuntu 17.04 | 17.10 With Nginx, MariaDB And PHP](https://websiteforstudents.com/install-nextcloud-on-ubuntu-17-04-17-10-with-nginx-mariadb-and-php/)
 2. [How to Install Nextcloud with Nginx on Ubuntu 18.04 LTS](https://www.howtoforge.com/tutorial/ubuntu-nginx-nextcloud/)
