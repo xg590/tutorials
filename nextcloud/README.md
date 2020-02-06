@@ -6,7 +6,7 @@ $ sudo su
 2. Install softwares<br>
 ```
 # apt install nginx mysql-server letsencrypt -y
-# apt install php-fpm php-curl php-gd php-mysql php-zip php-mbstring php-xml -y
+# apt install php-fpm php-curl php-gd php-mysql php-zip php-mbstring php-xml php-intl php-imagick -y
 # systemctl stop apache2
 # systemctl stop nginx
 ```
