@@ -35,7 +35,7 @@ $ sudo su
 6. Get a config of nextcloud for nginx<sup> [3]</sup>
 ```
 # wget https://raw.githubusercontent.com/xg590/tutorials/master/nextcloud/nextcloud.conf
-# mv nginx.conf /etc/nginx/sites-enabled/
+# mv nextcloud.conf /etc/nginx/sites-enabled/
 # rm /etc/nginx/sites-enabled/default
 ```
 Don't forget change your_domain_name
