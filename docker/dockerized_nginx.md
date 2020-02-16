@@ -1,4 +1,4 @@
-1. [Set up](https://github.com/xg590/tutorials/blob/master/docker/Installation.md) docker-compose
+1. [Set up](https://github.com/xg590/tutorials/blob/master/docker/setup.md) docker-compose
 2. Create a clean folder <b>new_york_univ</b> and get into it
 ```
 $ mkdir new_york_univ
