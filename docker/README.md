@@ -1,5 +1,5 @@
 ## Tutorial
-1. [Set up docker](https://github.com/xg590/tutorials/blob/master/docker/dockerize_nginx.md)
+1. [Set up docker](https://github.com/xg590/tutorials/blob/master/docker/setup.md)
 2. [Configure a dockerized software](https://github.com/xg590/tutorials/blob/master/docker/dockerized_nginx.md)
 ## Quick Reference
 Get a shell ( hold down CTRL and type p followed by q to <b>detach</b> )
