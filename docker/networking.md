@@ -40,22 +40,20 @@ $ docker-compose up -d
 $ docker attach container_1
 / # 
 ```
-6. Both service name container2 and container name container_2 are OK to ping
+6. Both service name <b>container2</b> and container name <b>container_2</b> are OK to ping
 ```
 / # ping -c 1 container_2
 PING container_2 (172.18.0.3): 56 data bytes
 64 bytes from 172.18.0.3: seq=0 ttl=64 time=0.074 ms
-
 --- container_2 ping statistics ---
 1 packets transmitted, 1 packets received, 0% packet loss
 round-trip min/avg/max = 0.074/0.074/0.074 ms
+
 / # ping -c 1 container2
 PING container2 (172.18.0.3): 56 data bytes
 64 bytes from 172.18.0.3: seq=0 ttl=64 time=0.071 ms
-
 --- container2 ping statistics ---
 1 packets transmitted, 1 packets received, 0% packet loss
 round-trip min/avg/max = 0.071/0.071/0.071 ms
 / #
-
 ```
