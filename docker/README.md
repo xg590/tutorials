@@ -1,6 +1,7 @@
 ## Tutorial
 1. [Set up docker](https://github.com/xg590/tutorials/blob/master/docker/setup.md)
 2. [Configure a dockerized software](https://github.com/xg590/tutorials/blob/master/docker/dockerized_nginx.md)
+3. [Explore the networking / play with docker-compose](https://github.com/xg590/tutorials/blob/master/docker/networking.md)
 ## Quick Reference
 Get a shell ( hold down CTRL and type p followed by q to <b>detach</b> )
 ``` 
