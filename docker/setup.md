@@ -6,6 +6,7 @@ $ sudo apt install docker.io
 $ sudo usermod -aG docker $USER
 $ wget https://github.com/docker/compose/releases/download/1.25.4/docker-compose-Linux-x86_64 -O docker-compose
 $ chmod 500 docker-compose
+$ sudo mv docker-compose /usr/local/bin
 ``` 
 Test installation
 ```
