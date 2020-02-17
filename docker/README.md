@@ -1,7 +1,17 @@
+## Personal Understanding
+* To me, docker is a runtime enviroment / sandbox. 
+* Docker supports and isolates the contained software (in a container). 
+* The internal port could be exposed / published to the external network, so docker is a good platform to run a server program in it (the container). 
+* Copying the container is effortless so that running a server anywhere is effortless.
 ## Tutorial
 1. [Set up docker](https://github.com/xg590/tutorials/blob/master/docker/setup.md)
+   * Install docker in Ubuntu18.04
+   * Test installation
+   * Get docker-compose
 2. [Configure a dockerized software](https://github.com/xg590/tutorials/blob/master/docker/dockerized_nginx.md)
+   * Run a nginx webserver
 3. [Explore the networking / Orchestration between two containers](https://github.com/xg590/tutorials/blob/master/docker/networking.md)
+   * Run two separate container so that we can ping one from the another via internal network.
 ## Quick Reference
 Get a shell ( hold down CTRL and type p followed by q to <b>detach</b> )
 ``` 
