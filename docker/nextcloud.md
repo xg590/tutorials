@@ -60,3 +60,16 @@ server {
     }
 }
 ```
+6. See what we have
+```
+$ find . 
+./default.conf
+./docker-compose.yaml
+./html
+./html/test.html
+```
+7. Start ngnix
+```
+$ docker-compose up
+```
+8. Using browser to visit http://your_domain_name:8080/test.html
