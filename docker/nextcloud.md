@@ -1,3 +1,8 @@
+### Highlights
+* All images ( mariadb / nextcloud:fpm-alpine / nginx:alpine) are official. 
+* I don't like JrCs/docker-letsencrypt-nginx-proxy-companion or jwilder/nginx-proxy:alpine since I am a newcomer for docker. It's hard for me to understand other projects. 
+* Use existed SSL certificate if you already have.
+* Provide you a clear understanding about the orchestration.
 ### Summary
 * Install docker
 * Get ssl certificate
