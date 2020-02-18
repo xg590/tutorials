@@ -1,5 +1,9 @@
 ### Summary
-Install docker, get ssl certificate, create two files in a new folder, substitute your_domain_name in files, start nextcloud.
+* Install docker
+* Get ssl certificate
+* Create two configuration files in a new folder
+* Substitute your_domain_name in files
+* Start nextcloud.
 ### Procedure
 1. [Set up](https://github.com/xg590/tutorials/blob/master/docker/setup.md) docker-compose
 2. Get SSL certificate and key, then they appear at /etc/letsencrypt/live/your_domain_name/
