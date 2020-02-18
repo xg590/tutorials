@@ -198,3 +198,7 @@ $ sed -i 's/your_domain_name/???/g' docker-compose.yaml nginx.conf
 $ docker-compose up
 ```
 8. Using browser to visit https://your_domain_name
+9. Stop Nextcloud
+```
+$ docker-compose stop
+```
