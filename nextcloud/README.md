@@ -1,4 +1,7 @@
-Prerequisite: ubuntu 18.04.03 lts (Feb 06 2020) <br>
+### Intro to Nextcloud
+A self-hosted data cloud: It support filesync between devices and communication (text, voice, and video).<br>
+Mandatory SSL connection
+### Prerequisite: ubuntu 18.04.03 lts (Feb 06 2020) <br>
 1. Switch to superuser<br>
 ```
 $ sudo su
