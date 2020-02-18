@@ -96,7 +96,7 @@ http {
   include /etc/nginx/conf.d/*.conf;
   include /etc/nginx/sites-enabled/*;
   upstream php-handler {
-    server app:9000;
+    server nextcloud_fpm_version:9000;
   }
   server {
     listen 443 ssl http2;
