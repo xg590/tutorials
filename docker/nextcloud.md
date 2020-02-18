@@ -13,6 +13,7 @@
 * docker-compose.yaml and nginx.conf are intertwined, since the nginx forward php request to nextcloud_fpm_version:9000. 
 * MySQL host needed in the second service (nextcloud_fpm_version) is created by the first service (db_service).
 * SSL certificate is provided to the third service (this_is_proxy_service), which starts a nginx proxy server.
+* Nextcloud installation without docker is [here](https://github.com/xg590/tutorials/tree/master/nextcloud).
 ### Procedure
 1. [Set up](https://github.com/xg590/tutorials/blob/master/docker/setup.md) docker-compose
 2. Get SSL certificate and key, then they appear at /etc/letsencrypt/live/your_domain_name/
