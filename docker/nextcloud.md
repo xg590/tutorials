@@ -202,3 +202,29 @@ $ docker-compose up
 ```
 $ docker-compose stop
 ```
+### Preserve Data
+In the above docker-compose.yaml, we have
+```
+services:
+  nextcloud_fpm_version: 
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf 
+      - nextcloud_vol:/var/www/html 
+```
+* Mount host directory to container in volume, and the data of each user will retain at /var/www/nextcloud of host machine.
+``` 
+    volumes:
+      - /var/www/nextcloud/data:/var/www/html/data
+```
+* Name a volume and the data will stay at /var/lib/docker/volumes/
+``` 
+    volumes:
+      - nextcloud_vol:/var/www/html
+```
+### Refresh Nextcloud
+Remove containers and volumes
+```
+$ docker-compose rm -v -f
+$ docker volume ls
+$ docker volume rm new_york_univ_db_volume new_york_univ_nextcloud_vol
+```
