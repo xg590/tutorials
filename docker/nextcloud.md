@@ -224,7 +224,7 @@ services:
 ### Refresh Nextcloud
 Remove containers and volumes
 ```
-$ docker-compose rm -v -f
+$ docker-compose rm -v -s -f
 $ docker volume ls
 $ docker volume rm new_york_univ_db_volume new_york_univ_nextcloud_vol
 ```
