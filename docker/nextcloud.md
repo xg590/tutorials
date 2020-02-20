@@ -1,11 +1,11 @@
 ### Highlights
 * All images ( mariadb / nextcloud:fpm-alpine / nginx:alpine) are official. 
-* I don't like JrCs/docker-letsencrypt-nginx-proxy-companion or jwilder/nginx-proxy:alpine since I am a newcomer for docker. It's hard for me to understand other projects. 
-* Use existed SSL certificate if you already have.
+* I don't like JrCs/docker-letsencrypt-nginx-proxy-companion or jwilder/nginx-proxy:alpine since I am a newcomer for docker. It's hard for me to understand additional projects.
+* Use existed SSL certificate if you already have. As a sysadmin, my domain already has the certificate and I would like to avoid playing with it.
 * Provide you a clear understanding about the orchestration.
 ### Summary
 * Install docker
-* Get ssl certificate
+* Get ssl certificate / Skip if you have one
 * Create two configuration files in a new folder
 * Substitute your_domain_name in files
 * Start nextcloud.
@@ -197,7 +197,7 @@ $ sed -i 's/your_domain_name/???/g' docker-compose.yaml nginx.conf
 ```
 $ docker-compose up
 ```
-8. Using browser to visit https://your_domain_name
+8. Using browser to visit https://your_domain_name. You will further configure Nextcloud during first login.
 9. Stop Nextcloud
 ```
 $ docker-compose stop
@@ -211,17 +211,17 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf 
       - nextcloud_vol:/var/www/html 
 ```
-* Mount host directory to container in volume, and the data of each user will retain at /var/www/nextcloud of host machine.
+*  If mount host directory to container in volume, and the data of each user will retain at /var/www/nextcloud of host machine.
 ``` 
     volumes:
       - /var/www/nextcloud/data:/var/www/html/data
 ```
-* Name a volume and the data will stay at /var/lib/docker/volumes/
+* If name a volume and the data will stay at /var/lib/docker/volumes/
 ``` 
     volumes:
       - nextcloud_vol:/var/www/html
 ```
-### Refresh Nextcloud
+### Refresh Nextcloud and a fresh Nextcloud is born
 Remove containers and volumes
 ```
 $ docker-compose rm -v -s -f
