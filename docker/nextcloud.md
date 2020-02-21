@@ -221,7 +221,7 @@ services:
     volumes:
       - nextcloud_vol:/var/www/html
 ```
-Under folder <i>new_york_univ</i> in which <i>docker-compse.yaml</i> resides, we named one volume <i>nextcloud_vol</i>, so a new directory <i>/var/lib/docker/volumes/nextcloud_family_nextcloud_vol/</i> was created. And the <i>/var/www/html/</i> of container equals <i>/var/lib/docker/volumes/nextcloud_family_nextcloud_vol/_data/</i> on the host.
+Under folder <b>new_york_univ</b> in which <b>docker-compse.yaml</b> resides, we named one volume <b>nextcloud_vol</b>, so a new directory <i>/var/lib/docker/volumes/nextcloud_family_nextcloud_vol/</i> was created. And the <i>/var/www/html/</i> of container equals <i>/var/lib/docker/volumes/nextcloud_family_nextcloud_vol/_data/</i> on the host.
 ### Refresh Nextcloud and a fresh Nextcloud is born
 Remove containers and volumes
 ```
