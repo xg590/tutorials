@@ -1,6 +1,6 @@
 ### Highlights
 * All images ( mariadb / nextcloud:fpm-alpine / nginx:alpine) are official. 
-* I don't like JrCs/docker-letsencrypt-nginx-proxy-companion or jwilder/nginx-proxy:alpine since I am a newcomer for docker. It's hard for me to understand additional projects.
+* I don't like <b>JrCs/docker-letsencrypt-nginx-proxy-companion</b> or <b>jwilder/nginx-proxy:alpine</b> since I am a newcomer for docker. It's hard for me to understand additional projects.
 * Use existed SSL certificate if you already have. As a sysadmin, my domain already has the certificate and I would like to avoid playing with it.
 * Provide you a clear understanding about the orchestration.
 ### Summary
@@ -16,7 +16,7 @@
 * Nextcloud installation without docker is [here](https://github.com/xg590/tutorials/tree/master/nextcloud).
 ### Procedure
 1. [Set up](https://github.com/xg590/tutorials/blob/master/docker/setup.md) docker-compose
-2. Get SSL certificate and key, then they appear at /etc/letsencrypt/live/your_domain_name/
+2. Get SSL certificate and key, then they appear at <i>/etc/letsencrypt/live/your_domain_name/</i>
 ```
 # apt install letsencrypt -y 
 # certbot certonly --standalone -d your_domain_name
