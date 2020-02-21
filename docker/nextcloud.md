@@ -203,7 +203,7 @@ $ docker-compose up
 $ docker-compose stop
 ```
 ### Preserve Data
-In the above docker-compose.yaml, we have
+In the above <b>docker-compose.yaml</b>, we have
 ```
 services:
   nextcloud_fpm_version: 
@@ -211,12 +211,12 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf 
       - nextcloud_vol:/var/www/html 
 ```
-*  If mount host directory to container in volume, and the data of each user will retain at /var/www/nextcloud of host machine.
+*  If mount host directory to container in volume, and the data of each user will retain at <i>/var/www/nextcloud</i> of host machine.
 ``` 
     volumes:
       - /var/www/nextcloud/data:/var/www/html/data
 ```
-* If name a volume and the data will stay at /var/lib/docker/volumes/
+* If name a volume and the data will stay at <i>/var/lib/docker/volumes/</i>
 ``` 
     volumes:
       - nextcloud_vol:/var/www/html
