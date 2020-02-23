@@ -229,3 +229,7 @@ $ docker-compose rm -v -s -f
 $ docker volume ls
 $ docker volume rm new_york_univ_db_volume new_york_univ_nextcloud_vol
 ```
+### Nextcloud Console
+```
+docker-compose exec --user www-data nextcloud_fpm_version php occ
+```
