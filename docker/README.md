@@ -26,8 +26,10 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 d078614a4c02        nginx:latest        "nginx -g 'daemon of…"   16 minutes ago      Up 3 seconds        0.0.0.0:8080->80/tcp   new_york_univ_nginx_1
 $ docker stop d078614a4c02
 ```
-List volumes created by docker-compose.yaml and remove all volumes
+### Refresh containers created by [docker-compose](https://github.com/xg590/tutorials/blob/master/docker/nextcloud.md)
+Remove containers and volumes
 ```
+$ docker-compose rm -v -s -f
 $ docker volume ls
-$ docker volume prune
-```
+$ docker volume rm new_york_univ_db_volume new_york_univ_nextcloud_vol
+``` 
