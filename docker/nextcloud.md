@@ -229,7 +229,9 @@ $ docker-compose rm -v -s -f
 $ docker volume ls
 $ docker volume rm new_york_univ_db_volume new_york_univ_nextcloud_vol
 ```
-### Nextcloud Console
+### Nextcloud Console [manual](https://docs.nextcloud.com/server/18/admin_manual/configuration_server/occ_command.html)
 ```
 $ docker-compose exec --user www-data nextcloud_fpm_version php occ
+$ docker-compose exec --user www-data nextcloud_fpm_version php occ user:lastseen <username>
+$ docker-compose exec --user www-data nextcloud_fpm_version php occ user:add --display-name="ABC" abc 
 ```
