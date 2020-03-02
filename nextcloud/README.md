@@ -1,8 +1,9 @@
-### Intro to Nextcloud
-A self-hosted data cloud: It support filesync between devices and communication (text, voice, and video).<br>
-Mandatory SSL connection
+### Introduction to Nextcloud
+* A self-hosted cloud platform: It support filesync between devices and communication (text, voice, and video).<br>
+* SSL is Mandatory
 ### [Here](https://github.com/xg590/tutorials/blob/master/docker/nextcloud.md) is a tutorial of docker version installation (way much easier) 
 ### Prerequisite: ubuntu 18.04.03 lts (Feb 06 2020) <br>
+### Manual Installation
 1. Switch to superuser<br>
 ```
 $ sudo su
@@ -54,8 +55,35 @@ Don't forget change your_domain_name
 8. Your nextcloud server will open to public at https://your_domain_name:4433 (see nextcloud.conf for detail)<br>
 Setup admin account when first login.<br>
 Download <b>Nextcloud Talk</b> on Android / iOS for mobile use.<br>
+### Administration with Provisional API
+#### 1. Create User
+```
+import requests
+url     = 'https://personal_domain/ocs/v1.php/cloud/users'
+auth    = ('admin_name', 'admin_passwd')
+headers = {"OCS-APIRequest": "true", "Content-Type": "application/x-www-form-urlencoded"}
+data    = {'userid':'newuser_name', 'password':'newuser_password', 'displayName':'Hewlett'}
 
-Reference:
+r = requests.post(url, auth=auth, headers=headers, data=data)
+print(r.text)
+```
+Anticipated Outcome
+```
+<?xml version="1.0"?>
+<ocs>
+  <meta>
+    <status>ok</status>
+    <statuscode>100</statuscode>
+    <message>OK</message>
+    <totalitems></totalitems>
+    <itemsperpage></itemsperpage>
+  </meta>
+  <data>
+    <id>newuser_name</id>
+  </data>
+</ocs>
+```
+### Reference:
 1. [Install NextCloud On Ubuntu 17.04 | 17.10 With Nginx, MariaDB And PHP](https://websiteforstudents.com/install-nextcloud-on-ubuntu-17-04-17-10-with-nginx-mariadb-and-php/)
 2. [How to Install Nextcloud with Nginx on Ubuntu 18.04 LTS](https://www.howtoforge.com/tutorial/ubuntu-nginx-nextcloud/)
 3. [Nginx config](https://docs.nextcloud.com/server/latest/admin_manual/installation/nginx.html)
