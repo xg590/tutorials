@@ -55,7 +55,7 @@ Don't forget change your_domain_name
 8. Your nextcloud server will open to public at https://your_domain_name:4433 (see nextcloud.conf for detail)<br>
 Setup admin account when first login.<br>
 Download <b>Nextcloud Talk</b> on Android / iOS for mobile use.<br>
-### Administration with Provisional API
+### Administration with [Provisional API](https://docs.nextcloud.com/server/18/admin_manual/configuration_user/instruction_set_for_users.html)
 #### 1. Create User
 ```
 import requests
