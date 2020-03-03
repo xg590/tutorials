@@ -1,9 +1,8 @@
 ### Introduction to Nextcloud
 * A self-hosted cloud platform: It support filesync between devices and communication (text, voice, and video).<br>
 * SSL is Mandatory
-### [Here](https://github.com/xg590/tutorials/blob/master/docker/nextcloud.md) is a tutorial of docker version installation (way much easier) 
-### Prerequisite: ubuntu 18.04.03 lts (Feb 06 2020) <br>
-### Manual Installation
+### [Here](https://github.com/xg590/tutorials/blob/master/docker/nextcloud.md) is a tutorial of docker version installation (way much easier)  
+### Manual Installation (Nginx)
 1. Switch to superuser<br>
 ```
 $ sudo su
@@ -82,6 +81,42 @@ Anticipated Outcome
     <id>newuser_name</id>
   </data>
 </ocs>
+```
+
+### Manual Installation (Apache)
+```
+apt install libapache2-mod-php mariadb-server -y
+apt install php-curl php-gd php-mysql php-mbstring php-xml php-zip -y
+
+wget https://download.nextcloud.com/server/releases/latest.tar.bz2 https://download.nextcloud.com/server/releases/latest.tar.bz2.sha512
+sha512sum -c latest.tar.bz2.sha512 < latest.tar.bz2
+mkdir /var/www/html/nextcloud -p
+tar jxf latest.tar.bz2 -C /var/www/html/
+chown -R www-data:www-data /var/www/html/nextcloud
+mysql_secure_installation 
+
+
+
+cat << EOF >> /etc/apache2/sites-enabled/nextcloud.conf
+Alias /nextcloud "/var/www/html/nextcloud/"
+<Directory /var/www/html/nextcloud/>
+  Options +FollowSymlinks
+  AllowOverride All
+
+ <IfModule mod_dav.c>
+  Dav off
+ </IfModule>
+
+ SetEnv HOME /var/www/html/nextcloud
+ SetEnv HTTP_HOME /var/www/html/nextcloud
+
+</Directory>
+EOF
+
+
+apt install php-curl php-gd php-mysql php-mbstring php-xml php-zip -y
+ 
+apt install php-fpm php-curl php-gd php-mysql php-zip php-mbstring php-xml php-intl php-imagick -y
 ```
 ### Reference:
 1. [Install NextCloud On Ubuntu 17.04 | 17.10 With Nginx, MariaDB And PHP](https://websiteforstudents.com/install-nextcloud-on-ubuntu-17-04-17-10-with-nginx-mariadb-and-php/)
