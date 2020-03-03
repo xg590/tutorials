@@ -53,7 +53,37 @@ Don't forget change your_domain_name
 ```
 8. Your nextcloud server will open to public at https://your_domain_name:4433 (see nextcloud.conf for detail)<br>
 Setup admin account when first login.<br>
-Download <b>Nextcloud Talk</b> on Android / iOS for mobile use.<br>
+Download <b>Nextcloud Talk</b> on Android / iOS for mobile use.
+### Manual Installation (Apache)
+```
+apt install libapache2-mod-php mariadb-server -y
+apt install php-curl php-gd php-mysql php-mbstring php-xml php-zip -y
+
+wget https://download.nextcloud.com/server/releases/latest.tar.bz2 https://download.nextcloud.com/server/releases/latest.tar.bz2.sha512
+sha512sum -c latest.tar.bz2.sha512 < latest.tar.bz2
+mkdir /var/www/html/nextcloud -p
+tar jxf latest.tar.bz2 -C /var/www/html/
+chown -R www-data:www-data /var/www/html/nextcloud
+mysql_secure_installation 
+
+cat << EOF >> /etc/apache2/sites-enabled/nextcloud.conf
+Alias /nextcloud "/var/www/html/nextcloud/"
+<Directory /var/www/html/nextcloud/>
+  Options +FollowSymlinks
+  AllowOverride All
+
+ <IfModule mod_dav.c>
+  Dav off
+ </IfModule>
+
+ SetEnv HOME /var/www/html/nextcloud
+ SetEnv HTTP_HOME /var/www/html/nextcloud
+
+</Directory>
+EOF 
+ 
+apt install php-fpm php-intl php-imagick -y
+```
 ### Administration with [Provisional API](https://docs.nextcloud.com/server/stable/admin_manual/configuration_user/user_provisioning_api.html)
 #### 1. Create User
 ```
@@ -81,42 +111,6 @@ Anticipated Outcome
     <id>newuser_name</id>
   </data>
 </ocs>
-```
-
-### Manual Installation (Apache)
-```
-apt install libapache2-mod-php mariadb-server -y
-apt install php-curl php-gd php-mysql php-mbstring php-xml php-zip -y
-
-wget https://download.nextcloud.com/server/releases/latest.tar.bz2 https://download.nextcloud.com/server/releases/latest.tar.bz2.sha512
-sha512sum -c latest.tar.bz2.sha512 < latest.tar.bz2
-mkdir /var/www/html/nextcloud -p
-tar jxf latest.tar.bz2 -C /var/www/html/
-chown -R www-data:www-data /var/www/html/nextcloud
-mysql_secure_installation 
-
-
-
-cat << EOF >> /etc/apache2/sites-enabled/nextcloud.conf
-Alias /nextcloud "/var/www/html/nextcloud/"
-<Directory /var/www/html/nextcloud/>
-  Options +FollowSymlinks
-  AllowOverride All
-
- <IfModule mod_dav.c>
-  Dav off
- </IfModule>
-
- SetEnv HOME /var/www/html/nextcloud
- SetEnv HTTP_HOME /var/www/html/nextcloud
-
-</Directory>
-EOF
-
-
-apt install php-curl php-gd php-mysql php-mbstring php-xml php-zip -y
- 
-apt install php-fpm php-curl php-gd php-mysql php-zip php-mbstring php-xml php-intl php-imagick -y
 ```
 ### Reference:
 1. [Install NextCloud On Ubuntu 17.04 | 17.10 With Nginx, MariaDB And PHP](https://websiteforstudents.com/install-nextcloud-on-ubuntu-17-04-17-10-with-nginx-mariadb-and-php/)
