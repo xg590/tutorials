@@ -1,5 +1,14 @@
 ### Remote and Local Port Forwarding
-Application: Run a jupyter notebook on remote Linux/Mac_OS machine and visualize the result on Microsoft Windows using UCSF Chimera locally.
+##### Application
+Run a jupyter notebook on remote Linux/Mac_OS machine and visualize the result on Microsoft Windows using UCSF Chimera locally.
+##### Brief Summary:
+1. Create a local port forwarding (local port 9999 to remote port 8888)
+2. Setup a jupyter notebook server at remote port 8888
+3. Visit the notebook
+4. Setup the Restful Server of UCSF Chimera at a random local port ?50256?
+5. Create a remote port forwarding (remote port 54321 to local port 50256)
+6. Drive local UCSF Chimera on remote jupyter notebook
+##### Procedure:
 1. Log in the remote machine and forward a pre-chosen local port (<b><i>9999</i></b>) to the default remote port (<b><i>8888</i></b>) of the notebook server
 ```
 I recommend the Windows Subsystem for Linux (WSL) and Putty is simpler GUI implement of ssh client
@@ -30,4 +39,8 @@ def chimera(*argv, port=54321):
     req = urllib.request.Request(url=f"http://127.0.0.1:{port}/run", data = urllib.parse.urlencode(cmd).encode('utf8'))
     return urllib.request.urlopen(req).read().decode()
 chimera('open 1pwc', port=54321)
+```
+Note: Steps 1 and 6 can be combined
+```
+$ ssh -L 9999:127.0.0.1:8888 -R 54321:127.0.0.1:50256 username@ip_of_remote_machine
 ```
