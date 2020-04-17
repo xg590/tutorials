@@ -67,3 +67,13 @@ print(s.recv(1024))
 Summary: if x.x.x.x:x (Client behind NAT) -> 128.111.111.111:22222 (NAT) -> xxx.com:12345 (Server) is OK, then xxx.com:y (only the same server but any port is OK) -> 128.111.111.111:22222 (NAT) -> x.x.x.x:x (Client behind NAT) is possible<br>
 ### Port Restricted Cone NAT: the outbound port on NAT accept only incoming connection from contacted ip:port. (Haven't met)
 Summary: if x.x.x.x:x (Client behind NAT) -> 128.111.111.111:22222 (NAT) -> xxx.com:12345 (Server) is OK, then xxx.com:<b>12345</b>(only the same server and same port is OK) -> 128.111.111.111:22222 (NAT) -> x.x.x.x:x (Client behind NAT) is possible<br>
+
+
+This Example works for both Python v2 and v3 on Linux or QPython on Android. <br>
+<p>
+Running server-side py on a host with public IP as a salon host, who will introduce the another partner of a conversation. <br>
+Running client-side py on a host behind NAT or not, who will get introduction from server and start the conversation on its own after with another client. <br>
+Presence of 2 clients is required before the introduction and then the salon host can move around for next introduction for another two clients. <br>
+<p>
+Lots of Credits to https://github.com/dwoz/python-nat-hole-punching, while codes here have more notes and explanations
+
