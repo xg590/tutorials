@@ -1,7 +1,7 @@
 ### Introduction to Nextcloud
 * A self-hosted cloud platform: It support filesync between devices and communication (text, voice, and video).<br>
 * SSL is Mandatory
-### [Here](https://github.com/xg590/tutorials/blob/master/docker/nextcloud.md) is a tutorial of docker version installation (way much easier)  
+### [Here](https://github.com/xg590/tutorials/tree/master/dockerized_nextcloud) is a tutorial of docker version installation (way much easier)  
 ### Manual Installation (Nginx)
 1. Switch to superuser<br>
 ```
