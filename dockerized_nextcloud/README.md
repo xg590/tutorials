@@ -6,7 +6,7 @@
 ### Summary
 * Install docker
 * Get ssl certificate / Skip if you have one
-* Create two configuration files in a new folder
+* Create two configuration files (docker-compose.yaml and nginx.conf) in a new folder
 * Substitute your_domain_name in files
 * Start nextcloud.
 ### Caveat
@@ -39,7 +39,7 @@ services:
     volumes:
       - db_volume:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=my_root_passwd
+      - MYSQL_ROOT_PASSWORD=mysql_root_passwd
       - MYSQL_DATABASE=db_name_for_nextcloud
       - MYSQL_USER=user_in_sql_for_nextcloud
       - MYSQL_PASSWORD=passwd_in_sql_for_nextcloud
