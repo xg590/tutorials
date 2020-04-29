@@ -11,7 +11,7 @@
    * Run a nginx webserver
 3. [Explore the networking](https://github.com/xg590/tutorials/blob/master/docker/networking.md)
    * Run two separate containers so that we can ping one from the another via internal network.
-4. [Orchestration between containers](https://github.com/xg590/tutorials/blob/master/docker/nextcloud.md)
+4. [Orchestration between containers](https://github.com/xg590/tutorials/tree/master/dockerized_nextcloud)
    * Serve Nextcloud with the assitance from Let's Encrypt, MariaDB, and Nginx. 
 ## Quick Reference
 Get a shell ( hold down CTRL and type p followed by q to <b>detach</b> )
