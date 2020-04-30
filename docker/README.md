@@ -26,7 +26,7 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 d078614a4c02        nginx:latest        "nginx -g 'daemon of…"   16 minutes ago      Up 3 seconds        0.0.0.0:8080->80/tcp   new_york_univ_nginx_1
 $ docker stop d078614a4c02
 ```
-* List stoped container
+* List stopped container
 ```
 docker container ls -f 'status=exited'
 ```
