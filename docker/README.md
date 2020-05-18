@@ -19,6 +19,10 @@
 $ docker run -d -i -t -name new_york_city nginx bash
 $ docker attach new_york_city
 ``` 
+* Run a command
+```
+docker exec -ti container_name_or_id sh -c "echo a && echo b"
+```
 * Stop a running container
 ```
 $ docker ps
