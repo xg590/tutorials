@@ -21,7 +21,7 @@ $ docker attach new_york_city
 ``` 
 * Run a command
 ```
-docker exec -ti container_name_or_id sh -c "echo a && echo b"
+docker exec container_name_or_id sh -c "echo a && echo b"
 ```
 * Stop a running container
 ```
