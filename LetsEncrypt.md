@@ -9,3 +9,6 @@ sudo certbot --apache
 ```
 sudo letsencrypt renew
 ``` 
+* Location of cert
+  * Public cert: /etc/letsencrypt/live/your_domain_name/fullchain.pem
+  * Private key: /etc/letsencrypt/live/your_domain_name/privkey.pem
