@@ -12,7 +12,9 @@
 3. [Explore the networking](https://github.com/xg590/tutorials/blob/master/docker/networking.md)
    * Run two separate containers so that we can ping one from the another via internal network.
 4. [Orchestration between containers](https://github.com/xg590/tutorials/tree/master/dockerized_nextcloud)
-   * Serve Nextcloud with the assitance from Let's Encrypt, MariaDB, and Nginx. 
+   * Serve Nextcloud with the assitance from Let's Encrypt, MariaDB, and Nginx. (Perfer the 5th item)
+5. [Build a image](https://github.com/xg590/nextcloud)
+   * Serve Nextcloud with MariaDB and Apache
 ## Quick Reference
 * Get a shell ( hold down CTRL and type p followed by q to <b>detach</b> )
 ``` 
