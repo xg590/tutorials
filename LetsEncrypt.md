@@ -7,5 +7,5 @@ sudo certbot --apache
 ```
 * Renew cert
 ```
-letsencrypt renew
+sudo letsencrypt renew
 ``` 
