@@ -2,7 +2,7 @@
 Install docker and get [docker-compose](https://github.com/docker/compose/releases) (standalone) 
 ```
 $ sudo apt update
-$ sudo apt install docker.io
+$ sudo apt install -y docker.io
 $ sudo usermod -aG docker $USER
 $ wget https://github.com/docker/compose/releases/download/1.25.5/docker-compose-Linux-x86_64 -O docker-compose
 $ chmod 500 docker-compose
