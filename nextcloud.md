@@ -8,6 +8,27 @@ docker run --name db -p 127.0.0.1:33066:3306 \
            -e MYSQL_PASSWORD=passwd          \
 		       -it mariadb
 ```
+Setup Nextcloud
+``` 
+wget https://download.nextcloud.com/server/releases/latest.tar.bz2 
+mkdir /var/www/html/nextcloud 
+chown www-data:www-data /var/www/html/nextcloud  
+sudo -u www-data tar jxvf latest.tar.bz2 -C /var/www/html 
+cat << EOF > /var/www/html/nextcloud/config/autoconfig.php
+<?php
+\$AUTOCONFIG = array(
+  "dbtype"        => "mysql",
+  "dbname"        => "dbname",
+  "dbuser"        => "username",
+  "dbpass"        => "passwd",
+  "dbhost"        => "127.0.0.1:33066",
+  "dbtableprefix" => "",
+  "adminlogin"    => "admin_name",
+  "adminpass"     => "admin_passwd",
+  "directory"     => "/var/www/html/nextcloud/data",
+); 
+EOF
+```
 Setup Apache2
 ``` 
 apt install -y apache2 php-gd       \
@@ -37,24 +58,5 @@ cat << EOF > /etc/apache2/sites-enabled/000-default.conf
     CustomLog ${APACHE_LOG_DIR}/access.log combined   
 </VirtualHost> 
 EOF
-```
-Setup Nextcloud
-``` 
-wget https://download.nextcloud.com/server/releases/latest.tar.bz2 
-tar jxvf latest.tar.bz2 -C /var/www/html
-
-cat << EOF > /var/www/html/nextcloud/config/autoconfig.php
-<?php
-\$AUTOCONFIG = array(
-  "dbtype"        => "mysql",
-  "dbname"        => "dbname",
-  "dbuser"        => "username",
-  "dbpass"        => "passwd",
-  "dbhost"        => "127.0.0.1:33066",
-  "dbtableprefix" => "",
-  "adminlogin"    => "admin_name",
-  "adminpass"     => "admin_passwd",
-  "directory"     => "/var/www/html/nextcloud/data",
-); 
-EOF
+systemctl restart apache2
 ```
