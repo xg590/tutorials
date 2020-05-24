@@ -61,3 +61,9 @@ cat << EOF > /etc/apache2/sites-enabled/000-default.conf
 EOF
 systemctl restart apache2
 ```
+### Test occ command
+```
+sudo -u www-data php /var/www/html/nextcloud/occ app:install spreed
+sudo -u www-data php /var/www/html/nextcloud/occ app:enable  spreed
+```
+Dismiss this warning "PHP Fatal error:  Cannot declare class OCA\Talk\Migration\Version2000Date20170707093535, ... ..."
