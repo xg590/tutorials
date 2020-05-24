@@ -1,5 +1,5 @@
-Nextcloud instance for testing purpose
-Run mysql 
+## Nextcloud instance for testing purpose
+### Run mysql 
 ```
 apt update && apt install -y docker.io
 docker run --name db -p 127.0.0.1:33066:3306 \
@@ -9,7 +9,7 @@ docker run --name db -p 127.0.0.1:33066:3306 \
            -e MYSQL_PASSWORD=passwd          \
 	   -it mariadb
 ```
-Setup Nextcloud
+### Setup Nextcloud
 ``` 
 wget https://download.nextcloud.com/server/releases/latest.tar.bz2 
 mkdir /var/www/html/nextcloud 
@@ -30,7 +30,7 @@ cat << EOF > /var/www/html/nextcloud/config/autoconfig.php
 ); 
 EOF
 ```
-Setup Apache2
+### Setup Apache2
 ``` 
 apt install -y apache2 php-gd       \
                        php-xml      \
