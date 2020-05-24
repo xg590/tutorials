@@ -12,7 +12,7 @@ docker run --name db -p 127.0.0.1:33066:3306 \
 ### Setup Nextcloud
 ``` 
 wget https://download.nextcloud.com/server/releases/latest.tar.bz2 
-mkdir /var/www/html/nextcloud 
+mkdir -p /var/www/html/nextcloud 
 chown www-data:www-data /var/www/html/nextcloud  
 sudo -u www-data tar jxvf latest.tar.bz2 -C /var/www/html 
 cat << EOF > /var/www/html/nextcloud/config/autoconfig.php
