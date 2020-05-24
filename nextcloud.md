@@ -6,7 +6,7 @@ docker run --name db -p 127.0.0.1:33066:3306 \
            -e MYSQL_DATABASE=dbname          \
            -e MYSQL_USER=username            \
            -e MYSQL_PASSWORD=passwd          \
-		       -it mariadb
+	   -it mariadb
 ```
 Setup Nextcloud
 ``` 
