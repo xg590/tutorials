@@ -1,4 +1,5 @@
-command: remotecontrol rest start/stop
+### Using Chimera RESTFul
+For ChimeraX, command: remotecontrol rest start/stop
 ```python
 def chimera(*argv, port=34659):
     cmd = [('command', c) for c in argv] 
