@@ -15,7 +15,7 @@
    * Serve Nextcloud with the assitance from Let's Encrypt, MariaDB, and Nginx. (Perfer the 5th item)
    * All containers are created from official images. No new image is created. 
 5. [Build an image and use it with other containers](https://github.com/xg590/nextcloud)
-   * New image is composed and build.
+   * New image is composed and built.
    * Serve Nextcloud with MariaDB and Apache.
 ## Quick Reference
 * Get a shell ( hold down CTRL and type p followed by q to <b>detach</b> )
