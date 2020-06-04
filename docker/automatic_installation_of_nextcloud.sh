@@ -138,13 +138,16 @@ networks:
 EOF
 rm -rf $temp_dir 
 cat << EOF > $nextcloud_dir/admin.info
+nextcloud_web : https://$domain_name:$port/
 Admin_username: $nextcloud_admin_username
 Admin_password: $nextcloud_admin_passwd 
 EOF
-echo "  " -----------------------
-echo "  " How to start nextcloud:
+echo "    -----------------------"
+echo "    How to start nextcloud:"
 echo "      cd $nextcloud_dir && docker-compose up " 
-echo "  " Administration account info:
+echo "    Where to visit nextcloud:"
+echo "      https://$domain_name:$port/ 
+echo "    Administration account info:"
 echo "    " Admin_username: $nextcloud_admin_username
 echo "    " Admin_password: $nextcloud_admin_passwd 
 echo "    " These info are also stored in $nextcloud_dir/admin.info
