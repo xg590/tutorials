@@ -17,26 +17,6 @@
 5. [Build an image and use it with other containers](https://github.com/xg590/nextcloud)
    * New image is composed and built.
    * Serve Nextcloud with MariaDB and Apache.
-6. Automatic installation of nextcloud 
-   * After [docker-compose](https://github.com/xg590/tutorials/blob/master/docker/setup.md) and [SSL certificate](https://github.com/xg590/tutorials/blob/master/LetsEncrypt.md) are setted up, installation of nextcloud is hassle-free.
-```
-    sudo su
-    # Uncomment this if you are going to use privileged port (port_num < 1024) during test
-    # /sbin/sysctl -w net.ipv4.ip_unprivileged_port_start=443 # One-time test
-    # echo 'net.ipv4.ip_unprivileged_port_start=0' > /etc/sysctl.d/50-unprivileged-ports.conf && sysctl --system # permanent setting
-    username=ceshifornc
-    adduser $username
-    usermod -aG docker $username
-    usermod -aG sudo $username
-    su - $username
-    wget https://raw.githubusercontent.com/xg590/tutorials/master/docker/automatic_installation_of_nextcloud.sh
-    bash automatic_installation_of_nextcloud.sh
-```
-   * Clean after 
-```
-   sudo su
-   deluser --remove-home ceshifornc 
-```
 ## Quick Reference
 * Get a shell ( hold down CTRL and type p followed by q to <b>detach</b> )
 ``` 
