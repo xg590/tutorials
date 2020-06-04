@@ -21,14 +21,16 @@
    * After [docker-compose](https://github.com/xg590/tutorials/blob/master/docker/setup.md) and [SSL certificate](https://github.com/xg590/tutorials/blob/master/LetsEncrypt.md) are setted up, installation of nextcloud is hassle-free.
 ```
     sudo su
-    # Uncomment this if you are going to use privileged port (port_num < 1024)
-    # /sbin/sysctl -w net.ipv4.ip_unprivileged_port_start=443 
+    # Uncomment this if you are going to use privileged port (port_num < 1024) during test
+    # /sbin/sysctl -w net.ipv4.ip_unprivileged_port_start=443 # One-time test
+    # echo 'net.ipv4.ip_unprivileged_port_start=0' > /etc/sysctl.d/50-unprivileged-ports.conf && sysctl --system # permanent setting
     adduser ceshifornc
     usermod -aG docker -G sudo ceshifornc
     su - ceshifornc
     wget https://raw.githubusercontent.com/xg590/tutorials/master/docker/automatic_installation_of_nextcloud.sh
     bash nextcloud_automatic_installation.sh
 ```
+   * Clean after 
 ## Quick Reference
 * Get a shell ( hold down CTRL and type p followed by q to <b>detach</b> )
 ``` 
