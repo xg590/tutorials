@@ -25,7 +25,8 @@
     # /sbin/sysctl -w net.ipv4.ip_unprivileged_port_start=443 # One-time test
     # echo 'net.ipv4.ip_unprivileged_port_start=0' > /etc/sysctl.d/50-unprivileged-ports.conf && sysctl --system # permanent setting
     adduser ceshifornc 
-    usermod -aG docker -G sudo ceshifornc
+    usermod -aG docker ceshifornc
+    usermod -aG sudo ceshifornc
     su - ceshifornc
     wget https://raw.githubusercontent.com/xg590/tutorials/master/docker/automatic_installation_of_nextcloud.sh
     bash automatic_installation_of_nextcloud.sh
