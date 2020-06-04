@@ -139,6 +139,8 @@ EOF
 rm -rf $temp_dir 
 echo "  " -----------------------
 echo "  " How to start nextcloud:
-echo "    " cd $nextcloud_dir
-echo "    " docker-compose up
+echo "    " cd $nextcloud_dir && docker-compose up
+echo "  " Administration account info:
+echo "    " Admin_username: $nextcloud_admin_username
+echo "    " Admin_password: $nextcloud_admin_passwd 
 echo "  " -----------------------
