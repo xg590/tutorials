@@ -28,9 +28,14 @@
     usermod -aG docker -G sudo ceshifornc
     su - ceshifornc
     wget https://raw.githubusercontent.com/xg590/tutorials/master/docker/automatic_installation_of_nextcloud.sh
-    bash nextcloud_automatic_installation.sh
+    bash automatic_installation_of_nextcloud.sh
 ```
    * Clean after 
+```
+   sudo su
+   deluser --remove-home ceshifornc
+   reboot
+```
 ## Quick Reference
 * Get a shell ( hold down CTRL and type p followed by q to <b>detach</b> )
 ``` 
