@@ -137,3 +137,8 @@ networks:
 
 EOF
 rm -rf $temp_dir 
+echo "  " -----------------------
+echo "  " How to start nextcloud:
+echo "    " cd $nextcloud_dir
+echo "    " docker-compose up
+echo "  " -----------------------
