@@ -33,8 +33,7 @@
    * Clean after 
 ```
    sudo su
-   deluser --remove-home ceshifornc
-   reboot
+   deluser --remove-home ceshifornc 
 ```
 ## Quick Reference
 * Get a shell ( hold down CTRL and type p followed by q to <b>detach</b> )
