@@ -147,9 +147,9 @@ cat << EOF
 
     How to start nextcloud: 
       cd $nextcloud_dir && docker-compose up 
-    Where to visit nextcloud:"
+    Where to visit nextcloud: 
       https://$domain_name:$port/ 
-    Administration account info:"
+    Administration account info: 
       Admin_username: $nextcloud_admin_username
       Admin_password: $nextcloud_admin_passwd 
       These info are also stored in $nextcloud_dir/admin.info
