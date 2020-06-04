@@ -18,7 +18,7 @@
    * New image is composed and built.
    * Serve Nextcloud with MariaDB and Apache.
 6. Automatic installation of nextcloud 
-   * After [docker-compose](https://github.com/xg590/tutorials/blob/master/docker/setup.md) and [SSL certificate](https://github.com/xg590/tutorials/blob/master/LetsEncrypt.md) are setted up, install nextcloud is hassle-free.
+   * After [docker-compose](https://github.com/xg590/tutorials/blob/master/docker/setup.md) and [SSL certificate](https://github.com/xg590/tutorials/blob/master/LetsEncrypt.md) are setted up, installation of nextcloud is hassle-free.
 ```
     sudo su
     # Uncomment this if you are going to use privileged port (port_num < 1024)
