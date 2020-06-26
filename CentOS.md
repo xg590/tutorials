@@ -46,3 +46,20 @@ vim /etc/fstab
 ```
 master:/home /home nfs
 ``` 
+#### YUM Repo
+List current status
+```
+yum repolist all
+```
+Disable repos
+```
+yum-config-manager --disable base extras updates
+```
+Enable repos
+```
+yum-config-manager --enable c6-media
+```
+Install compiler
+```
+yum install gcc gcc-c++ gcc-gfortran
+```
