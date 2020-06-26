@@ -13,7 +13,7 @@ cd $SGE_ROOT
 ./util/setfileperm.sh $SGE_ROOT
 ./install_qmaster
 ```
-Answers to any other question <b>using ENTER key</b> Except:  <br>
+Answers to any question by using <b>ENTER</b> key <b>EXCEPT</b>:  <br>
 * Install SGE under an user id other than >root< (y/n) [y] >> n  <br>
 * How do you want to configure the Grid Engine communication ports? >shell environment< or >/etc/service<, >NIS/NIS+< (default: 2) >> 2  <br>
 The above question will be asked twice, first for the communication of the program <b><i>sge_qmaster</i></b>, second for the program <b><i>sge_execd</i></b>  <br> 
@@ -26,5 +26,5 @@ export SGE_ROOT=/some_directory
 cd $SGE_ROOT
 ./install_execd
 ```
-Answers to any question: <b>using ENTER key</b>
+Answers to any question by using <b>ENTER</b> key <br>
 ### Queue configuration
