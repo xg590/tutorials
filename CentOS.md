@@ -21,7 +21,8 @@ vim /etc/udev/rules.d/70-persistent-net.rules
 #### Change hostname 
 vim /etc/networks
 #### NFS
-master
+##### master
+start relevant services 
 ```
 /etc/init.d/rpcbind start
 /etc/init.d/nfs start
@@ -39,7 +40,8 @@ mount
 ```
 exportfs -arv
 ```
-slave: start rpcbind nfslock<br>
+##### slave
+start rpcbind nfslock<br>
 vim /etc/fstab
 ```
 master:/home /home nfs
