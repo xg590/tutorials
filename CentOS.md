@@ -41,7 +41,7 @@ mount
 exportfs -arv
 ```
 ##### slave
-start rpcbind nfslock<br>
+start relevant services: rpcbind nfslock<br>
 vim /etc/fstab
 ```
 master:/home /home nfs
