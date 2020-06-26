@@ -22,7 +22,7 @@ The above question will be asked twice, first for the communication of the progr
 
 ### Interactive Installation of execd
 ```
-export SGE_ROOT=/some_directory
+source /home/sge/default/common/settings.sh
 cd $SGE_ROOT
 ./install_execd
 ```
