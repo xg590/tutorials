@@ -1,4 +1,5 @@
-### Preparation
+# Sun Grid Engine (SGE)
+### Installation Preparation
 Needed packages: sge-6_2u4-bin-linux24-x64.tar.gz sge-6_2u4-common.tar.gz
 ```
 sudo su # Change to root
@@ -27,4 +28,52 @@ cd $SGE_ROOT
 ./install_execd
 ```
 Answers to any question by using <b>ENTER</b> key <br>
-### Queue configuration
+### Start / Stop Grid Engine
+List services
+```
+chkconfig --list|grep sge
+sgeexecd.cluster_name_is_not_important  0:off   1:off   2:off   3:on    4:off   5:on    6:off
+sgemaster.cluster_name_is_not_important 0:off   1:off   2:off   3:on    4:off   5:on    6:off
+```
+Start service once
+```
+/etc/init.d/sgemaster.cluster_name_is_not_important start       # One way
+service sgemaster.cluster_name_is_not_important start           # or another 
+```
+Start service permanently
+```
+chkconfig --level 35 sgeexecd.cluster_name_is_not_important on
+```
+### Configuration
+#### Turn on scheduler info 
+Otherwise, see "scheduling info: (Collecting of scheduler job information is turned off)" when use qstat -j job_id
+```
+qconf -msconf # Modify scheduler configuration
+``` 
+schedd_job_info: false -> true 
+#### Create a Parallel Environment (PE) profile
+###### Glossary 
+* <b>Logical CPU Core</b>: Abstract executing unit of the running code. <br>
+* <b>Physical CPU Core</b>: Electronic Logic circuit that runs the code. Due to hyperthreading (HT) tech, one physical core might consists of two logcial cores. <br>
+* <b>CPU Socket</b>: Socket to place the multi-core CPU chip on the motherboard. Server motherboard tends to have more sockets. <br>
+* <b>MPI Process</b>: Running code featuring the information change with other copies.  <br>
+* <b>Slot</b>: Abstract executing unit of a MPI process. Number of Slot is better not larger than the number of physical cpu cores when the MPI task is cpu-bound (computationally intensive). <br> 
+```
+qconf -ap new_pe_name
+```
+See the help page <i>man sge_pe</i> for detail
+### Interactive Job Submission (testing the installation)
+```
+qlogin -l h[ostname]=slave # Run job on a host whose name is slave. -l option is to list the requested resource
+```
+#### Run the MPI
+If a new PE profile is created and used, it should be added to the queue configuration first.
+```
+qconf -mattr queue pe_list new_pe_profile all.q
+```
+
+```
+export OPENMPI_ROOT=/somewhere/openmpi
+export PATH=$PATH:$OPENMPI_ROOT/bin 
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$OPENMPI_ROOT/lib
+```
