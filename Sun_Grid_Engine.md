@@ -44,6 +44,11 @@ Start service permanently
 ```
 chkconfig --level 35 sgeexecd.cluster_name_is_not_important on
 ```
+
+### Submit A Test Interactive Job
+```
+qlogin -l h[ostname]=master # Run job on a host whose name is master. -l option is to list the requested resource
+``` 
 ### Configuration
 #### Turn on scheduler info 
 Otherwise, see "scheduling info: (Collecting of scheduler job information is turned off)" when use qstat -j job_id
@@ -59,19 +64,30 @@ schedd_job_info: false -> true
 * <b>MPI Process</b>: Running code featuring the information change with other copies.  <br>
 * <b>Slot</b>: Abstract executing unit of a MPI process. Number of Slot is better not larger than the number of physical cpu cores when the MPI task is cpu-bound (computationally intensive). <br> 
 ```
-qconf -ap new_pe_name
+qconf -ap new_pe_profile
 ```
 See the help page <i>man sge_pe</i> for detail
-### Interactive Job Submission (testing the installation)
-```
-qlogin -l h[ostname]=slave # Run job on a host whose name is slave. -l option is to list the requested resource
-```
-#### Run the MPI
+### Interactive MPI Job Submission (testing the installation)
 If a new PE profile is created and used, it should be added to the queue configuration first.
 ```
 qconf -mattr queue pe_list new_pe_profile all.q
 ```
-
+Submit a test non-interactive/batch job that specified pe profile
+```
+cat << EOF > test_pe.sh
+#!/bin/bash
+echo "NSLOTS          \$NSLOTS        "  >> a.log 
+echo "SGE_O_WORKDIR   \$SGE_O_WORKDIR "  >> a.log
+echo "SGE_TASK_ID     \$SGE_TASK_ID   "  >> a.log
+echo "ENVIRONMENT     \$ENVIRONMENT   "  >> a.log
+echo "JOB_ID          \$JOB_ID        "  >> a.log
+echo "PE_HOSTFILE     \$PE_HOSTFILE   "  >> a.log
+echo "________________________________"  >> a.log
+cat \$PE_HOSTFILE                        >> a.log
+EOF
+qsub -pe new_pe_profile 4 test_pe.sh
+```
+Now a new bash is gained in executive host (exec_host)
 ```
 export OPENMPI_ROOT=/somewhere/openmpi
 export PATH=$PATH:$OPENMPI_ROOT/bin 
