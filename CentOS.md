@@ -75,4 +75,4 @@ iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o eth1 -j MASQUERADE
 ```
 route add default gw 192.168.0.100 
 ```
-Credits to vbird @ http://linux.vbird.org/linux_server/0250simple_firewall.php 
+Credit to vbird @ http://linux.vbird.org/linux_server/0250simple_firewall.php 
