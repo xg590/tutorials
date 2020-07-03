@@ -63,3 +63,16 @@ Install compiler
 ```
 yum install gcc gcc-c++ gcc-gfortran
 ```
+#### Source Network Address Translation (sNAT)
+Goal: Slave node with only one network interface (eth0: 192.168.0.101) wants to access the internet via master node who has two network interfaces, internal (eth0: 192.168.0.100) and external (eth1: 217.33.156.23).
+* Commands on master node
+```  
+echo "1" > /proc/sys/net/ipv4/ip_forward
+iptables -A INPUT -i eth0 -j ACCEPT
+iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o eth1 -j MASQUERADE
+```
+* Commands on slave node
+```
+route add default gw 192.168.0.100 
+```
+Credits to vbird @ http://linux.vbird.org/linux_server/0250simple_firewall.php 
