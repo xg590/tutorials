@@ -1,5 +1,5 @@
 ## 6.x Setup
-#### Set static ip
+### Set static ip
 vim /etc/sysconfig/network-scripts/ifcfg-eth0
 ```
 DEVICE=eth0
@@ -11,17 +11,17 @@ BOOTPROTO=static
 IPADDR=192.168.56.100
 NETMASK=255.255.255.0
 ```
-#### DNS
+### DNS
 vim /etc/resolv.conf 
 ```
 nameserver 4.2.2.2
 ```
-#### Change NIC name
+### Change NIC name
 vim /etc/udev/rules.d/70-persistent-net.rules
-#### Change hostname 
+### Change hostname 
 vim /etc/networks
-#### NFS
-##### master
+### NFS
+#### master
 start relevant services 
 ```
 /etc/init.d/rpcbind start
@@ -40,13 +40,13 @@ mount
 ```
 exportfs -arv
 ```
-##### slave
+#### slave
 start relevant services: rpcbind nfslock<br>
 vim /etc/fstab
 ```
 master:/home /home nfs
 ``` 
-#### YUM Repo
+### YUM Repo
 List current status
 ```
 yum repolist all
@@ -63,7 +63,7 @@ Install compiler
 ```
 yum install gcc gcc-c++ gcc-gfortran
 ```
-#### Source Network Address Translation (sNAT)
+### Source Network Address Translation (sNAT)
 Goal: Slave node with only one network interface (eth0: 192.168.0.101) wants to access the internet via master node who has two network interfaces, internal (eth0: 192.168.0.100) and external (eth1: 217.33.156.23).
 * Commands on master node
 ```  
@@ -76,3 +76,11 @@ iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o eth1 -j MASQUERADE
 route add default gw 192.168.0.100 
 ```
 Credit to vbird @ http://linux.vbird.org/linux_server/0250simple_firewall.php 
+### Install Infiniband Network 
+Get info on hardware (<b>Mellanox</b> NIC)
+```
+# lspci | grep Mellanox
+01:00.0 Network controller: Mellanox Technologies MT27500 Family [ConnectX-3]
+``` 
+#### Driver
+[Get it](https://www.mellanox.com/products/ethernet-drivers/linux/mlnx_en) / [Installtion Guide](https://docs.mellanox.com/display/MLNXEN501000/Installing+MLNX_EN)
