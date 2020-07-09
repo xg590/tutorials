@@ -8,6 +8,12 @@ On Ubuntu 20.04, the network is managed by Network Manager ([CLI](https://develo
 ```
   nmcli dev wifi con "SSID" password "PASSWORD" name "ALIAS"
 ```
+* Change DNS ([source](https://serverfault.com/questions/810636/how-to-manage-dns-in-networkmanager-via-console-nmcli))
+```
+nmcli con mod  <connectionName> ipv4.dns "8.8.8.8 8.8.4.4"
+nmcli con down <connectionName>
+nmcli con up   <connectionName>
+```
 ### Enable CGI support in Apache
 ``` 
 a2enmod cgid
