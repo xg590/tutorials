@@ -76,7 +76,8 @@ iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o eth1 -j MASQUERADE
 route add default gw 192.168.0.100 
 ```
 Credit to vbird @ http://linux.vbird.org/linux_server/0250simple_firewall.php 
-### Install Infiniband Network 
+### Install InfiniBand Network
+Understand InfiniBand [doc](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-Configure_InfiniBand_and_RDMA_Networks)
 Get info on hardware (<b>Mellanox</b> NIC)
 ```
 # lspci | grep Mellanox
@@ -84,3 +85,7 @@ Get info on hardware (<b>Mellanox</b> NIC)
 ``` 
 #### Driver
 [Get it](https://www.mellanox.com/products/ethernet-drivers/linux/mlnx_en) / [Installtion Guide](https://docs.mellanox.com/display/MLNXEN501000/Installing+MLNX_EN)
+#### Subnet Manager 
+[OpenSM](https://docs.oracle.com/cd/E18476_01/doc.220/e18478/GUID-9FF8B5B0-3481-4B73-89D3-108CBD7EB989.htm#ELMOG76340)
+
+https://docs.mellanox.com/pages/viewpage.action?pageId=12004991
