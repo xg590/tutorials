@@ -1,3 +1,4 @@
+# Ubuntu
 ### Configurate Network
 On Ubuntu 20.04, the network is managed by Network Manager ([CLI](https://developer.gnome.org/NetworkManager/stable/nmcli.html)) by default. 
 * Show current connection
@@ -40,4 +41,10 @@ nautilus &                 # file manager and graphical shell for GNOME
 gnome-settings-daemon &
 EOF
 ```
-
+### X11vnc
+[Credit.1](https://askubuntu.com/questions/229989/how-to-setup-x11vnc-to-access-with-graphical-login-screen) and [Credit.2](https://wiki.archlinux.org/index.php/X11vnc)
+```
+sudo apt install x11vnc net-tools
+x11vnc -storepasswd 123456 x11vnc.passwd
+x11vnc -xkb -noxrecord -noxfixes -noxdamage -display :0 -auth guess -rfbauth x11vnc.passwd
+```
