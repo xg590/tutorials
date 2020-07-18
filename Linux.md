@@ -58,6 +58,6 @@ x11vnc -auth guess -passwd 123456 -display :0 -listen 127.0.0.1 -rfbport 5900 -n
 * Disable ipv6 by using -no6 and -rfbportv6 -1 (Invalid Port). 
 ### Youtube-dl
 ```
-wget https://yt-dl.org/downloads/latest/youtube-dl
-youtube-dl --write-auto-sub --convert-subs=srt --skip-download URL 
+wget https://yt-dl.org/downloads/latest/youtube-dl 
+youtube-dl --sub-lang en --write-sub --skip-download https://www.youtube.com/watch?v=d4EgbgTm0Bg
 ```
