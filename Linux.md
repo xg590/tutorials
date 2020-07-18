@@ -1,6 +1,6 @@
 # Ubuntu
 ### Configurate Network
-On Ubuntu 20.04, the network is managed by Network Manager ([CLI](https://developer.gnome.org/NetworkManager/stable/nmcli.html)) by default. 
+On Ubuntu 20.04, the network is managed by Network Manager ([CLI](https://developer.gnome.org/NetworkManager/stable/nmcli.html)) by default. <b>IT SUCKS!!!</b>. 
 * Show current connection
 ```
   nmcli connection show
@@ -27,7 +27,11 @@ vim /etc/apache2/conf-available/serve-cgi-bin.conf
 ScriptAlias /cgi-bin/ /var/www/cgi-bin/ 
 ### Disable CUPS
 ```
-systemctl disable cups.service
+systemctl disable cups cups-browsed
+```
+### List Service
+```
+systemctl list-units --type service --all
 ```
 ### Default settings for <i>vncserver</i> sucks in Ubuntu 18.04
 #### Related softwares
