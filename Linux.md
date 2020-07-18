@@ -66,14 +66,13 @@ Create a valid Xauthority file
 sudo xauth -f valid_Xauthority merge /run/user/123/gdm/Xauthority
 sudo chmod 666 valid_Xauthority
 ```
-Install and Run
+Install and Run [Credit](https://wiki.archlinux.org/index.php/X11vnc)
 ```
 sudo apt install -y x11vnc net-tools
 x11vnc -auth valid_Xauthority -passwd 123456 -display :0 -listen 127.0.0.1 -rfbport 5900 -no6 -rfbportv6 -1
 ```
 * Specify a interface by using -listen
-* Disable ipv6 by using -no6 and -rfbportv6 -1 (Invalid Port).  
-[Credit](https://wiki.archlinux.org/index.php/X11vnc)
+* Disable ipv6 by using -no6 and -rfbportv6 -1 (Invalid Port).   
 ### Youtube-dl
 ```
 wget https://yt-dl.org/downloads/latest/youtube-dl 
