@@ -44,7 +44,13 @@ EOF
 ### X11vnc
 [Credit.1](https://askubuntu.com/questions/229989/how-to-setup-x11vnc-to-access-with-graphical-login-screen) and [Credit.2](https://wiki.archlinux.org/index.php/X11vnc)
 ```
-sudo apt install x11vnc net-tools
-x11vnc -storepasswd 123456 x11vnc.passwd
-x11vnc -xkb -noxrecord -noxfixes -noxdamage -display :0 -auth guess -rfbauth x11vnc.passwd
+sudo apt install -y x11vnc net-tools
+x11vnc -passwd 123456 -display :0 -listen 127.0.0.1 -rfbport 5900 -no6 -rfbportv6 -1
+```
+* Specify a interface by using -listen
+* Disable ipv6 by using -no6 and -rfbportv6 -1 (Invalid Port). 
+### Youtube-dl
+```
+wget https://yt-dl.org/downloads/latest/youtube-dl
+youtube-dl --write-auto-sub --convert-subs=srt --skip-download URL 
 ```
