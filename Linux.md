@@ -55,11 +55,11 @@ EOF
 ### X11vnc
 Get the right Xauthority_file
 ```
-ps aux|grep Xorg
+ps axu|grep 'Xorg'
 ```
 Result
 ```
-gdm ... /usr/lib/xorg/Xorg ... -auth /run/user/123/gdm/Xauthority ... 
+gdm ... -auth /run/user/123/gdm/Xauthority ...  
 ```
 Create a valid Xauthority file
 ```
