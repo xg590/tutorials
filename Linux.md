@@ -53,13 +53,27 @@ gnome-settings-daemon &
 EOF
 ```
 ### X11vnc
-[Credit.1](https://askubuntu.com/questions/229989/how-to-setup-x11vnc-to-access-with-graphical-login-screen) and [Credit.2](https://wiki.archlinux.org/index.php/X11vnc)
+Get the right Xauthority_file
+```
+ps aux|grep Xorg
+```
+Result
+```
+gdm ... /usr/lib/xorg/Xorg ... -auth /run/user/123/gdm/Xauthority ... 
+```
+Create a valid Xauthority file
+```
+sudo xauth -f valid_Xauthority merge /run/user/123/gdm/Xauthority
+sudo chmod 666 valid_Xauthority
+```
 ```
 sudo apt install -y x11vnc net-tools
-x11vnc -auth guess -passwd 123456 -display :0 -listen 127.0.0.1 -rfbport 5900 -no6 -rfbportv6 -1
+x11vnc -auth valid_Xauthority -passwd 123456 -display :0 -listen 127.0.0.1 -rfbport 5900 -no6 -rfbportv6 -1
 ```
 * Specify a interface by using -listen
-* Disable ipv6 by using -no6 and -rfbportv6 -1 (Invalid Port). 
+* Disable ipv6 by using -no6 and -rfbportv6 -1 (Invalid Port).  
+
+[Credit](https://wiki.archlinux.org/index.php/X11vnc)
 ### Youtube-dl
 ```
 wget https://yt-dl.org/downloads/latest/youtube-dl 
