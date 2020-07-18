@@ -15,13 +15,20 @@ nmcli con mod  <connectionName> ipv4.dns "8.8.8.8 8.8.4.4"
 nmcli con down <connectionName>
 nmcli con up   <connectionName>
 ```
+* Delete wrong route (common for multi NICs)
+```
+ip route del default via 192.168.0.1
+```
 ### Enable CGI support in Apache
 ``` 
 a2enmod cgid
 vim /etc/apache2/conf-available/serve-cgi-bin.conf
 ```
 ScriptAlias /cgi-bin/ /var/www/cgi-bin/ 
-
+### Disable CUPS
+```
+systemctl disable cups.service
+```
 ### Default settings for <i>vncserver</i> sucks in Ubuntu 18.04
 #### Related softwares
 ```
@@ -45,7 +52,7 @@ EOF
 [Credit.1](https://askubuntu.com/questions/229989/how-to-setup-x11vnc-to-access-with-graphical-login-screen) and [Credit.2](https://wiki.archlinux.org/index.php/X11vnc)
 ```
 sudo apt install -y x11vnc net-tools
-x11vnc -passwd 123456 -display :0 -listen 127.0.0.1 -rfbport 5900 -no6 -rfbportv6 -1
+x11vnc -auth guess -passwd 123456 -display :0 -listen 127.0.0.1 -rfbport 5900 -no6 -rfbportv6 -1
 ```
 * Specify a interface by using -listen
 * Disable ipv6 by using -no6 and -rfbportv6 -1 (Invalid Port). 
