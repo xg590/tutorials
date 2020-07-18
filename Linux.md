@@ -25,14 +25,14 @@ a2enmod cgid
 vim /etc/apache2/conf-available/serve-cgi-bin.conf
 ```
 ScriptAlias /cgi-bin/ /var/www/cgi-bin/ 
-### Disable CUPS
+### Remove Services
 ```
-systemctl disable cups cups-browsed
+systemctl disable cups cups-browsed nmbd apache2 smbd
 ```
 ### List Service
 ```
 systemctl list-units --type service --all
-```
+``` 
 ### Default settings for <i>vncserver</i> sucks in Ubuntu 18.04
 #### Related softwares
 ```
