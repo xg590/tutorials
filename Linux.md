@@ -9,15 +9,13 @@ On Ubuntu 20.04, the network is managed by Network Manager ([CLI](https://develo
 ```
   nmcli dev wifi con "SSID" password "PASSWORD" name "ALIAS"
 ```
-* Change DNS ([credit](https://serverfault.com/questions/810636/how-to-manage-dns-in-networkmanager-via-console-nmcli))
+* Change DNS 
 ```
-nmcli con mod  <connectionName> ipv4.dns "8.8.8.8 8.8.4.4"
-nmcli con down <connectionName>
-nmcli con up   <connectionName>
+resolvectl dns interface_name 8.8.8.8
 ```
 * Delete wrong route (common for multi NICs)
 ```
-ip route del default via 192.168.0.1
+ip route del default dev interface_name
 ```
 ### Enable CGI support in Apache
 ``` 
