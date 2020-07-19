@@ -77,3 +77,19 @@ x11vnc -auth valid_Xauthority -passwd 123456 -display :0 -listen 127.0.0.1 -rfbp
 wget https://yt-dl.org/downloads/latest/youtube-dl 
 youtube-dl --sub-lang en --write-sub --skip-download https://www.youtube.com/watch?v=d4EgbgTm0Bg
 ```
+### Samba 
+```
+[global] 
+   bind interfaces only = yes
+   interfaces = enp3s0
+
+[nuc]
+    comment = Samba on Ubuntu
+    path = /var/www/html
+    read only = no
+    guest ok  = yes
+    browsable = yes
+    create mask = 0644
+    directory mask = 0755
+    force user = username
+```
