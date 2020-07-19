@@ -52,17 +52,17 @@ gnome-settings-daemon &
 EOF
 ```
 ### Virtual Terminal
-Change VT
+Change VT (equals to press Crtl+Alt+Fx)
 ```
 sudo chvt N
 ```
 Current N
 ```
-fgconsole
+sudo fgconsole
 ```
 ### X11vnc
 Thanks to [Ziyue Yang](https://yzygitzh.github.io/productivity/2017/09/05/remote-desktop-solutions.html)
-* One weird prerequisite: My machine must be connected a monitor otherwise I will always get a black screen via vnc.
+* One weird prerequisite: My machine must be connected a monitor otherwise I will always get a black screen via x11vnc.
 ```
 sudo apt install -y x11vnc net-tools
 ```
@@ -84,15 +84,15 @@ Before we use any vncviewer to see the login screen at 192.168.0.123:0, Let's se
 ```
 sudo fgconsole
 ```
-We get the number 1, indicating vt1 is active. Now we use vncviewer to login and see the black screen. OK, check the active VT again
+We get the number 1, indicating vt1 is active. Now we use vncviewer to login and expect to see a black screen. OK, check the active VT again
 ```
 sudo fgconsole
 ```
-We get another number (eg. 2), which means the a new VT is created. Meanwhile the old VT goes dormat but our x11vnc is still stick to vt1. That is why we see the black screen.
+We get another number (eg. 2), which means the a new VT2 is created and become active. Meanwhile the old VT goes dormat but our x11vnc is still stick to vt1. That is why we saw the black screen.
 ```
 $ ps axu|grep Xorg
 ```
-You (Your_username) logged in on VT2. 
+See, a new Xorg client (NOT server) at vt2. 
 ```
 your_username ... /usr/lib/xorg/Xorg vt2 -auth /run/user/your_uid/gdm/Xauthority ...
 ```
