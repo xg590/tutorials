@@ -11,7 +11,8 @@ On Ubuntu 20.04, the network is managed by Network Manager ([CLI](https://develo
 ```
 * Change DNS 
 ```
-resolvectl dns interface_name 8.8.8.8
+resolvectl dns interface_name 8.8.8.8 8.8.4.4
+
 ```
 * Delete wrong route (common for multi NICs)
 ```
