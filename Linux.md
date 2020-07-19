@@ -11,8 +11,8 @@ On Ubuntu 20.04, the network is managed by Network Manager ([CLI](https://develo
 ```
 * Change DNS 
 ```
-resolvectl dns interface_name 8.8.8.8 8.8.4.4
-
+nmcli conn mod <connectionName> ipv4.dns "8.8.8.8 8.8.4.4"   # Permanent
+resolvectl dns interface_name 8.8.8.8 8.8.4.4                # Temporary 
 ```
 * Delete wrong route (common for multi NICs)
 ```
@@ -51,24 +51,10 @@ nautilus &                 # file manager and graphical shell for GNOME
 gnome-settings-daemon &
 EOF
 ```
-### X11vnc
-Get the right Xauthority_file
-```
-ps axu|grep 'Xorg'
-```
-Result
-```
-gdm ... -auth /run/user/123/gdm/Xauthority ...  
-```
-Create a valid Xauthority file
-```
-sudo xauth -f valid_Xauthority merge /run/user/123/gdm/Xauthority
-sudo chmod 666 valid_Xauthority
-```
-Install and Run [Credit](https://wiki.archlinux.org/index.php/X11vnc)
+### X11vnc 
 ```
 sudo apt install -y x11vnc net-tools
-x11vnc -auth valid_Xauthority -passwd 123456 -display :0 -listen 127.0.0.1 -rfbport 5900 -no6 -rfbportv6 -1
+x11vnc -auth guess -passwd 123456 -display :0 -listen 127.0.0.1 -rfbport 5900 -no6 -rfbportv6 -1
 ```
 * Specify a interface by using -listen
 * Disable ipv6 by using -no6 and -rfbportv6 -1 (Invalid Port).   
