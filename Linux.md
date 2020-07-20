@@ -114,11 +114,6 @@ x11vnc -display :1 -no6 -rfbportv6 -1 -rfbport 5900 -listen 192.168.0.123
 ```
 * We need a new port for Xorg by specifying -display :1
 7. We can see the desktop by visiting 192.168.0.123:0
-### Youtube-dl
-```
-wget https://yt-dl.org/downloads/latest/youtube-dl 
-youtube-dl --sub-lang en --write-sub --skip-download https://www.youtube.com/watch?v=d4EgbgTm0Bg
-```
 ### Samba 
 ```
 [global] 
