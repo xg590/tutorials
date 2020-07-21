@@ -1,20 +1,20 @@
-### Run screen in script
+### Screen 
 Start a screen session in the backgroup
 ```
-screen -d -m -S test
+screen -d -m -S autossh
 ```
-Send a command into the session
+Send a command into the session to run [Autossh](https://www.harding.motd.ca/autossh/autossh-1.4g.tgz) 
 ```
-screen -S test -X stuff 'echo HELLO WORLD'$(echo -ne '\015')
+screen -S autossh -X stuff 'autossh -M 12345 hostname'$(echo -ne '\015')
 ```
-* Split screen vertically  : Ctrl+a Then | (Shift+\)
-* Split screen horizentally: Ctrl+a Then S (Shift+s)
-* Switch region            : Ctrl+a Then Tab
-* Close region             : Ctrl+a Then X (Shift+x)
-* New window               : Ctrl+a Then c
-* Next window              : Ctrl+a Then n
-* List windows             : Ctrl+a Then w
-* Specified window         : Ctrl+a Then window_number
+* Split screen vertically  : <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>|</kbd> (<kbd>Shift</kbd>+<kbd>\</kbd>)
+* Split screen horizentally: <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>S</kbd> (<kbd>Shift</kbd>+<kbd>s</kbd>)
+* Switch region            : <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>Tab</kbd>
+* Close region             : <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>X</kbd> (<kbd>Shift</kbd>+<kbd>x</kbd>)
+* New window               : <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>c</kbd>
+* Next window              : <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>n</kbd>
+* List windows             : <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>w</kbd> 
+* Specified window         : <kbd>CTRL</kbd>+<kbd>a</kbd> Then window_number
 ### Parallelism
 ```
 ls | head | xargs -n 1 -P 3 program_X
@@ -28,10 +28,4 @@ rsync -rv --include '*/' --include '*.js' --exclude '*' --prune-empty-dirs --rem
 ```
 wget https://yt-dl.org/downloads/latest/youtube-dl 
 youtube-dl --sub-lang en --write-sub --skip-download https://www.youtube.com/watch?v=d4EgbgTm0Bg
-```
-### Autossh
-[src](https://www.harding.motd.ca/autossh/autossh-1.4g.tgz) tar && configure && make
-```
-screen -d -m -S autossh
-screen -S autossh -X stuff 'autossh -M 12345 hostname'$(echo -ne '\015')
 ```
