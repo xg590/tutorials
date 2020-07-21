@@ -7,7 +7,14 @@ Send a command into the session
 ```
 screen -S test -X stuff 'echo HELLO WORLD'$(echo -ne '\015')
 ```
-### Multi-screen
+* Split screen vertically  : Ctrl+a Then | (Shift+\)
+* Split screen horizentally: Ctrl+a Then S (Shift+s)
+* Switch region            : Ctrl+a Then Tab
+* Close region             : Ctrl+a Then X (Shift+x)
+* New window               : Ctrl+a Then c
+* Next window              : Ctrl+a Then n
+* List windows             : Ctrl+a Then w
+* Specified window         : Ctrl+a Then window_number
 ### Parallelism
 ```
 ls | head | xargs -n 1 -P 3 program_X
