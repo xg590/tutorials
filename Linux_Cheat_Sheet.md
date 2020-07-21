@@ -7,10 +7,10 @@ Send a command into the session to run [Autossh](https://www.harding.motd.ca/aut
 ```
 screen -S autossh -X stuff 'autossh -M 12345 hostname'$(echo -ne '\015')
 ```
-* Split screen vertically  : <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>|</kbd> (<kbd>Shift</kbd>+<kbd>\</kbd>)
-* Split screen horizentally: <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>S</kbd> (<kbd>Shift</kbd>+<kbd>s</kbd>)
+* Split screen vertically  : <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>Shift</kbd>+<kbd>\ </kbd>
+* Split screen horizentally: <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>Shift</kbd>+<kbd>s</kbd> 
 * Switch region            : <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>Tab</kbd>
-* Close region             : <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>X</kbd> (<kbd>Shift</kbd>+<kbd>x</kbd>)
+* Close region             : <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>Shift</kbd>+<kbd>x</kbd> 
 * New window               : <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>c</kbd>
 * Next window              : <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>n</kbd>
 * List windows             : <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>w</kbd> 
