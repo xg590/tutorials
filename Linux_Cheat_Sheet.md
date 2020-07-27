@@ -14,7 +14,8 @@ screen -S autossh -X stuff 'autossh -M 12345 hostname'$(echo -ne '\015')
 * New window               : <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>c</kbd>
 * Next window              : <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>n</kbd>
 * List windows             : <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>w</kbd> 
-* Specified window         : <kbd>CTRL</kbd>+<kbd>a</kbd> Then window_number
+* Switch window            : <kbd>CTRL</kbd>+<kbd>a</kbd> Then window_number
+* Kill window              : <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>k</kbd>  
 ### Parallelism
 ```
 ls | head | xargs -n 1 -P 3 program_X
