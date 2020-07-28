@@ -1,3 +1,16 @@
+### ChimeraX Installation
+* libffi.so.6 problem with ChimeraX: The standalone python might be too old so that it require a old version of libffi
+* The latest libffi would not solve the problem since it gives the libffi.so.8
+* I found [libffi-3.2](ftp://sourceware.org/pub/libffi/libffi-3.2.tar.gz) is the right version.
+```shell
+sudo apt install build-essential autoconf automake libtool texinfo 
+wget ftp://sourceware.org/pub/libffi/libffi-3.2.tar.gz
+tar zxvf libffi-3.2.tar.gz
+cd libffi-3.2/
+./configure --prefix=/path_somewhere
+make && make install
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/path_somewhere/libffi/lib
+```
 ### Using Chimera RESTFul
 For ChimeraX, command: remotecontrol rest start/stop
 ```python
