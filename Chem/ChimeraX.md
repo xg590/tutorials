@@ -14,16 +14,14 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/path_somewhere/libffi/lib
 ### Using Chimera RESTFul
 For ChimeraX, command: remotecontrol rest start/stop
 ```python
-def chimera(*argv, port=34659):
-    cmd = [('command', c) for c in argv] 
-    req = urllib.request.Request(url=f"http://127.0.0.1:{port}/run", data = urllib.parse.urlencode(cmd).encode('utf8'))
-    return urllib.request.urlopen(req).read().decode() 
-def chimera_adduct(name, port=64348):
-    row = df.loc[name] 
-    cr = row['covalent_record'] 
-    print(cr)
-    cr = cr.split(',') 
-    print( 'close all;', f'open {cr[0]};', 'focus;', f'select :{cr[6]}.{cr[2]} || :{cr[17]}.{cr[13]} ;', 'del :HOH;', 'display sel;', '~ribbon sel;', f'color cyan :{cr[6]}.{cr[2]} ;')  # f'select :.{cr[13]} ', f'write format pdb selected #0 chimera.pdb',  
+# /home/gxk/software/UCSF-Chimera64-1.14/bin/chimera --nogui --start RESTServer
+import requests
+requests.get(f'http://127.0.0.1:{44897}/run', params={'command': [
+    f'close all;', 
+    f'open 1pwc;',  
+    f'select :62.A@OG | :400.A@.A;',   
+    f'write format pdb selected #0 /tmp/chimera.pdb',  
+]})  
 
 def chimera_x(*argv, port=64602):
     cmd = [('command', c) for c in argv]  
