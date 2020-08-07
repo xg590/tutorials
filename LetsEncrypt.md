@@ -1,8 +1,8 @@
 Ubuntu 18.04
 * Installation
 ```
-sudo apt update
-sudo apt install python-certbot-apache
+sudo apt update -y
+sudo apt install -y python-certbot-apache
 sudo certbot --apache
 ```
 * Renew cert
