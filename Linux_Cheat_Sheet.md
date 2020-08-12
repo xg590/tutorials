@@ -28,5 +28,6 @@ rsync -rv --include '*/' --include '*.js' --exclude '*' --prune-empty-dirs --rem
 ### Youtube-dl
 ```
 wget https://yt-dl.org/downloads/latest/youtube-dl 
-youtube-dl --sub-lang en --write-sub --skip-download https://www.youtube.com/watch?v=d4EgbgTm0Bg
+youtube-dl --sub-lang en --write-sub --skip-download https://www.youtube.com/watch?v=xxx 
+youtube-dl --all-subs    --write-sub --cookies cookies.txt --user-agent "Safari/537.36" https://www.youtube.com/watch?v=xxx 
 ```
