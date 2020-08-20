@@ -130,3 +130,8 @@ x11vnc -display :1 -no6 -rfbportv6 -1 -rfbport 5900 -listen 192.168.0.123
     directory mask = 0755
     force user = username
 ```
+### ssh-agent
+```
+eval `ssh-agent`
+ssh-add path_to_private_key
+```
