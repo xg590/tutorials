@@ -1,4 +1,8 @@
 # Ubuntu
+### Enable i386 support on Ubuntu 18.04
+```
+sudo dpkg --add-architecture i386 && dpkg --print-foreign-architectures
+```
 ### Offline Software Installation
 * On the online Ubuntu
 ```shell
