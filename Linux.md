@@ -1,4 +1,18 @@
 # Ubuntu
+### Offline Software Installation
+* On the online Ubuntu
+```shell
+sudo apt install -y apt-offline
+sudo apt-offline set --install-packages tightvncserver --update tightvncserver.sig
+sudo apt-offline get --bundle bundle.zip tightvncserver.sig
+```
+* Copy bundle.zip from the online Ubuntu to the offline one.
+* On the offline Ubuntu
+```shell
+sudo apt install -y apt-offline
+sudo apt-offline install bundle.zip
+sudo apt-get install tightvncserver
+```
 ### Configurate Network
 On Ubuntu 20.04, the network is managed by Network Manager ([CLI](https://developer.gnome.org/NetworkManager/stable/nmcli.html)) by default. <b>IT SUCKS!!!</b>. 
 * Show current connection
