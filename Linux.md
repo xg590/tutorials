@@ -10,7 +10,7 @@ sudo apt-offline get --bundle bundle.zip tightvncserver.sig
 * On the offline Ubuntu
 ```shell
 sudo apt install -y apt-offline
-sudo apt-offline install bundle.zip
+sudo apt-offline install --skip-changelog bundle.zip
 sudo apt-get install tightvncserver
 ```
 ### Configurate Network
