@@ -1,4 +1,8 @@
 # Ubuntu
+### Clear Cache
+```shell
+echo 3 | sudo tee /proc/sys/vm/drop_caches
+```
 ### Enable i386 support on Ubuntu 18.04
 ```
 sudo dpkg --add-architecture i386 && dpkg --print-foreign-architectures
