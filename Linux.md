@@ -31,6 +31,14 @@ On Ubuntu 20.04, the network is managed by Network Manager ([CLI](https://develo
 ```
   nmcli dev wifi con "SSID" password "PASSWORD" name "ALIAS"
 ```
+* Modify a connection (permanently)
+```
+  sudo nmcli conn edit "Wired connection 1" 
+  nmcli> set ipv4.method manual
+  nmcli> set ipv4.addresses 192.168.0.123/24
+  nmcli> save persistent
+  nmcli> quit
+```
 * Change DNS 
 ```
 nmcli conn mod <connectionName> ipv4.dns "8.8.8.8 8.8.4.4"   # Permanent
