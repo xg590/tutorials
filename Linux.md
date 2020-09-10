@@ -1,3 +1,19 @@
+### crontab ([credit](https://stackoverflow.com/users/45978/joe-casadonte))
+```
+(crontab -l 2>/dev/null; echo "@reboot date > /tmp/date") | crontab -
+```
+### ssh-agent
+```
+eval `ssh-agent`
+ssh-add path_to_private_key
+```
+
+### Enable CGI support in Apache
+``` 
+a2enmod cgid
+vim /etc/apache2/conf-available/serve-cgi-bin.conf
+```
+ScriptAlias /cgi-bin/ /var/www/cgi-bin/ 
 # Ubuntu
 ### Clear Cache
 ```shell
@@ -48,12 +64,6 @@ resolvectl dns interface_name 8.8.8.8 8.8.4.4                # Temporary
 ```
 ip route del default dev interface_name
 ```
-### Enable CGI support in Apache
-``` 
-a2enmod cgid
-vim /etc/apache2/conf-available/serve-cgi-bin.conf
-```
-ScriptAlias /cgi-bin/ /var/www/cgi-bin/ 
 ### Remove Services
 ```
 systemctl disable cups cups-browsed nmbd apache2 smbd
@@ -159,9 +169,4 @@ x11vnc -display :1 -no6 -rfbportv6 -1 -rfbport 5900 -listen 192.168.0.123
     create mask = 0644
     directory mask = 0755
     force user = username
-```
-### ssh-agent
-```
-eval `ssh-agent`
-ssh-add path_to_private_key
 ```
