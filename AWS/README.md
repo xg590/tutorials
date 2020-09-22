@@ -5,3 +5,6 @@ Billing based on the existence of instance and stop billing until the instance i
 ### Elastic Compute Cloud (EC2)
 Powerful VPS with Myriad of hardware configurations. Good to be a dedicated gaming server. <br>
 Billing based on the running of instance and existence of attached Elastic Block Store (EBS). I like this billing policy. Cheap storage fee (0.1USD/GB/m.) and affordable computation resource (0.023USD/hr for 1vCPU/2GBRAM)
+### Simple Storage Service (S3)
+Host files on AWS. If the files are website pages, one can enable the static website hosting service, then it is accessible worldwide. <br>
+Price is cheap. 0.023USD/GB/month!
