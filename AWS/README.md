@@ -8,3 +8,7 @@ Billing based on the running of instance and existence of attached Elastic Block
 ### Simple Storage Service (S3)
 Host files on AWS. If the files are website pages, one can enable the static website hosting service, then it is accessible worldwide. <br>
 Price is cheap. 0.023USD/GB/month!
+### Route53
+Make AWS responsible for the domain name resolution. <br>
+$0.50 per hosted zone / month for the first 25 hosted zones <br>
+$0.40 per million queries – first 1 Billion queries / month <br>
