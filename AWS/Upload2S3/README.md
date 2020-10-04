@@ -1,3 +1,8 @@
+### Screenshot
+* Page 1
+<br/>![alt text](https://raw.githubusercontent.com/xg590/tutorials/master/AWS/Upload2S3/config.png "config")
+* Page 2
+<br/>![alt text](https://raw.githubusercontent.com/xg590/tutorials/master/AWS/Upload2S3/upload.png "config")
 ### Create a private bucket
 ```python
 region_name    = 'ap-northeast-2'
