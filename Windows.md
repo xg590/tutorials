@@ -25,5 +25,5 @@ With the help of command <i>ipconfig</i>, we should know the ip-interface bindin
 * Actually we don't need delete the 1st route since it has a higher metric value. Internet links go through the 2nd interface automatically. 
 #### Delete a route
 ```
-> route delete 0.0.0.0 mask 0.0.0.0 192.168.10.1 if 17
+> route delete 0.0.0.0 if 17
 ```
