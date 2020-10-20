@@ -35,7 +35,7 @@ newDB=# INSERT INTO news (id, title, content, author) VALUES
     (1, 'Pacific Northwest high-speed rail line', 'Currently there are only a few options for traveling the 140 miles between Seattle and Vancouver and none of them are ideal.', 'Greg'),
     (2, 'Hitting the beach was voted the best part of life in the region', 'Exploring tracks and trails was second most popular, followed by visiting the shops and then checking out local parks.', 'Ethan'),
     (3, 'Machine Learning from scratch', 'Bare bones implementations of some of the foundational models and algorithms.', 'Jo'); 
-``` 
+```
 ### Topics 
 #### Run PostgreSQL on a new directory.
 ```shell
@@ -46,86 +46,75 @@ sudo -u postgres mkdir /tmp/newdirectory                                        
 sudo -u postgres /usr/lib/postgresql/12/bin/initdb -D /tmp/newdirectory                        # Initialize the directory for a new service
 sudo -u postgres /usr/lib/postgresql/12/bin/pg_ctl -D /tmp/newdirectory -l /tmp/logfile start  # Start new service
 ```
-#### A new table for search experiment
-```sql 
-newDB=# \du                                      // List users newDB=#  
-newDB=# \l                                       // List database
-newDB=# \d                                       // List tables
-newDB=# \d person                                // List columns in table person
-newDB=# COPY person FROM stdin;
->>>John[press tab key]female[press enter key]
->>>\.[press enter key]
-newDB=# select * from person;                    // List all columns
-newDB=# select name from person;                 // Only list column names 
-newDB=# select name from person into newperson;  // Duplicate a table
-newDB=# \q                                       // Quit
-``` 
 #### Speedy exact match of long text
 ```sql
 CREATE INDEX ON table_name (CAST(md5(index_name) AS uuid));
 SELECT   * FROM table_name WHERE index_name = 'diethylumbelliferylphosphate' AND md5(index_name)::uuid = md5('diethylumbelliferylphosphate')::uuid;
 SELECT cid FROM table_name WHERE index_name = 'diethylumbelliferylphosphate';
 ```
-#### Full-Text Search ([Credit](https://www.digitalocean.com/community/tutorials/how-to-use-full-text-search-in-postgresql-on-ubuntu-16-04)): 
-Similarity Search (https://www.postgresql.org/docs/9.4/static/pgtrgm.html)
-SELECT val, similarity(val, 'O-ethyl-S-[2[bis(1-methyl-ethyl)amino]ethyl]methylphosphonothioate') AS sml
-  FROM val_cid
-  WHERE val % 'O-ethyl-S-[2[bis(1-methyl-ethyl)amino]ethyl]methylphosphonothioate'
-  ORDER BY sml DESC;
-
-psql -c 'CREATE TABLE inchi2cid(inchi text, cid integer)' search
-cat /tmp/test.csv | psql -c "COPY inchi2cid(cid, inchi) FROM STDIN DELIMITER '|'" search
-psql -c 'CREATE UNIQUE INDEX inchi_idx ON inchi2cid(inchi)' search
-
-6. More example
+#### Full-Text Search ([Official Doc](https://www.postgresql.org/docs/12/textsearch.html)): 
+1. Document preprocessing -- Tokenization</br>
+Preprocessed document is stored as tsvector (data type)
+```sql
+newDB=# SELECT $$the lexeme 'Joe''s' contains a quote$$::tsvector;
+                    tsvector
+------------------------------------------------
+ 'Joe''s' 'a' 'contains' 'lexeme' 'quote' 'the'
 ```
-newDB=# CREATE   TABLE newtable AS SELECT * FROM compound_structures LIMIT 10000; // 
-newDB=# ALTER    TABLE users ADD          email      varchar(20);                 // Add column 
-newDB=# ALTER    TABLE users ALTER column email type varchar(30);                 // Change column
-newDB=# ALTER    TABLE users DROP         email;                                  // Delete column  
-newDB=# TRUNCATE TABLE users;                                                     // Purge table
-newDB=# DROP     TABLE users;                                                     // delete table
-dropdb newDB                                                                      // delete database
-psql -c "ALTER USER ${USER} PASSWORD '123456'" newDB                              // Set password for database newDB  
-psql -c 'UPDATE pubmed set numheavyatoms = mol_numheavyatoms(mols)' cartridge  
-psql -c 'select cid from pubmed where numheavyatoms between 10 and 12 ' cartridge 
-psql -c 'select name from pubmed where name like 'phenol' and cid in (select cid from pubmed where numheavyatoms between 10 and 12) ' cartridge 
-psql -c "select * from pubmed where if cid in (select cid from pubmed where numheavyatoms between 10 and 12) name like '%phenol%' and " cartridge 
-cat compound.1000 | psql -c "copy pubmed (cid, name, canonical, isomeric) from stdin with delimiter '|'" cartridge 
+2. Query preprocessing 
+Query is converted to tsquery
+```sql
+newDB=# SELECT 'fat & rat'::tsquery;
+    tsquery
+---------------
+ 'fat' & 'rat'
 ```
-9 Join
-myDB=# CREATE TABLE customers (
-myDB=#     customer_id serial PRIMARY KEY,
-myDB=#     customer_name VARCHAR(100)
-myDB=# );
-myDB=#
-myDB=# CREATE TABLE orders (
-myDB=#     order_id serial PRIMARY KEY,
-myDB=#     customer_id serial,
-myDB=#     amount double precision,
-myDB=#     FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
-myDB=# );
-myDB=#
-myDB=# INSERT INTO customers (customer_id, customer_name) VALUES
-myDB=# (1, 'Adam'),
-myDB=# (2, 'Andy'),
-myDB=# (3, 'Joe'),
-myDB=# (4, 'Sandy');
-myDB=#
-myDB=# INSERT INTO orders (order_id, customer_id, amount) VALUES
-myDB=# (1, 1, 19.99),
-myDB=# (2, 1, 35.15),
-myDB=# (3, 3, 17.56),
-myDB=# (4, 4, 12.34);
+3. Matching
+```sql
+SELECT 'a fat cat sat on a mat and ate a fat rat'::tsvector @@ 'cat & rat'::tsquery; // & is AND
+ ?column?
+----------
+ t(rue)
 
-9.1 Cross Join (table customers is joined with table orders, each row of customer is put together with all row of order)
-myDB=# select * from customers cross join orders;
+SELECT 'fat & cow'::tsquery @@ 'a fat cat sat on a mat and ate a fat rat'::tsvector; // tsquery-tsvector order is not important 
+ ?column?
+----------
+ f(alse)
 ```
+4. Normalization
+```sql
+SELECT 'a fat cats sat on a mat and ate a fat rat'::tsvector @@ 'cat & rat'::tsquery; // cats is not normalized so no match
+ ?column?
+----------
+ f(alse)
 
-
- 
- 
-
- 
-
-  
+SELECT to_tsvector('a fat cats sat on a mat and ate a fat rat') @@ 'cat & rat'::tsquery; // normalization is proformed 
+ ?column?
+----------
+ t(rue)
+```
+5. Phrase
+```sql
+SELECT to_tsvector('fatal error') @@ to_tsquery('fatal <-> error'); // equals ... @@ phraseto_tsquery('fatal error')
+ ?column? 
+----------
+ t 
+```
+6. Use table <i>news</i> for experiment
+```sql
+newDB=# SELECT id FROM news WHERE to_tsvector(content) @@ to_tsquery('models & algorithms'); // return id where content has model and algorithm in it. 
+ id
+----
+  3 
+```
+7. Create index 
+```sql
+CREATE INDEX foo_idx ON news USING GIN (to_tsvector('content));
+```
+* An Alternative<br> 
+```sql
+ALTER TABLE news // Add a dedicated column to store index 
+    ADD COLUMN vectorized_content tsvector
+               GENERATED ALWAYS AS (to_tsvector('english', content)) STORED; 
+CREATE INDEX foo_idx ON news USING GIN (vectorized_content); // Create index on the dedicated column
+``` 
