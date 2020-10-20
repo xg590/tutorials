@@ -15,16 +15,39 @@ createdb newDB                                        # Create new database
 import psycopg2
 conn = psycopg2.connect("dbname=newDB") 
 cur = conn.cursor()
-cur.execute("CREATE TABLE person(name varchar(8), sex varchar(8));")
-cur.execute("INSERT INTO person values('Jay','male');")
-cur.execute("INSERT INTO person values('Jane','female');")
+cur.execute("CREATE TABLE person(name VARCHAR(8), sex VARCHAR(8));")
+cur.execute("INSERT INTO  person VALUES('Jay','male');")
+cur.execute("INSERT INTO  person VALUES('Jane','female');")
 cur.execute("commit;")
 cur.execute("SELECT * FROM person;") 
 cur.fetchall()
 ```
 #### 4. psql as client
-```shell
+```sql
 $ psql newDB
+newDB=# CREATE TABLE news (
+   id SERIAL PRIMARY KEY,
+   title TEXT NOT NULL,
+   content TEXT NOT NULL,
+   author TEXT NOT NULL
+); 
+newDB=# INSERT INTO news (id, title, content, author) VALUES 
+    (1, 'Pacific Northwest high-speed rail line', 'Currently there are only a few options for traveling the 140 miles between Seattle and Vancouver and none of them are ideal.', 'Greg'),
+    (2, 'Hitting the beach was voted the best part of life in the region', 'Exploring tracks and trails was second most popular, followed by visiting the shops and then checking out local parks.', 'Ethan'),
+    (3, 'Machine Learning from scratch', 'Bare bones implementations of some of the foundational models and algorithms.', 'Jo'); 
+``` 
+### Topics 
+#### Run PostgreSQL on a new directory.
+```shell
+ps aux|grep postgres\ -D                                                                       # We need the argument after -D 
+sudo -u postgres /usr/lib/postgresql/12/bin/pg_ctl -D /var/lib/postgresql/12/main stop         # Stop  default service
+sudo systemctl start postgresql                                                                # Start default service (you can always do this)
+sudo -u postgres mkdir /tmp/newdirectory                                                       # A new directory
+sudo -u postgres /usr/lib/postgresql/12/bin/initdb -D /tmp/newdirectory                        # Initialize the directory for a new service
+sudo -u postgres /usr/lib/postgresql/12/bin/pg_ctl -D /tmp/newdirectory -l /tmp/logfile start  # Start new service
+```
+#### A new table for search experiment
+```sql 
 newDB=# \du                                      // List users newDB=#  
 newDB=# \l                                       // List database
 newDB=# \d                                       // List tables
@@ -37,21 +60,11 @@ newDB=# select name from person;                 // Only list column names
 newDB=# select name from person into newperson;  // Duplicate a table
 newDB=# \q                                       // Quit
 ``` 
-### Topics 
-#### Run PostgreSQL on a new directory.
-```shell
-ps aux|grep postgres\ -D                                                                       # We need the argument after -D 
-sudo -u postgres /usr/lib/postgresql/12/bin/pg_ctl -D /var/lib/postgresql/12/main stop         # Stop  default service
-sudo systemctl start postgresql                                                                # Start default service (you can always do this)
-sudo -u postgres mkdir /tmp/newdirectory                                                       # A new directory
-sudo -u postgres /usr/lib/postgresql/12/bin/initdb -D /tmp/newdirectory                        # Initialize the directory for a new service
-sudo -u postgres /usr/lib/postgresql/12/bin/pg_ctl -D /tmp/newdirectory -l /tmp/logfile start  # Start new service
-``` 
 #### Speedy exact match of long text
 ```sql
-CREATE INDEX ON val_cid (CAST(md5(val) AS uuid));
-SELECT   * FROM val_cid WHERE val = 'diethylumbelliferylphosphate' AND md5(val)::uuid = md5('diethylumbelliferylphosphate')::uuid;
-SELECT cid FROM val_cid WHERE val = 'diethylumbelliferylphosphate';
+CREATE INDEX ON table_name (CAST(md5(index_name) AS uuid));
+SELECT   * FROM table_name WHERE index_name = 'diethylumbelliferylphosphate' AND md5(index_name)::uuid = md5('diethylumbelliferylphosphate')::uuid;
+SELECT cid FROM table_name WHERE index_name = 'diethylumbelliferylphosphate';
 ```
 #### Full-Text Search ([Credit](https://www.digitalocean.com/community/tutorials/how-to-use-full-text-search-in-postgresql-on-ubuntu-16-04)): 
 Similarity Search (https://www.postgresql.org/docs/9.4/static/pgtrgm.html)
@@ -74,6 +87,11 @@ newDB=# TRUNCATE TABLE users;                                                   
 newDB=# DROP     TABLE users;                                                     // delete table
 dropdb newDB                                                                      // delete database
 psql -c "ALTER USER ${USER} PASSWORD '123456'" newDB                              // Set password for database newDB  
+psql -c 'UPDATE pubmed set numheavyatoms = mol_numheavyatoms(mols)' cartridge  
+psql -c 'select cid from pubmed where numheavyatoms between 10 and 12 ' cartridge 
+psql -c 'select name from pubmed where name like 'phenol' and cid in (select cid from pubmed where numheavyatoms between 10 and 12) ' cartridge 
+psql -c "select * from pubmed where if cid in (select cid from pubmed where numheavyatoms between 10 and 12) name like '%phenol%' and " cartridge 
+cat compound.1000 | psql -c "copy pubmed (cid, name, canonical, isomeric) from stdin with delimiter '|'" cartridge 
 ```
 9 Join
 myDB=# CREATE TABLE customers (
@@ -110,17 +128,4 @@ myDB=# select * from customers cross join orders;
 
  
 
-
-createdb cartridge
-psql -c 'create extension rdkit' cartridge
-psql -c 'create table pubmed (cid integer primary key, name text, canonical text, isomeric text, mols mol, numheavyatoms integer)' cartridge
-cat compound.1000 | psql -c "copy pubmed (cid, name, canonical, isomeric) from stdin with delimiter '|'" cartridge 
-psql -c 'update pubmed set mols = mol_from_smiles(canonical::cstring)' cartridge
-psql -c 'update pubmed set numheavyatoms = mol_numheavyatoms(mols)' cartridge 
-psql -c 'alter table pubmed drop column mols' cartridge
-psql -c 'select cid from pubmed where numheavyatoms between 10 and 12 ' cartridge
-
-
-psql -c 'select name from pubmed where name like 'phenol' and cid in (select cid from pubmed where numheavyatoms between 10 and 12) ' cartridge
-
-psql -c "select * from pubmed where if cid in (select cid from pubmed where numheavyatoms between 10 and 12) name like '%phenol%' and " cartridge 
+  
