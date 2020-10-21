@@ -23,8 +23,7 @@ EOF
 chmod o+x /usr/lib/cgi-bin/test.py
 ```
 Visit http://your_domain/cgi-bin/test.py
-### Using Additional Module 
-* Install virtualenv
+### Using Additional Module  
 ```shell
 # As root
 pip3 install --target /var/www/additional_module boto3
