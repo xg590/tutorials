@@ -61,7 +61,7 @@ newDB=# SELECT $$the lexeme 'Joe''s' contains a quote$$::tsvector;
 ------------------------------------------------
  'Joe''s' 'a' 'contains' 'lexeme' 'quote' 'the'
 ```
-2. Query preprocessing 
+2. Query preprocessing</br> 
 Query is converted to tsquery
 ```sql
 newDB=# SELECT 'fat & rat'::tsquery;
@@ -118,3 +118,5 @@ ALTER TABLE news // Add a dedicated column to store index
                GENERATED ALWAYS AS (to_tsvector('english', content)) STORED; 
 CREATE INDEX foo_idx ON news USING GIN (vectorized_content); // Create index on the dedicated column
 ``` 
+#### Play with chinese character. ([Credit](https://blog.csdn.net/rudygao/article/details/49247605))
+1. 
