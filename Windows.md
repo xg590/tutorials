@@ -27,3 +27,7 @@ With the help of command <i>ipconfig</i>, we should know the ip-interface bindin
 ```
 > route delete 0.0.0.0 if 17
 ```
+```
+sdelete.exe c: -z
+VBoxManage.exe modifymedium disk "D:\win10.vdi" --compact
+```
