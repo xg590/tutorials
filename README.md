@@ -3,7 +3,7 @@
   * Use it to investigate organic reaction mechanism or material property (Several papers in computational chemistry)
   * Computer cluster administration (Worked as a contractor)
 * Programming:
-  * Good at Python (Network socket, Web development, Multi-threading or multi-processing)
+  * Good at Python (Socket programming, Web development, Multi-threading or multi-processing)
   * OK with C/C++, SQL, Shellscript, Javascript.
 * IoT Enthusiast:
   * Raspberry Pi and Arduino (derivatives)
