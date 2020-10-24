@@ -1,9 +1,9 @@
 ### What kind of skill I have?
 * High Performance Computation: 
   * Use it to investigate organic reaction mechanism or material property (Several papers in computational chemistry)
-  * Computer cluster administration (Worked as a contractor)
+  * Computer cluster management (Worked as a contractor to install and configure new cluster)
 * Programming:
-  * Good at Python (Socket programming, Basic web development, Multi-threading or multi-processing)
+  * Good at Python (Socket programming, Basic web development, Multi-threading or multi-processing).
   * OK with C/C++, SQL, Shellscript, Javascript.
 * IoT Enthusiast:
   * Raspberry Pi and Arduino (derivatives)
