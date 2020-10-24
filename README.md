@@ -1,7 +1,9 @@
 ### What kind of skill I have?
 * High Performance Computation: 
   * Use it to investigate organic reaction mechanism or material property (Several papers in computational chemistry)
-  * Computer cluster management (Worked as a contractor to install and configure new cluster)
+  * Computer cluster management 
+    * Years of experience as a sysadmin of my research group 
+    * Worked as a contractor to support old cluster or install new cluster of other institutions
 * Programming:
   * Good at Python (Socket programming, Basic web development, Multi-threading or multi-processing).
   * OK with C/C++, SQL, Shellscript, Javascript.
