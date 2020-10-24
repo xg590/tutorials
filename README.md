@@ -6,9 +6,11 @@
     * Worked as a contractor to support old cluster or install new cluster of other institutions
 * Programming:
   * Good at Python 
-    * Play with everything like socket, http, concurrency, machine learning.
+    * Primary choice of my programming project
+    * Play with everything like socket, http, concurrency, machine learning, internet of things.
   * OK with C/C++, SQL, Shellscript, Javascript.
-    * Do specific job like text mining, data management or frontend development.
+    * Indispensible tools for my python project
+    * Do specific job like text mining, data management, server maintenance, or frontend development.
 * IoT Enthusiast:
   * Raspberry Pi and Arduino (derivatives)
   * Video streaming
