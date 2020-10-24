@@ -1,17 +1,17 @@
-### What kind of skill I have?
-* High Performance Computation: 
-  * Use it to investigate organic reaction mechanism or material property (Several papers in computational chemistry)
-  * Computer cluster management 
+### Who I am
+* Researcher and technican related to High Performance Computation (HPC): 
+  * Use HPC to investigate organic reaction mechanism or material property (Several papers in computational chemistry)
+  * Manage the computer cluster 
     * Years of experience as the sysadmin of my previous research group (Computational and Theoretical Chemistry Lab @ Zhengzhou University)
     * Worked as a contractor to support old cluster or install new cluster of other institutions
-* Programming:
+* Programmer:
   * Good at Python 
     * Primary choice of my programming project
     * Play with everything like socket, http, concurrency, machine learning, internet of things.
   * OK with C/C++, SQL, Shellscript, Javascript.
     * Indispensible tools for my python project
-    * Do specific job like text mining, data management, server maintenance, or frontend development.
-* IoT Enthusiast:
+    * Do specific job like text mining, data management, server management, or frontend development.
+* IoT enthusiast:
   * Raspberry Pi and Arduino (derivatives)
   * Video streaming
   * Motor or servo drivers
