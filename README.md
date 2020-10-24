@@ -7,7 +7,7 @@
 * Programmer:
   * Good at Python 
     * Primary choice of my programming project
-    * Play with everything like socket, http, concurrency, machine learning, internet of things.
+    * Play with everything like socket, http, concurrency, machine learning, internet of things (IoT).
   * OK with C/C++, SQL, Shellscript, Javascript.
     * Indispensible tools for my python project
     * Do specific job like text mining, data management, server management, or frontend development.
