@@ -118,5 +118,46 @@ ALTER TABLE news // Add a dedicated column to store index
                GENERATED ALWAYS AS (to_tsvector('english', content)) STORED; 
 CREATE INDEX foo_idx ON news USING GIN (vectorized_content); // Create index on the dedicated column
 ``` 
-#### Play with chinese character. ([Credit](https://blog.csdn.net/rudygao/article/details/49247605))
-1. 
+#### Explain
+```
+explain (analyze,buffers) select * from t1 where c1 like '%存储过程%';
+```
+
+## Neo4j
+### Basics 
+#### Installation ([Credit](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-neo4j-on-ubuntu-20-04))
+```
+sudo apt update && sudo apt install apt-transport-https ca-certificates curl software-properties-common 
+curl -fsSL https://debian.neo4j.com/neotechnology.gpg.key | sudo apt-key add -  
+sudo add-apt-repository "deb https://debian.neo4j.com stable 4.1"
+sudo apt install neo4j
+sudo systemctl enable neo4j.service  
+sudo systemctl status neo4j.service 
+```
+#### Make the server public
+```
+sudo bash -c 'cat >> /etc/neo4j/neo4j.conf' << EOF 
+dbms.default_listen_address=0.0.0.0
+EOF
+sudo systemctl restart neo4j.service
+```
+#### Connection
+Use default neo4j/neo4j as username/password 
+CLI: 
+```python
+cypher-shell 
+```
+Browser:
+```
+visit 
+http://localhost:7474/
+```
+Python ([manual.4.1.pdf](https://neo4j.com/docs/pdf/neo4j-driver-manual-4.1-python.pdf))
+```
+pip install neo4j
+from neo4j import GraphDatabase, WRITE_ACCESS 
+with GraphDatabase.driver("neo4j://192.168.56.101:7687", auth=("neo4j", "a")) as driver:
+    with driver.session(default_access_mode=WRITE_ACCESS) as session: 
+        session.run("CREATE (p1:Person { name: $foo })", foo='john')  # add a new node 
+```
+#### 
