@@ -158,7 +158,7 @@ visit
 http://localhost:7474/
 ```
 Python ([manual.4.1.pdf](https://neo4j.com/docs/pdf/neo4j-driver-manual-4.1-python.pdf))
-```
+```python
 pip install neo4j
 from neo4j import GraphDatabase, WRITE_ACCESS 
 with GraphDatabase.driver("neo4j://192.168.56.101:7687", auth=("neo4j", "a")) as driver:
@@ -166,7 +166,49 @@ with GraphDatabase.driver("neo4j://192.168.56.101:7687", auth=("neo4j", "a")) as
         session.run("CREATE (p1:Person { name: $foo })", foo='john')  # add a new node 
 ```
 #### Cypher Query Syntax
-p1 is varible, Person is label, name is property, and foo is value.
+##### Create John loves Jane
+  1. Create two nodes. p1/p2 are varibles, Person is label and name is property and John/Jane are values. 
+``` 
+CREATE (p1:Person { name: 'John' }) 
+CREATE (p2:Person { name: 'Jane' })
 ```
-CREATE (p1:Person { name: $foo })
+  2. Create a relationship. LOVES (use UPPERCASE as a ritual ) is the type.
+```
+MATCH  (p3:Person { name: 'John' })
+MATCH  (p4:Person { name: 'Jane' })
+CREATE (p3)-[:LOVES]->(p4)
+```
+  Combine 1&2 together
+```
+CREATE (p1:Person { name: "John" })-[r:LOVES]->(p2:Person { name: "Jane" })
+```
+##### Investigate what we have put into the graph.
+  1. return three object
+``` 
+MATCH (p1:Person)-[r:LOVES]->(p2:Person) RETURN p1, r, p2
+```
+  2. return one object
+``` 
+MATCH path = (:Person)-[:LOVES]->(:Person) RETURN path
+```
+##### Aggregates
+  1. Create a new lover for John
+```
+MATCH (p1:Person { name: "John" }) CREATE (p1)-[r:LOVES]->(p2:Person { name: "Catherine" })
+```
+  2. How many lovers does john have
+```
+MATCH (p)-[:LOVES]->(:Person) WHERE p.name='John' RETURN p.name, count(*) as number_of_lovers
+```
+##### Constraint (requires Neo4j Enterprise Edition)
+```
+CREATE CONSTRAINT ON (p:Person) ASSERT EXISTS(p.name)
+```
+##### Index
+```
+CREATE INDEX FOR (p:Person) ON (p.name)
+```
+##### DELETE relationship and node
+```
+MATCH ()-[r:LOVES]-() DELETE r; MATCH (n:Person) DELETE n
 ```
