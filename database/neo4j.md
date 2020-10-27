@@ -7,6 +7,7 @@ sudo apt install neo4j
 sudo systemctl enable neo4j.service  
 sudo systemctl status neo4j.service 
 ```
+or go and download [openjdk-11](https://jdk.java.net/archive/) and [neo4j community server](https://neo4j.com/download-center/#community) 
 ### Make the server public
 ```
 sudo bash -c 'cat >> /etc/neo4j/neo4j.conf' << EOF 
@@ -91,7 +92,7 @@ MATCH ()-[r:LOVES]-() DELETE r; MATCH (n:Person) DELETE n
 ### Import CSV
 Guide query: 
 ```
-:play http://guides.neo4j.com/fundamentals/import.html)
+:play http://guides.neo4j.com/fundamentals/import.html
 ```
 ```
 LOAD CSV WITH HEADERS
