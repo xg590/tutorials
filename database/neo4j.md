@@ -1,5 +1,4 @@
-### Basics 
-#### Installation ([Credit](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-neo4j-on-ubuntu-20-04))
+### Installation ([Credit](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-neo4j-on-ubuntu-20-04))
 ```
 sudo apt update && sudo apt install apt-transport-https ca-certificates curl software-properties-common 
 curl -fsSL https://debian.neo4j.com/neotechnology.gpg.key | sudo apt-key add -  
@@ -8,14 +7,14 @@ sudo apt install neo4j
 sudo systemctl enable neo4j.service  
 sudo systemctl status neo4j.service 
 ```
-#### Make the server public
+### Make the server public
 ```
 sudo bash -c 'cat >> /etc/neo4j/neo4j.conf' << EOF 
 dbms.default_listen_address=0.0.0.0
 EOF
 sudo systemctl restart neo4j.service
 ```
-#### Connection
+### Connection
 Use default neo4j/neo4j as username/password 
 CLI: 
 ```python
@@ -34,8 +33,8 @@ with GraphDatabase.driver("neo4j://192.168.56.101:7687", auth=("neo4j", "a")) as
     with driver.session(default_access_mode=WRITE_ACCESS) as session: 
         session.run("CREATE (p1:Person { name: $foo })", foo='john')  # add a new node 
 ```
-#### Cypher Query Syntax
-##### Create John loves Jane
+### Cypher Query Syntax
+#### Create John loves Jane
   1. Create two nodes. p1/p2 are varibles, Person is label and name is property and John/Jane are values. 
 ``` 
 CREATE (p1:Person { name: 'John' }) 
@@ -51,7 +50,7 @@ CREATE (p3)-[:LOVES]->(p4)
 ```
 CREATE (p1:Person { name: "John" })-[r:LOVES]->(p2:Person { name: "Jane" })
 ```
-##### Investigate what we have put into the graph.
+#### Investigate what we have put into the graph.
   1. return three object
 ``` 
 MATCH (p1:Person)-[r:LOVES]->(p2:Person) RETURN p1, r, p2
@@ -60,7 +59,7 @@ MATCH (p1:Person)-[r:LOVES]->(p2:Person) RETURN p1, r, p2
 ``` 
 MATCH path = (:Person)-[:LOVES]->(:Person) RETURN path
 ```
-##### Aggregates
+#### Aggregates
   1. Create a new lover for John
 ```
 MATCH (p1:Person { name: "John" }) CREATE (p1)-[r:LOVES]->(p2:Person { name: "Catherine" })
@@ -69,7 +68,7 @@ MATCH (p1:Person { name: "John" }) CREATE (p1)-[r:LOVES]->(p2:Person { name: "Ca
 ```
 MATCH (p)-[:LOVES]->(:Person) WHERE p.name='John' RETURN p.name, count(*) as number_of_lovers
 ```
-##### Merge
+#### Merge
   1. Match and set. No match, then create and set. 
 ```
 MERGE (p:Person {name: 'David'}) SET p.age=24 RETURN p
@@ -78,15 +77,26 @@ MERGE (p:Person {name: 'David'}) SET p.age=24 RETURN p
 ```
 MATCH (p:Person {name: 'David'}) SET p.age=24 RETURN p
 ```
-##### Constraint (requires Neo4j Enterprise Edition)
+#### Constraint (requires Neo4j Enterprise Edition)
 ```
 CREATE CONSTRAINT ON (p:Person) ASSERT EXISTS(p.name)
 ```
-##### Index
+#### Index
 ```
 CREATE INDEX FOR (p:Person) ON (p.name)
 ```
-##### DELETE relationship and node
+#### Delete relationship and node
 ```
 MATCH ()-[r:LOVES]-() DELETE r; MATCH (n:Person) DELETE n
+```
+### Import CSV
+Guide query: 
+```
+:play http://guides.neo4j.com/fundamentals/import.html)
+```
+```
+LOAD CSV WITH HEADERS
+FROM 'https://raw.githubusercontent.com/xg590/tutorials/master/database/person.csv'
+AS row123
+CREATE (:Person { name: row123.name, age: toInteger(row123.age)}); 
 ```
