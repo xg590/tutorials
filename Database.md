@@ -178,7 +178,7 @@ MATCH  (p3:Person { name: 'John' })
 MATCH  (p4:Person { name: 'Jane' })
 CREATE (p3)-[:LOVES]->(p4)
 ```
-  Combine 1&2 together
+  3. Combine 1&2 together
 ```
 CREATE (p1:Person { name: "John" })-[r:LOVES]->(p2:Person { name: "Jane" })
 ```
@@ -199,6 +199,15 @@ MATCH (p1:Person { name: "John" }) CREATE (p1)-[r:LOVES]->(p2:Person { name: "Ca
   2. How many lovers does john have
 ```
 MATCH (p)-[:LOVES]->(:Person) WHERE p.name='John' RETURN p.name, count(*) as number_of_lovers
+```
+##### Merge
+  1. Match and set. No match, then create and set. 
+```
+MERGE (p:Person {name: 'David'}) SET p.age=24 RETURN p
+```
+  2. No match, no set. It would not create David. 
+```
+MATCH (p:Person {name: 'David'}) SET p.age=24 RETURN p
 ```
 ##### Constraint (requires Neo4j Enterprise Edition)
 ```
