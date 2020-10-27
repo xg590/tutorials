@@ -22,8 +22,7 @@ cypher-shell
 ```
 Browser:
 ```
-visit 
-http://localhost:7474/
+visit http://localhost:7474/
 ```
 Python ([manual.4.1.pdf](https://neo4j.com/docs/pdf/neo4j-driver-manual-4.1-python.pdf))
 ```python
