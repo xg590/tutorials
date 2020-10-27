@@ -1,3 +1,4 @@
+
 ## Play PostgreSQL on Ubuntu 20.04
 ### Basics
 #### 1. Installation
@@ -122,6 +123,10 @@ CREATE INDEX foo_idx ON news USING GIN (vectorized_content); // Create index on 
 ```
 explain (analyze,buffers) select * from t1 where c1 like '%存储过程%';
 ```
+#### JOIN
+```sql
+SELECT table1.column1, table2.column1 FROM table1 JOIN table2 ON table1.column2=table2.column2;
+```
 
 ## Neo4j
 ### Basics 
@@ -160,4 +165,8 @@ with GraphDatabase.driver("neo4j://192.168.56.101:7687", auth=("neo4j", "a")) as
     with driver.session(default_access_mode=WRITE_ACCESS) as session: 
         session.run("CREATE (p1:Person { name: $foo })", foo='john')  # add a new node 
 ```
-#### 
+#### Cypher Query Syntax
+p1 is varible, Person is label, name is property, and foo is value.
+```
+CREATE (p1:Person { name: $foo })
+```
