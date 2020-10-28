@@ -109,18 +109,19 @@ FROM 'https://raw.githubusercontent.com/xg590/tutorials/master/database/person.c
 AS row123
 CREATE (:Person { name: row123.name, age: toInteger(row123.age)}); 
 ```
-### Dump and load
+### Dump and load (Make it work for community edition)
 Dump (Stop neo4j first)
 ```
 neo4j-admin dump --database=neo4j --to=/path/of/dump.file
 ```
 Load 
 ```
-neo4j-admin load --database=neo4jnew --from=/path/of/dump.file 
+neo4j-admin load --database=graph.db --from=/path/of/dump.file 
 ```
-Make it work for community edition ([Credit](https://community.neo4j.com/t/create-multiple-databases-in-community-version/5025/2))
+Additional work ([Credit](https://community.neo4j.com/t/create-multiple-databases-in-community-version/5025/2))
 ```
-cat << EOF >> neo4j-community-4.1.3/conf/neo4j.conf
-dbms.active_database=neo4jnew
+cd neo4j-community-4.1.3/
+cat << EOF >> conf/neo4j.conf
+dbms.active_database=graph.db
 EOF
 ```
