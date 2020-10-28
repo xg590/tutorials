@@ -111,7 +111,7 @@ neo4j-admin load --database=neo4jnew --from=/path/of/dump.file
 ```
 Make it work for community edition ([Credit](https://community.neo4j.com/t/create-multiple-databases-in-community-version/5025/2))
 ```
-cat << EOF >> path/neo4j-community-4.1.3/conf/neo4j.conf
+cat << EOF >> neo4j-community-4.1.3/conf/neo4j.conf
 dbms.active_database=neo4jnew
 EOF
 ```
