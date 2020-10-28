@@ -89,6 +89,15 @@ CREATE INDEX FOR (p:Person) ON (p.name)
 ```
 MATCH ()-[r:LOVES]-() DELETE r; MATCH (n:Person) DELETE n
 ```
+#### Create/Delete new database (requires Neo4j Enterprise/Desktop Edition)
+```
+CREATE/DROP DATABASE test
+```
+#### Stop/Start database (requires Neo4j Enterprise/Desktop Edition)
+After stop, database becomes "unavailable" and its status becomes "offline".
+```
+STOP/START DATABASE customers
+``` 
 ### Import CSV
 Guide query: 
 ```
