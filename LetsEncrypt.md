@@ -1,9 +1,8 @@
-Ubuntu 18.04
+Ubuntu 20.04
 * Installation
 ```
-sudo apt update -y
-sudo apt install -y python-certbot-apache
-sudo certbot --apache --agree-tos --non-interactive --email $email -d your_domain_name
+sudo apt update -y && apt install -y python3-certbot-apache
+sudo certbot --apache --agree-tos --non-interactive --email your_email_address -d your_domain_name
 ```
 * Renew cert
 ```
