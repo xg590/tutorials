@@ -3,7 +3,7 @@ Ubuntu 18.04
 ```
 sudo apt update -y
 sudo apt install -y python-certbot-apache
-sudo certbot --apache
+sudo certbot --apache --agree-tos --non-interactive --email $email -d your_domain_name
 ```
 * Renew cert
 ```
