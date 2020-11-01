@@ -18,5 +18,6 @@
   * Sensors like gps, gyro, or compass
   * Own drones like Mavic_Pro/Spark/Tello/Mavic_Mini and FPV one. 
 * Misc
-  * Docker
   * AWS (LightSail, EC2, VPC, Route 53, S3)
+  * Docker
+  * Web Dev (Flask + Vue.js)
