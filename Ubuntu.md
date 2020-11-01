@@ -1,3 +1,8 @@
+### CLI and GUI 
+Boot in text mode: sudo systemctl set-default multi-user.target 
+Boot in graphical mode: sudo systemctl set-default graphical.target 
+Switch to text mode from graphical mode without reboot: sudo systemctl start multi-user.target 
+Oppositely, do: sudo systemctl start graphical.target
 ### crontab ([credit](https://stackoverflow.com/users/45978/joe-casadonte))
 ```
 (crontab -l 2>/dev/null; echo "@reboot date > /tmp/date") | crontab -
