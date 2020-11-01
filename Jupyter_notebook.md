@@ -9,4 +9,6 @@ EOF
 sudo apt update -y && sudo apt install -y python3-pip
 pip3 install jupyter jupyter_contrib_nbextensions
 .local/bin/jupyter contrib nbextension install --user
+screen -s /bin/bash -d -m -S jupyter
+screen -S jupyter -X stuff '.local/bin/jupyter-notebook'$(echo -ne '\015')
 ```
