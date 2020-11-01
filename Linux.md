@@ -7,13 +7,26 @@
 eval `ssh-agent`
 ssh-add path_to_private_key
 ```
-
 ### Enable CGI support in Apache
 ``` 
 a2enmod cgid
 vim /etc/apache2/conf-available/serve-cgi-bin.conf
 ```
 ScriptAlias /cgi-bin/ /var/www/cgi-bin/ 
+### Jupyter-notebook
+```
+mkdir ~/.jupyter
+cat << EOF >> ~/.jupyter/jupyter_notebook_config.py
+c.NotebookApp.ip = '0.0.0.0'
+c.NotebookApp.port = 8888
+c.NotebookApp.password = 'sha1:ffed18eb1683:ee67a85ceb6baa34b3283f8f8735af6e2e2f9b55'
+EOF
+sudo apt update -y && sudo apt install -y python3-pip
+pip3 install jupyter jupyter_contrib_nbextensions
+.local/bin/jupyter contrib nbextension install --user
+screen -s /bin/bash -d -m -S jupyter
+screen -S jupyter -X stuff '.local/bin/jupyter-notebook'$(echo -ne '\015')
+```
 # Ubuntu
 ### Clear Cache
 ```shell
