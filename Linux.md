@@ -2,17 +2,107 @@
 ```
 (crontab -l 2>/dev/null; echo "@reboot date > /tmp/date") | crontab -
 ```
+### Aria2c
+```
+aria2c -j5 --header="User-Agent: Mozilla/5.0 (Windows NT 6.1; ) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36"  
+```
 ### ssh-agent
 ```
 eval `ssh-agent`
 ssh-add path_to_private_key
 ```
-### Enable CGI support in Apache
-``` 
-a2enmod cgid
-vim /etc/apache2/conf-available/serve-cgi-bin.conf
+### Don't Starve Together
+```shell
+sudo dpkg --add-architecture i386 && dpkg --print-foreign-architectures
+sudo apt-get update && sudo apt-get install -y libstdc++6:i386 libgcc1:i386 libcurl4-gnutls-dev:i386 
+cat << EOF > dst_in_screen.sh
+screen -s /bin/bash -d -m -S dst
+screen -S dst -X stuff 'bash ${PWD}/run_dedicated_servers.sh'\$(echo -ne '\015')
+EOF
+(crontab -l 2>/dev/null; echo "@reboot bash ${PWD}/dst_in_screen.sh") | crontab - 
+screen -S dst -X stuff ^C # Stop running
 ```
-ScriptAlias /cgi-bin/ /var/www/cgi-bin/ 
+### Fritzing
+```
+sudo apt-get install -y qt5-default libqt5serialport5
+```
+### Capture Screen
+Save 10 sec screenshot 
+```
+ffmpeg -f x11grab -i :0.0 -video_size 1024x768 -framerate 25 -t 10 output.mp4
+```
+Broadcast screenshot via tcp 
+```
+ffmpeg -f x11grab -i :0.0 -framerate 25 -video_size 1024x768 -listen 1 -f mpegts tcp://0.0.0.0:12345
+```
+### Redirect Port
+```
+# add
+iptables -t nat -A PREROUTING -p tcp --dport 443 -j REDIRECT --to-port 44332 
+iptables -t nat -I OUTPUT -p tcp -d 127.0.0.1 --dport 443 -j REDIRECT --to-ports 44332
+# del
+iptables -t nat -D PREROUTING -p tcp --dport 443 -j REDIRECT --to-port 44332 
+iptables -t nat -D OUTPUT -p tcp -d 127.0.0.1 --dport 443 -j REDIRECT --to-ports 44332
+```
+### Email Service 
+0. Add a MX record to DNS registrar
+1. Install MTA (Message Transfer Agent)
+```shell
+apt update && apt install -y postfix
+``` 
+2. Install MUA (Mail User Agent)
+```shell
+apt install -y mailutils
+```
+3. Test MUA
+```shell
+echo "This is the body of email" | mail -s "This is the subject of email" "recipient@gmail.com"
+```
+4. A Long Letter<br>
+```mail -s "This is the subject of email" "recipient@gmail.com"```<kbd>Enter</kbd><br>
+```This is the body of email```<kbd>Enter</kbd><br>
+```This is a new line```<kbd>Enter</kbd><br>
+<kbd>CTRL</kbd>+<kbd>D</kbd>  
+### Let's Encrypt
+* Installation
+```
+sudo apt update -y && apt install -y python3-certbot-apache
+sudo certbot --apache --agree-tos --non-interactive --email your_email_address -d your_domain_name
+```
+* Renew cert
+```
+sudo letsencrypt renew
+``` 
+* Location of cert
+  * Public cert: /etc/letsencrypt/live/your_domain_name/fullchain.pem
+  * Private key: /etc/letsencrypt/live/your_domain_name/privkey.pem
+### Apache2 & CGI
+Common Gateway Interface Daemon
+```shell
+# As root
+apt install -y apache2 python3 python3-pip
+a2enmod cgid # vim /etc/apache2/conf-available/serve-cgi-bin.conf
+systemctl restart apache2
+pip3 install --target /var/www/additional_module boto3
+cat << EOF > /usr/lib/cgi-bin/test.py
+#!/usr/bin/python3
+sys.path.append("/var/www/additional_module")
+import boto3 
+# -*- coding: UTF-8 -*- 
+print("""Content-type:text/html
+<html>
+    <head>
+        <meta charset=\"utf-8\"> 
+        <title>This is a TEST</title> 
+    </head> 
+    <body>
+        Your boto3's version is {boto3.__version__} <br>
+    </body> 
+</html>""")
+EOF
+chmod o+x /usr/lib/cgi-bin/test.py
+```
+Visit http://your_domain/cgi-bin/test.py  
 ### Jupyter-notebook
 ```
 mkdir ~/.jupyter
@@ -27,7 +117,6 @@ pip3 install jupyter jupyter_contrib_nbextensions
 screen -s /bin/bash -d -m -S jupyter
 screen -S jupyter -X stuff '.local/bin/jupyter-notebook'$(echo -ne '\015')
 ```
-# Ubuntu
 ### Clear Cache
 ```shell
 echo 3 | sudo tee /proc/sys/vm/drop_caches
@@ -172,7 +261,6 @@ x11vnc -display :1 -no6 -rfbportv6 -1 -rfbport 5900 -listen 192.168.0.123
 [global] 
    bind interfaces only = yes
    interfaces = enp3s0
-
 [nuc]
     comment = Samba on Ubuntu
     path = /var/www/html
@@ -182,4 +270,37 @@ x11vnc -display :1 -no6 -rfbportv6 -1 -rfbport 5900 -listen 192.168.0.123
     create mask = 0644
     directory mask = 0755
     force user = username
+```
+### Screen 
+Start a screen session in the backgroup
+```
+screen -d -m -S autossh
+```
+Send a command into the session to run [Autossh](https://www.harding.motd.ca/autossh/autossh-1.4g.tgz) 
+```
+screen -S autossh -X stuff 'autossh -M 12345 hostname'$(echo -ne '\015')
+```
+* Split screen vertically  : <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>Shift</kbd>+<kbd>\ </kbd>
+* Split screen horizentally: <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>Shift</kbd>+<kbd>s</kbd> 
+* Switch region            : <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>Tab</kbd>
+* Close region             : <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>Shift</kbd>+<kbd>x</kbd> 
+* New window               : <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>c</kbd>
+* Next window              : <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>n</kbd>
+* List windows             : <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>w</kbd> 
+* Switch window            : <kbd>CTRL</kbd>+<kbd>a</kbd> Then window_number
+* Kill window              : <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>k</kbd>  
+### Parallelism
+```
+ls | head | xargs -n 1 -P 3 program_X
+```
+* -n num of arguments for each program
+### [Move files](https://unix.stackexchange.com/a/230536)
+```
+rsync -rv --include '*/' --include '*.js' --exclude '*' --prune-empty-dirs --remove-source-files Source/ Target/ 
+```
+### Youtube-dl
+```
+wget https://yt-dl.org/downloads/latest/youtube-dl 
+youtube-dl --sub-lang en --write-sub --skip-download https://www.youtube.com/watch?v=xxx 
+youtube-dl --all-subs    --write-sub --cookies cookies.txt --user-agent "Safari/537.36" https://www.youtube.com/watch?v=xxx 
 ```
