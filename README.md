@@ -20,4 +20,4 @@
 * Misc
   * AWS (LightSail, EC2, VPC, Route 53, S3)
   * Docker
-  * Web Dev (Flask + Vue.js)
+  * Web Dev (Vue.js + Flask)
