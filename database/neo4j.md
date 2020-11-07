@@ -78,6 +78,13 @@ MERGE (p:Person {name: 'David'}) SET p.age=24 RETURN p
 ```
 MATCH (p:Person {name: 'David'}) SET p.age=24 RETURN p
 ```
+  3. Match and take different action accordingly. (If keanu is created before, the property lastSeen will be set. Otherwise, the node will be created and the propery created will be set.)
+  ```
+  MERGE (keanu:Person { name: 'Keanu Reeves' })
+  ON CREATE SET keanu.created = timestamp()
+  ON MATCH SET keanu.lastSeen = timestamp()
+  RETURN keanu.name, keanu.created, keanu.lastSeen
+  ```
 #### Constraint (requires Neo4j Enterprise Edition)
 ```
 CREATE CONSTRAINT ON (p:Person) ASSERT EXISTS(p.name)
