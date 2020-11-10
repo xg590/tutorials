@@ -28,4 +28,9 @@ conda install -y --name rdkit pandas=1.0.0 rdkit=2019.09.3.0
 conda install --name rdkit libboost=1.65.1 
 ```
 But better reinstall rdkit of 2019 version
-
+### Test Molecule equivalency
+```python
+from rdkit import Chem
+Chem.Mol.__eq__ = lambda self, other: True if Chem.MolToSmiles(self)==Chem.MolToSmiles(other) else False
+mol1 == mol2
+```
