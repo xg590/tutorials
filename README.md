@@ -1,6 +1,6 @@
 ### Who I am
 * Researcher and technican related to High Performance Computation (HPC): 
-  * Use HPC to investigate organic reaction mechanism or material property (Several papers in computational chemistry)
+  * Use HPC to investigate organic reaction mechanism or material property ([Several papers](https://www.researchgate.net/scientific-contributions/Xiaokang-Guo-2045488309) in computational chemistry)
   * Manage computer clusters 
     * Years of experience as the sysadmin of my previous research group (Computational and Theoretical Chemistry Lab @ Zhengzhou University)
     * Worked as a contractor to support old cluster or install new cluster of other institutions
