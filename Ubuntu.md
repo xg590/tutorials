@@ -154,6 +154,10 @@ On Ubuntu 20.04, the network is managed by Network Manager ([CLI](https://develo
 ```
   nmcli dev wifi con "SSID" password "PASSWORD" name "ALIAS"
 ```
+* Connect/disconnect
+```
+  nmcli con up/down "ALIAS"
+```
 * Modify a connection (permanently)
 ```
   sudo nmcli conn edit "Wired connection 1" 
