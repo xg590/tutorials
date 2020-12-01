@@ -166,6 +166,10 @@ On Ubuntu 20.04, the network is managed by Network Manager ([CLI](https://develo
   nmcli> save persistent
   nmcli> quit
 ```
+* Disable WIFI
+```
+nmcli radio wifi off
+```
 * Change DNS 
 ```
 nmcli conn mod <connectionName> ipv4.dns "8.8.8.8 8.8.4.4"   # Permanent
