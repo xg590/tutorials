@@ -15,3 +15,7 @@ VBoxManage modifyvm <vmname> --vrdeaddress 127.0.0.1 --vrdeport 12345
 ```
 VBoxManage startvm <vmname> --type headless
 ```
+* List running machines
+```
+VBoxManage list runningvms
+```
