@@ -214,44 +214,43 @@ sudo fgconsole
 ### X11vnc
 Thanks to [Ziyue Yang](https://yzygitzh.github.io/productivity/2017/09/05/remote-desktop-solutions.html)
 * One weird prerequisite: My headless server MUST be connected a monitor otherwise I will always get a black screen via x11vnc.
+* Install the needed software.
 ```
 sudo apt install -y x11vnc net-tools
 ```
-#### If you enabled automatic login.
-vim /etc/gdm3/custom.conf. 
-```
-WaylandEnable=false
-AutomaticLoginEnable = true
-```
-You can use x11vnc out of box.
+#### Things are in the best scenario if you enabled automatic login. 
+You can use x11vnc out of box and use the vnc viewer then.
 ```
 x11vnc -display :0 
 ```
-#### Thing is complicated if you need a greeting screen.
-1. See user gdm is running Xorg
+#### Thinge are complicated if you use a greeting screen (need password to enter an account).
+1. Disable Wayland and enable Xorg display server 
+```
+sudo sed -i s/#WaylandEnable/WaylandEnable/ /etc/gdm3/custom.conf
+sudo reboot
+```
+2. Now user gdm is running Xorg
 ```
 $ ps axu|grep Xorg
-```
-* The greeting screen on virtual terminal (VT) 1 (<i>vt1</i>) where you can choose one user to login. 
-```
 gdm ... /usr/lib/xorg/Xorg vt1 -auth /run/user/gdm_uid/gdm/Xauthority ...
 ```
-2. Setup x11vnc to do logging in
-```
-sudo x11vnc -display :0 -no6 -rfbportv6 -1 -rfbport 5900 -listen 192.168.0.123 -auth /run/user/gdm_uid/gdm/Xauthority 
-```
-* Specify a interface by using -listen IP binded on it. 
-* Disable ipv6 by using -no6 and -rfbportv6 -1 (Invalid Port).  
-3. Before we use any vncviewer to see the login screen at 192.168.0.123:0, Let's see the current active VT.
+* The greeting screen is on vt1 (virtual terminal 1) where you can login. 
+3. Let's check which VT is active.
 ```
 sudo fgconsole
+1
 ```
-* We get the number 1, indicating vt1 is active. 
-5. Now we use vncviewer to login and expect to see a black screen. OK, check the active VT again
+4. But we have to establish a vnc server to see the greeting screen. we need root privilege because we need acsess gdm's Xauthority 
+```
+sudo x11vnc -display :0 -auth /run/user/gdm_uid/gdm/Xauthority 
+```
+* Use vnc viewer to log in.
+5. After login, our vnc viewer will see a black screen because vt1 is not active now. OK, check the active VT again
 ```
 sudo fgconsole
+2
 ```
-* We get another number (eg. 2), which means the a new VT2 is created and become active. Meanwhile the old VT goes dormat and our x11vnc is still stick to vt1. This is why we saw the black screen after login. 
+* We get another number (eg. 2), which means the a new VT2 is created by the user we logged in and becomes active. Meanwhile the old VT goes dormat while our x11vnc is still stick to vt1. This is why we saw the black screen after login. 
 ```
 $ ps axu|grep Xorg
 ```
@@ -259,12 +258,13 @@ $ ps axu|grep Xorg
 ```
 your_username ... /usr/lib/xorg/Xorg vt2 -auth /run/user/your_uid/gdm/Xauthority ...
 ```
-6. Now you can safely kill the first x11vnc and start a new one.
+6. Now you can safely kill the first x11vnc and start a new one without using Xauthority.
 ```
 x11vnc -display :1 -no6 -rfbportv6 -1 -rfbport 5900 -listen 192.168.0.123
 ```
-* We need a new port for Xorg by specifying -display :1
-7. We can see the desktop by visiting 192.168.0.123:0
+* Specify a interface by using -listen IP binded on it. 
+* Disable ipv6 by using -no6 and -rfbportv6 -1 (Invalid Port).  
+* We need a new port for Xorg by specifying -display :1 
 ### Samba 
 ```
 [global] 
