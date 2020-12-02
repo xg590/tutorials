@@ -12,9 +12,10 @@ Oppositely, do: sudo systemctl start graphical.target
 aria2c -j5 --header="User-Agent: Mozilla/5.0 (Windows NT 6.1; ) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36"  
 ```
 ### Wake-on-Lan
-* It works out of box for Intel NUC. 
+* It works out of box for one of my Intel NUC. 
   * Enabled by default in BIOS
   * NUC supports Wake-on: pumbg (use man ethtool to see the meaning of each letter)
+  * NUC wake-on :g (not d)
   * Wake NUC up from another machine (port is 9)
 ```
   sudo apt install wakeonlan
