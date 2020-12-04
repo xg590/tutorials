@@ -11,13 +11,14 @@
   * OK with C/C++, SQL, Cypher, Shellscript, Javascript.
     * Indispensible tools for my python project
     * Do specific job like text mining, data management, server management, or frontend development.
+  * Full stack dev
+    * Front-end : Vue.js
+    * Back-end  : Flask
+    * Database  : Neo4j and Postgresql
+    * Deployment: AWS(LightSail, EC2, VPC, Route 53, S3) and Docker 
 * IoT enthusiast:
   * Raspberry Pi and Arduino (derivatives)
   * Video streaming
   * Motor or servo drivers
   * Sensors like gps, gyro, or compass
   * Own drones like Mavic_Pro/Spark/Tello/Mavic_Mini and FPV one. 
-* Misc
-  * AWS (LightSail, EC2, VPC, Route 53, S3)
-  * Docker
-  * Web Dev (Vue.js + Flask)
