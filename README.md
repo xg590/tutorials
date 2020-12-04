@@ -15,7 +15,7 @@
     * Front-end : Vue.js
     * Back-end  : Flask
     * Database  : Neo4j and Postgresql
-    * Deployment: AWS(LightSail, EC2, VPC, Route 53, S3) and Docker 
+    * Deployment: AWS (LightSail, EC2, VPC, Route 53, S3) and Docker 
 * IoT enthusiast:
   * Raspberry Pi and Arduino (derivatives)
   * Video streaming
