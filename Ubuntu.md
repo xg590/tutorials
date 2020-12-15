@@ -238,6 +238,10 @@ You can use x11vnc out of box and use the vnc viewer then.
 x11vnc -display :0 
 ```
 #### Thinge are complicated if you use a greeting screen (need password to enter an account).
+0. Try this command and connect port 5900. If it succeeds, then goto step 6. 
+```
+sudo x11vnc -display :0 -auth /run/user/125/gdm/Xauthority
+```
 1. Disable Wayland and enable Xorg display server if necessary.
 ```
 sudo sed -i s/#WaylandEnable/WaylandEnable/ /etc/gdm3/custom.conf
