@@ -40,7 +40,7 @@ vboxmanage dhcpserver modify --ifname vboxnet0 --enable
 ```
 * Use hostonly adapter
 ```
-vboxmanage modifyvm dst --nic2 hostonly --hostonlyadapter2 vboxnet0
+vboxmanage modifyvm <vmname> --nic2 hostonly --hostonlyadapter2 vboxnet0
 ```
 ### Install a Ubuntu20.04.1 Guest OS
 1. Create a profile (yyy is virtual machine name, xxx is sub-folder)
@@ -68,6 +68,10 @@ vboxmanage createmedium disk --filename ~/xxx/yyy/yyy.vdi --format VDI --size 10
 ```
 vboxmanage storageattach yyy --storagectl SATA --port 0 --device 0 --type hdd      --medium ~/xxx/yyy/yyy.vdi 
 vboxmanage storageattach yyy --storagectl IDE  --port 0 --device 0 --type dvddrive --medium ~/ubuntu-20.04.1-desktop-amd64.iso 
+```
+If you need eject dvd 
+```
+vboxmanage storageattach yyy --storagectl IDE  --port 0 --device 0 --type dvddrive --medium emptydrive
 ```
 7. Configure Networking
 ```
