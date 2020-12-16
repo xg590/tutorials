@@ -31,13 +31,16 @@ vboxmanage unregistervm <vmname> --delete
 ``` 
 vboxmanage closemedium disk 7dcc971c-6266-46d5-8668-0c7a4d1f6132 --delete
 ```
-* Create hostonly adapter
+* Create hostonly adapter [vboxnet0]
 ```
-vboxmanage hostonlyif create
+vboxmanage hostonlyif create 
+vboxmanage hostonlyif ipconfig vboxnet0 --ip 192.168.56.1
+vboxmanage dhcpserver add --ifname vboxnet0 --ip 192.168.56.1 --netmask 255.255.255.0 --lowerip 192.168.56.100 --upperip 192.168.56.200
+vboxmanage dhcpserver modify --ifname vboxnet0 --enable
 ```
 * Use hostonly adapter
 ```
-vboxmanage modifyvm dst --nic2 hostonly --hostonlyadapter2 "VirtualBox Host-Only Ethernet Adapter"
+vboxmanage modifyvm dst --nic2 hostonly --hostonlyadapter2 vboxnet0
 ```
 ### Install a Ubuntu20.04.1 Guest OS
 1. Create a profile (yyy is virtual machine name, xxx is sub-folder)
