@@ -31,6 +31,10 @@ vboxmanage unregistervm dst --delete
 ``` 
 vboxmanage closemedium  disk  7dcc971c-6266-46d5-8668-0c7a4d1f6132 --delete
 ```
+* Create hostonly adapter
+```
+vboxmanage hostonlyif create
+```
 ### Install a Ubuntu20.04.1 Guest OS
 1. Create a profile (yyy is virtual machine name, xxx is sub-folder)
 ```
