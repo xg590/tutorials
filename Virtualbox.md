@@ -25,15 +25,19 @@ vboxmanage list runningvms
 ```
 * Delete a virtual machine
 ```
-vboxmanage unregistervm dst --delete
+vboxmanage unregistervm <vmname> --delete
 ```
 * Delete a medium
 ``` 
-vboxmanage closemedium  disk  7dcc971c-6266-46d5-8668-0c7a4d1f6132 --delete
+vboxmanage closemedium disk 7dcc971c-6266-46d5-8668-0c7a4d1f6132 --delete
 ```
 * Create hostonly adapter
 ```
 vboxmanage hostonlyif create
+```
+* Use hostonly adapter
+```
+vboxmanage modifyvm dst --nic2 hostonly --hostonlyadapter2 "VirtualBox Host-Only Ethernet Adapter"
 ```
 ### Install a Ubuntu20.04.1 Guest OS
 1. Create a profile (yyy is virtual machine name, xxx is sub-folder)
