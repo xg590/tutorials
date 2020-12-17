@@ -42,6 +42,10 @@ vboxmanage dhcpserver modify --ifname vboxnet0 --enable
 ```
 vboxmanage modifyvm <vmname> --nic2 hostonly --hostonlyadapter2 vboxnet0
 ```
+* Copy a file to Guest 
+```
+vboxmanage guestcontrol win10 copyto --username ??? --password=??? --target-directory "c:\\Users\\???\\Desktop\\"  ???
+```
 ### Install a Ubuntu20.04.1 Guest OS
 1. Create a profile (yyy is virtual machine name, xxx is sub-folder)
 ```
