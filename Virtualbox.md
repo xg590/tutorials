@@ -1,3 +1,5 @@
+
+* [Manual](https://www.virtualbox.org/manual/ch08.html)
 * List virtual machines
 ```
 vboxmanage list vms
@@ -42,9 +44,16 @@ vboxmanage dhcpserver modify --ifname vboxnet0 --enable
 ```
 vboxmanage modifyvm <vmname> --nic2 hostonly --hostonlyadapter2 vboxnet0
 ```
-* Copy a file to Guest 
+* Copy a file to Guest
 ```
 vboxmanage guestcontrol win10 copyto --username ??? --password=??? --target-directory "c:\\Users\\???\\Desktop\\"  ???
+```
+* Add more cpu cores
+```
+vboxmanage modifyvm <vmname> --cpuhotplug on # 
+vboxmanage modifyvm <vmname> --cpus 3        # 3 cpu cores at most
+vboxmanage modifyvm <vmname> --plugcpu 1     # Add core 1. Core 0 is the default one.
+vboxmanage modifyvm <vmname> --plugcpu 2     # Add core 2
 ```
 ### Install a Ubuntu20.04.1 Guest OS
 1. Create a profile (yyy is virtual machine name, xxx is sub-folder)
