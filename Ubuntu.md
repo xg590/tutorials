@@ -81,7 +81,7 @@ echo "This is the body of email" | mail -s "This is the subject of email" "recip
 ### Let's Encrypt
 * Installation
 ```
-sudo apt update -y && apt install -y python3-certbot-apache
+sudo apt update -y && sudo apt install -y python3-certbot-apache
 sudo certbot --apache --agree-tos --non-interactive --email your_email_address -d your_domain_name
 ```
 * Renew cert
