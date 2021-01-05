@@ -25,6 +25,7 @@ Testing & Checking the Build Configuration
 singularity exec library://alpine cat /etc/alpine-release
 ```
 ### Play with it (Install rdkit on NYU HPC GREENE)
+* Install
 ```
 cp /scratch/work/public/overlay-fs-ext3/overlay-5GB-200K.ext3.gz /scratch/${USER}/
 gzip -d overlay-5GB-200K.ext3.gz
@@ -36,8 +37,22 @@ source /ext3/miniconda3/bin/activate rdkit_2019
 pip install jupyter jupyter_contrib_nbextensions 
 jupyter contrib nbextension install --user
 mkdir ~/.jupyter
+# from notebook.auth import passwd
 cat << EOF >> ~/.jupyter/jupyter_notebook_config.py
 c.NotebookApp.ip = '0.0.0.0' 
 c.NotebookApp.password = 'sha1:ffed18eb1683:ee67a85ceb6baa34b3283f8f8735af6e2e2f9b55'
 EOF
+cat <<EOF > ~/bin/jupyter.sh
+#!/bin/bash
+source /ext3/miniconda3/bin/activate rdkit_2019
+XDG_RUNTIME_DIR=/scratch/xg590
+port=\$(shuf -i 10000-19999 -n 1) 
+jupyter notebook --no-browser --port $port --notebook-dir=`pwd` &
+/usr/bin/ssh -N -R 39073:localhost:$port iMac
+EOF
+chmod 500 ~/bin/jupyter.sh
 ```
+* Run
+```
+singularity exec --overlay overlay-5GB-200K.ext3 /scratch/work/public/singularity/ubuntu-20.04.1.sif ~/bin/jupyter.sh
+``` 
