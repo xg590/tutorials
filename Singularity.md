@@ -24,3 +24,20 @@ Testing & Checking the Build Configuration
 ```
 singularity exec library://alpine cat /etc/alpine-release
 ```
+### Play with it (Install rdkit on NYU HPC GREENE)
+```
+cp /scratch/work/public/overlay-fs-ext3/overlay-5GB-200K.ext3.gz /scratch/${USER}/
+gzip -d overlay-5GB-200K.ext3.gz
+singularity exec --overlay overlay-5GB-200K.ext3 /scratch/work/public/singularity/ubuntu-20.04.1.sif /bin/bash
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh 
+bash Miniconda3-latest-Linux-x86_64.sh -b -f -p /ext3/miniconda3/
+/ext3/miniconda3/bin/conda create -y -c rdkit -n rdkit_2019 rdkit=2019  pandas=1.0 # -c channel; -n envName
+source /ext3/miniconda3/bin/activate rdkit_2019
+pip install jupyter jupyter_contrib_nbextensions 
+jupyter contrib nbextension install --user
+mkdir ~/.jupyter
+cat << EOF >> ~/.jupyter/jupyter_notebook_config.py
+c.NotebookApp.ip = '0.0.0.0' 
+c.NotebookApp.password = 'sha1:ffed18eb1683:ee67a85ceb6baa34b3283f8f8735af6e2e2f9b55'
+EOF
+```
