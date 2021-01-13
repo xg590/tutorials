@@ -20,6 +20,11 @@ EOF
 sudo apt update && sudo apt install python3-pip python3-venv
 python3 -m venv test
 source test/bin/activate
-pip3 install jupyter jupyter_contrib_nbextensions
+pip install jupyter jupyter_contrib_nbextensions
 jupyter contrib nbextension install --user
+```
+### Install more python backend for jupyter 
+```
+python3 -m pip install ipykernel
+python3 -m ipykernel install --user --name myenv --display-name "Python (myenv)"
 ```
