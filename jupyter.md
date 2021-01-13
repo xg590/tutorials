@@ -28,3 +28,12 @@ jupyter contrib nbextension install --user
 python3 -m pip install ipykernel
 python3 -m ipykernel install --user --name myenv --display-name "Python (myenv)"
 ```
+### Some fucking problem with Python at this time (Jan 13 2021)
+* Comand completion does not work because of this error. It is damn fucking annoying. 
+```
+TypeError: __init__() got an unexpected keyword argument 'column'
+```
+* Solution: Downgrade two packages.
+```
+pip install --upgrade parso==0.5.2 jedi==0.15.2
+```
