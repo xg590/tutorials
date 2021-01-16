@@ -28,6 +28,11 @@ jupyter contrib nbextension install --user
 python3 -m pip install ipykernel
 python3 -m ipykernel install --user --name myenv --display-name "Python (myenv)"
 ```
+### Uninstall backend/kernel
+```
+jupyter kernelspec list  
+jupyter kernelspec uninstall unwanted-kernel
+```
 ### Some fucking problem with Python at this time (Jan 13 2021)
 * Comand completion does not work because of this error. It is damn fucking annoying. 
 ```
