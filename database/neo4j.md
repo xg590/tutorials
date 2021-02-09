@@ -16,6 +16,12 @@ dbms.default_listen_address=0.0.0.0
 EOF
 sudo systemctl restart neo4j.service
 ```
+### Start community server
+``` 
+export JAVA_HOME=???/jdk-15.0.1
+export PATH=$PATH:$JAVA_HOME/bin 
+$NEO4J_ROOT/bin/neo4j start
+```
 ### Connection
 Use default neo4j/neo4j as username/password 
 CLI: 
