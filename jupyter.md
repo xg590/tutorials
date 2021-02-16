@@ -23,6 +23,14 @@ source test/bin/activate
 pip install jupyter jupyter_contrib_nbextensions
 jupyter contrib nbextension install --user
 ```
+Or
+```
+sudo apt update && sudo apt install python3-pip python3-venv jupyter
+python3 -m venv test
+source test/bin/activate
+pip install jupyter_contrib_nbextensions
+jupyter contrib nbextension install --user
+```
 ### Install more python backend for jupyter 
 ```
 python3 -m pip install ipykernel
