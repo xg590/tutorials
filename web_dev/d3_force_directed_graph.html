@@ -25,17 +25,17 @@ var nodes_data =  [
     {"name": "Emerald", "sex": "F"}
 ]
 var node = svg.append("g")
-			  .attr("class", "nodes")
-			  .selectAll() // explanation for selecting nothing @ https://bost.ocks.org/mike/join/
-			  .data(nodes_data)
-			  .enter()
-			  .append("circle")
-			  .attr("r", 5)
-			  .attr("fill", "red"); 
-			  
+              .attr("class", "nodes")
+              .selectAll() // explanation for selecting nothing @ https://bost.ocks.org/mike/join/
+              .data(nodes_data)
+              .enter()
+              .append("circle")
+              .attr("r", 5)
+              .attr("fill", "red"); 
+              
 //draw lines for the links
 var links_data = [
-	{"source": "Travis", "target": "Rake"},
+    {"source": "Travis", "target": "Rake"},
     {"source": "Diana", "target": "Rake"},
     {"source": "Diana", "target": "Rachel"},
     {"source": "Rachel", "target": "Rake"},
@@ -43,29 +43,29 @@ var links_data = [
     {"source": "Emerald", "target": "Rachel"}
 ]
 var link = svg.append("g")
-			  .attr("class", "links")
-			  .selectAll()
-			  .data(links_data)
-			  .enter().append("line")
-			  .attr("stroke-width", 2); 
+              .attr("class", "links")
+              .selectAll()
+              .data(links_data)
+              .enter().append("line")
+              .attr("stroke-width", 2); 
  
 //set up the simulation 
 var simulation = d3.forceSimulation()
                    .nodes(nodes_data)
-				   .force("charge_force", d3.forceManyBody())
-				   .force("center_force", d3.forceCenter(svg.attr("width") / 2, svg.attr("height") / 2))
-				   .force("links",        d3.forceLink(links_data).id(function(d) { return d.name; }))
-				   .on("tick",            foo => {
-											//update circle positions each tick of the simulation
-											node.attr("cx", function(d) { return d.x; })
-												.attr("cy", function(d) { return d.y; });
-											//update link positions
-											//simply tells one end of the line to follow one node around
-											//and the other end of the line to follow the other node around
-											link.attr("x1", function(d) { return d.source.x; })
-												.attr("y1", function(d) { return d.source.y; })
-												.attr("x2", function(d) { return d.target.x; })
-												.attr("y2", function(d) { return d.target.y; });
-										  } 
-					);
+                   .force("charge_force", d3.forceManyBody())
+                   .force("center_force", d3.forceCenter(svg.attr("width") / 2, svg.attr("height") / 2))
+                   .force("links",        d3.forceLink(links_data).id(function(d) { return d.name; }))
+                   .on("tick",            foo => {
+                                            //update circle positions each tick of the simulation
+                                            node.attr("cx", function(d) { return d.x; })
+                                                .attr("cy", function(d) { return d.y; });
+                                            //update link positions
+                                            //simply tells one end of the line to follow one node around
+                                            //and the other end of the line to follow the other node around
+                                            link.attr("x1", function(d) { return d.source.x; })
+                                                .attr("y1", function(d) { return d.source.y; })
+                                                .attr("x2", function(d) { return d.target.x; })
+                                                .attr("y2", function(d) { return d.target.y; });
+                                          } 
+                    );
 </script>
