@@ -3,7 +3,7 @@
   * Use HPC to investigate organic reaction mechanism or material property ([Several papers](https://www.researchgate.net/scientific-contributions/Xiaokang-Guo-2045488309) in computational chemistry)
   * Manage computer clusters 
     * Years of experience as the sysadmin of my previous research group (Computational and Theoretical Chemistry Lab @ Zhengzhou University)
-    * Worked as a contractor to support old cluster or install new cluster of other institutions
+    * Worked as a contractor to support old cluster or install new cluster for other institutions
 * Programmer:
   * Good at Python 
     * Primary choice of my programming project
@@ -21,4 +21,4 @@
   * Video streaming
   * Motor or servo drivers
   * Sensors like gps, gyro, or compass
-  * Own drones like Mavic_Pro/Spark/Tello/Mavic_Mini and FPV one. 
+  * Own drones like Mavic_Pro/Spark/Tello/Mavic_Mini and FPV. 
