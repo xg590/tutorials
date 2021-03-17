@@ -31,3 +31,9 @@ With the help of command <i>ipconfig</i>, we should know the ip-interface bindin
 sdelete.exe c: -z
 VBoxManage.exe modifymedium disk "D:\win10.vdi" --compact
 ```
+### Python and PIP
+1. Download and install [Python3](https://www.python.org/) 
+2. Download and run [get-pip.py](https://bootstrap.pypa.io/get-pip.py)
+```cmd
+python get-pip.py
+```
