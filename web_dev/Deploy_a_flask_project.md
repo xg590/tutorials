@@ -7,9 +7,8 @@ pip3 install --target /var/www/py3_mod Flask
 ```
 ##### 1.2 Test a Flask app
 ```python3
-cd /var/www
 mkdir -p /var/www/wsgi/foo/bar
-cat << EOF > wsgi/foo/bar/__init__.py 
+cat << EOF > /var/www/wsgi/foo/bar/__init__.py 
 import sys
 sys.path.append('/var/www/py3_mod')
 from flask import Flask
@@ -20,7 +19,7 @@ def hello():
 if __name__ == "__main__":
     app.run()
 EOF
-python3 wsgi/foo/bar/__init__.py 
+python3 /var/www/wsgi/foo/bar/__init__.py 
 ```
 ###### You will see the output
 ```
@@ -65,3 +64,4 @@ EOF
 ```shell
 systemctl restart apache2
 ```
+#### Visit http://you.ip/bar
