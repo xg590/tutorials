@@ -59,8 +59,12 @@ iptables -t nat -I OUTPUT -p tcp -d 127.0.0.1 --dport 443 -j REDIRECT --to-ports
 iptables -t nat -D PREROUTING -p tcp --dport 443 -j REDIRECT --to-port 44332 
 iptables -t nat -D OUTPUT -p tcp -d 127.0.0.1 --dport 443 -j REDIRECT --to-ports 44332
 ```
-### Email Service 
+### Email Service (Not working for AWS Host. Additional configuration is needed for AWS)
 0. Add a MX record to DNS registrar
+```
+Name   Type    Data
+@      MX      10 guoxiaokang.com.
+```
 1. Install MTA (Message Transfer Agent)
 ```shell
 apt update && apt install -y postfix
