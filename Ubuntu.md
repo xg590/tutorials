@@ -11,6 +11,10 @@ Oppositely, do: sudo systemctl start graphical.target
 ```
 aria2c -j5 --header="User-Agent: Mozilla/5.0 (Windows NT 6.1; ) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36"  
 ```
+### Update Time (Thanks [Shrukul Habib](https://askubuntu.com/a/683136))
+```
+sudo date -s "$(wget -qSO- --max-redirect=0 google.com 2>&1 | grep Date: | cut -d' ' -f5-8)Z"
+```
 ### Wake-on-Lan
 * It works out of box for one of my Intel NUC. 
   * Enabled by default in BIOS
