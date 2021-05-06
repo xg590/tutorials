@@ -60,6 +60,10 @@ vboxmanage modifyvm <vmname> --plugcpu 2     # Add core 2
 vboxmanage storageattach <vmname> --storagectl SATA --port 1 --device 0 --type dvddrive --medium /usr/share/virtualbox/VBoxGuestAdditions.iso
 vboxmanage storageattach <vmname> --storagectl SATA --port 1 --device 0 --type dvddrive --medium emptydrive
 ```
+* Install extpack 
+```
+vboxmanage extpack install xxx.vbox-extpack
+```
 ### Install a Ubuntu20.04.1 Guest OS
 1. Create a profile (yyy is virtual machine name, xxx is sub-folder)
 ```
