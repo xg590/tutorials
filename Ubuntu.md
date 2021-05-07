@@ -7,6 +7,12 @@ Oppositely, do: sudo systemctl start graphical.target
 ```
 (crontab -l 2>/dev/null; echo "@reboot date > /tmp/date") | crontab -
 ```
+### Single User Mode
+* Press F10 to select boot media
+* Choose hard disk and press ESC
+* Land into grub menu and use key E to edit "Ubuntu"
+* Add "single" after line starting with "linux"
+* Press F10 to save and exit
 ### Aria2c
 ```
 aria2c -j5 --header="User-Agent: Mozilla/5.0 (Windows NT 6.1; ) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36"  
