@@ -89,3 +89,13 @@ Get info on hardware (<b>Mellanox</b> NIC)
 [OpenSM](https://docs.oracle.com/cd/E18476_01/doc.220/e18478/GUID-9FF8B5B0-3481-4B73-89D3-108CBD7EB989.htm#ELMOG76340)
 
 https://docs.mellanox.com/pages/viewpage.action?pageId=12004991
+
+## 8.0 
+Install Extra Packages for Enterprise Linux
+```
+dnf install epel-release -y
+```
+Install screen
+```
+dnf install screen
+```
