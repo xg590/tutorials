@@ -37,3 +37,19 @@ VBoxManage.exe modifymedium disk "D:\win10.vdi" --compact
 ```cmd
 python get-pip.py
 ```
+### Firewall
+```
+netsh advfirewall firewall add rule name="sshd" dir=in action=allow protocol=TCP localport=22
+```
+### Service
+```cmd
+powershell Get-Service 
+powershell Start-Service -Name "sshd" 
+powershell Set-Service -Name "sshd" -StartupType Automatic    
+```
+### ACL
+```
+icacls administrators_authorized_keys /inheritance:r
+icacls administrators_authorized_keys /grant SYSTEM:(F)
+icacls administrators_authorized_keys /grant BUILTIN\Administrators:(F)
+```
