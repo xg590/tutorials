@@ -51,6 +51,23 @@ screen -S dst -X stuff ^C # Stop running
 ```
 sudo apt-get install -y qt5-default libqt5serialport5
 ```
+### Rsync
+```
+cat << EOF > /etc/rsyncd.conf
+pid file = /var/run/rsyncd.pid
+lock file = /var/run/rsync.lock
+log file = /var/log/rsync.log
+port = 8873
+
+[my_remote_dir]
+path = /tmp/rsync
+comment = Rsync files
+timeout = 300
+read only = false
+EOF
+rsync --daemon
+rsync -azP /local_dir/ rsync://host:port/my_remote_dir/
+```
 ### Capture Screen
 Save 10 sec screenshot 
 ```
