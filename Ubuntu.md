@@ -1,8 +1,20 @@
 ### CLI and GUI 
-Boot in text mode: sudo systemctl set-default multi-user.target 
-Boot in graphical mode: sudo systemctl set-default graphical.target 
+Boot into text mode: sudo systemctl set-default multi-user.target 
+Boot into graphical mode: sudo systemctl set-default graphical.target 
 Switch to text mode from graphical mode without reboot: sudo systemctl start multi-user.target 
 Oppositely, do: sudo systemctl start graphical.target
+Boot
+  \_systemd 
+     |\
+     | \_multi-user.target
+     |     \
+     |      \_startx (X session)  
+     |
+     \_graphical.target
+         \
+          \_Display Manager / graphical login manager (Xorg / Wayland)
+			  \
+			   \_Window Manager (X session)
 ### crontab ([credit](https://stackoverflow.com/users/45978/joe-casadonte))
 ```
 (crontab -l 2>/dev/null; echo "@reboot date > /tmp/date") | crontab -
@@ -184,12 +196,17 @@ sudo apt-offline get --bundle bundle.zip tightvncserver.sig
 sudo apt install -y apt-offline
 sudo apt-offline install --skip-changelog bundle.zip
 sudo apt-get install tightvncserver
+vncserver -localhost -nolisten tcp
 ```
-### Configurate Network
+### Configurate Network via Network Manager
 On Ubuntu 20.04, the network is managed by Network Manager ([CLI](https://developer.gnome.org/NetworkManager/stable/nmcli.html)) by default. <b>IT SUCKS!!!</b>. 
 * Show current connection
 ```
   nmcli connection show
+```
+* Show available SSID
+```
+  nmcli dev wifi
 ```
 * Add a connection
 ```
@@ -215,10 +232,32 @@ nmcli radio wifi off
 ```
 nmcli conn mod <connectionName> ipv4.dns "8.8.8.8 8.8.4.4"   # Permanent
 resolvectl dns interface_name 8.8.8.8 8.8.4.4                # Temporary 
-```
+``` 
 * Delete wrong route (common for multi NICs)
 ```
 ip route del default dev interface_name
+``` 
+### Configure Network via netplan
+* List NIC
+```
+ip addr
+```
+* Link status of NIC (don't forget ethtool -p/--identify)
+```
+ethtool iface-name
+```
+* vim /etc/netplan/00-nonsense.yaml
+```
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eth0:
+      addresses:
+        - 10.10.10.2/24
+      gateway4: 10.10.10.1
+      nameservers: 
+          addresses: [10.10.10.1, 1.1.1.1]
 ```
 ### Remove Services
 ```
