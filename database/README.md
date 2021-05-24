@@ -1,8 +1,8 @@
-### Connect Pandas DataFrame and MySQL
+### Connect Pandas DataFrame with MySQL
 * User root create a database and grant access to user
 ```shell
 mysqladmin create db_name
-mysql bnyYLnkpZk << EOF 
+mysql db_name << EOF 
 GRANT ALL ON db_name.* TO 'user'@'localhost' IDENTIFIED BY 'password' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 EOF
