@@ -1,11 +1,7 @@
 ### CLI and GUI 
-Boot into text mode: sudo systemctl set-default multi-user.target 
-Boot into graphical mode: sudo systemctl set-default graphical.target 
-Switch to text mode from graphical mode without reboot: sudo systemctl start multi-user.target 
-Oppositely, do: sudo systemctl start graphical.target
 ```
-Boot
-  \_systemd 
+Boot (Ubuntu 20.04)
+  \_systemD (another init system than system V)
      |\
      | \_multi-user.target
      |     \
@@ -16,6 +12,20 @@ Boot
           \_Display Manager / graphical login manager (Xorg / Wayland)
 			  \
 			   \_Window Manager (X session)
+```
+* Boot into text mode: 
+```
+sudo systemctl set-default multi-user.target 
+```
+* Boot into graphical mode: 
+```sudo systemctl set-default graphical.target 
+```
+* Switch to text mode from graphical mode without reboot: 
+```sudo systemctl start multi-user.target 
+```
+* Oppositely, do: 
+```
+sudo systemctl start graphical.target
 ```
 ### crontab ([credit](https://stackoverflow.com/users/45978/joe-casadonte))
 ```
