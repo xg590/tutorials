@@ -3,6 +3,7 @@ Boot into text mode: sudo systemctl set-default multi-user.target
 Boot into graphical mode: sudo systemctl set-default graphical.target 
 Switch to text mode from graphical mode without reboot: sudo systemctl start multi-user.target 
 Oppositely, do: sudo systemctl start graphical.target
+```
 Boot
   \_systemd 
      |\
@@ -15,6 +16,7 @@ Boot
           \_Display Manager / graphical login manager (Xorg / Wayland)
 			  \
 			   \_Window Manager (X session)
+```
 ### crontab ([credit](https://stackoverflow.com/users/45978/joe-casadonte))
 ```
 (crontab -l 2>/dev/null; echo "@reboot date > /tmp/date") | crontab -
