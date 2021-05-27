@@ -99,3 +99,8 @@ vboxmanage storageattach yyy --storagectl IDE  --port 0 --device 0 --type dvddri
 ```
 vboxmanage modifyvm yyy --nic1 nat --nictype1 82540EM --cableconnected1 on
 ```
+### Troubleshooting
+* In case of "No USB devices available" on linux host, set proper group id for current user (credit to [csorig](https://superuser.com/a/957636))
+```
+sudo usermod -aG vboxusers $USER
+```
