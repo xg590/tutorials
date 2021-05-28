@@ -21,3 +21,17 @@ cursor.execute('CREATE TABLE table1(col1 INTEGER, col2 INTEGER)')
 df.to_sql('table1', sqlEngine, index=False, if_exists='append') 
 pd.read_sql('SELECT * FROM table1', sqlEngine)
 ``` 
+### SQLite
+* Delete duplicated rows
+```
+cur.execute('''
+CREATE TABLE sifts_1 (pdb_accessionid TEXT,
+                      pdb_chainid     TEXT,
+                      pdb_resnum      TEXT,
+                      pdb_resname     TEXT, 
+                      idx             INTEGER);''') # PRIMARY KEY AUTOINCREMENT
+
+cur.execute('INSERT INTO sifts_1 SELECT *, ROW_NUMBER() OVER(PARTITION BY pdb_accessionid, pdb_chainid, pdb_resnum) AS idx FROM sifts') 
+# 8m
+cur.execute('DELETE FROM sifts_1 WHERE idx>1')
+```
