@@ -35,3 +35,21 @@ cur.execute('INSERT INTO sifts_1 SELECT *, ROW_NUMBER() OVER(PARTITION BY pdb_ac
 # 8m
 cur.execute('DELETE FROM sifts_1 WHERE idx>1')
 ```
+### Remove duplicates
+```
+cur.execute('''
+CREATE TABLE sifts_1 (pdb_accessionid TEXT,
+                      pdb_chainid     TEXT,
+                      pdb_resnum      TEXT,
+                      pdb_resname     TEXT,
+                      unp_accessionid TEXT,
+                      unp_resnum      TEXT,
+                      unp_resname     TEXT,
+                      idx             INTEGER);''') # PRIMARY KEY AUTOINCREMENT
+
+cur.execute('INSERT INTO sifts_1 SELECT *, ROW_NUMBER() OVER(PARTITION BY pdb_accessionid, pdb_chainid, pdb_resnum) AS idx FROM sifts')  
+cur.execute('DELETE FROM sifts_1 WHERE idx>1') 
+cur.execute('VACUUM ') 
+con.commit()
+con.close()
+```
