@@ -1,9 +1,10 @@
 ## Create a Depository
-1. Sign up an account on github.com
-2. In the setting of your GitHub account, add a ssh public key
+0. Prepare a pair of key on local machine
 ```shell
 ssh-keygen -t rsa -b 4096 -N '' -f ~/.ssh/github
 ``` 
+1. Sign up an account on github.com
+2. In the setting of your GitHub account, paste the public key.
 3. In terminal, Add new entry in local ~/.ssh/config.
 ```shell
 cat << EOF >> ~/.ssh/config 
@@ -47,7 +48,7 @@ git commit -m "comment to this time of action"
 ```shell
 curl -u 'AccountName' https://api.github.com/user/repos -d '{"name":"NewRepoName"}'
 ```
-Enter you password
+* Enter you password
 12. Specify the upload destination
 ```shell
 git remote add just_a_placeholder git@github.com:yourName/NewRepoName.git
@@ -66,3 +67,11 @@ git mv path_name new_path_name
 git commit -m "Problematic Name in Windows"
 git push origin master
 ```
+## Manual Change
+'''
+git add -u . 
+git add *
+git status 
+git commit -m 'LoRa'
+git push  
+'''
