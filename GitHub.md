@@ -68,10 +68,10 @@ git commit -m "Problematic Name in Windows"
 git push origin master
 ```
 ## Manual Change
-'''
+```
 git add -u . 
 git add *
 git status 
 git commit -m 'LoRa'
 git push  
-'''
+``` 
