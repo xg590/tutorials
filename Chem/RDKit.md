@@ -21,3 +21,21 @@ from rdkit import Chem
 Chem.Mol.__eq__ = lambda self, other: True if Chem.MolToSmiles(self)==Chem.MolToSmiles(other) else False
 mol1 == mol2
 ```
+### Move rdkit [ref](https://www.anaconda.com/blog/moving-conda-environments)
+* Specs vs. Env: Env included pip installations
+* Specs on source machine
+```
+conda list --explicit > spec-list.txt  
+```
+* Recreate on destination machine
+```
+conda create --name python-course --file spec-list.txt 
+```
+* Env on source machine
+```
+conda env export > environment.yml
+```
+* Env on desitination machine
+```
+conda env create -f environment.yml
+``` 
