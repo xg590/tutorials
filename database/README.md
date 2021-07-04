@@ -8,7 +8,7 @@ FLUSH PRIVILEGES;
 EOF
 ```
 * Connect to MySQL and test i/o with dataframe
-```
+```python
 from sqlalchemy import create_engine
 sqlEngine = create_engine('mysql+pymysql://user:password@127.0.0.1:3306/db_name')  
 conn      = sqlEngine.raw_connection() 
@@ -23,33 +23,20 @@ pd.read_sql('SELECT * FROM table1', sqlEngine)
 ``` 
 ### SQLite
 * Delete duplicated rows
-```
-cur.execute('''
+```sql 
 CREATE TABLE sifts_1 (pdb_accessionid TEXT,
                       pdb_chainid     TEXT,
                       pdb_resnum      TEXT,
                       pdb_resname     TEXT, 
-                      idx             INTEGER);''') # PRIMARY KEY AUTOINCREMENT
+                      idx             INTEGER); 
 
-cur.execute('INSERT INTO sifts_1 SELECT *, ROW_NUMBER() OVER(PARTITION BY pdb_accessionid, pdb_chainid, pdb_resnum) AS idx FROM sifts') 
-# 8m
-cur.execute('DELETE FROM sifts_1 WHERE idx>1')
+INSERT INTO sifts_1 SELECT *, ROW_NUMBER() OVER(PARTITION BY pdb_accessionid, pdb_chainid, pdb_resnum) AS idx FROM sifts 
+DELETE FROM sifts_1 WHERE idx>1 
+VACUUM
 ```
-### Remove duplicates
-```
-cur.execute('''
-CREATE TABLE sifts_1 (pdb_accessionid TEXT,
-                      pdb_chainid     TEXT,
-                      pdb_resnum      TEXT,
-                      pdb_resname     TEXT,
-                      unp_accessionid TEXT,
-                      unp_resnum      TEXT,
-                      unp_resname     TEXT,
-                      idx             INTEGER);''') # PRIMARY KEY AUTOINCREMENT
-
-cur.execute('INSERT INTO sifts_1 SELECT *, ROW_NUMBER() OVER(PARTITION BY pdb_accessionid, pdb_chainid, pdb_resnum) AS idx FROM sifts')  
-cur.execute('DELETE FROM sifts_1 WHERE idx>1') 
-cur.execute('VACUUM ') 
-con.commit()
-con.close()
-```
+* SELECT every other 20 rows
+```sql
+SELECT * FROM (
+  SELECT *, ROW_NUMBER() OVER(ORDER BY timestamp) AS col_bar FROM log
+) table_foo WHERE table_foo.col_bar % 20 = 0 
+``` 
