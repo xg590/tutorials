@@ -50,6 +50,7 @@ EOF
 ```
 cat << EOF > install.bat
 cd "%~dp0"$CR
+del OpenSSH.exe install.bat$CR
 mkdir "%USERPROFILE%\.ssh"$CR
 move OpenSSH\plink.exe  "%USERPROFILE%"\.ssh$CR
 move OpenSSH\id_rsa.ppk "%USERPROFILE%"\.ssh$CR
@@ -66,7 +67,6 @@ powershell Start-Service -Name "sshd"$CR
 powershell Start-Service -Name "ssh-agent"$CR
 powershell Set-Service -Name "sshd" -StartupType Automatic$CR
 powershell Set-Service -Name "ssh-agent" -StartupType Automatic$CR
-del OpenSSH.exe install.bat$CR
 EOF
 ```
 ```
