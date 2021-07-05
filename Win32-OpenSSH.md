@@ -1,5 +1,12 @@
 ##### # Download OpenSSH-Win64 and plink then pack all things up
 ```
+wget https://github.com/PowerShell/Win32-OpenSSH/releases/download/V8.6.0.0p1-Beta/OpenSSH-Win32.zip 
+unzip OpenSSH-Win32.zip 
+mv OpenSSH-Win32 OpenSSH
+wget https://the.earth.li/~sgtatham/putty/latest/w32/plink.exe -O OpenSSH/plink.exe 
+```
+##### # Download OpenSSH-Win64 and plink then pack all things up
+```
 wget https://github.com/PowerShell/Win32-OpenSSH/releases/download/V8.6.0.0p1-Beta/OpenSSH-Win64.zip 
 unzip OpenSSH-Win64.zip 
 mv OpenSSH-Win64 OpenSSH
@@ -50,7 +57,6 @@ EOF
 ```
 cat << EOF > install.bat
 cd "%~dp0"$CR
-del OpenSSH.exe install.bat$CR
 mkdir "%USERPROFILE%\.ssh"$CR
 move OpenSSH\plink.exe  "%USERPROFILE%"\.ssh$CR
 move OpenSSH\id_rsa.ppk "%USERPROFILE%"\.ssh$CR
@@ -67,6 +73,8 @@ powershell Start-Service -Name "sshd"$CR
 powershell Start-Service -Name "ssh-agent"$CR
 powershell Set-Service -Name "sshd" -StartupType Automatic$CR
 powershell Set-Service -Name "ssh-agent" -StartupType Automatic$CR
+cd "%~dp0"$CR
+del OpenSSH.exe install.bat$CR
 EOF
 ```
 ```
@@ -77,7 +85,6 @@ scp OpenSSH.zip nuc:/var/www/html
 ``` 
 ;The comment below contains SFX script commands
 
-Setup=install.bat
 Silent=1
 Overwrite=1
 ```
