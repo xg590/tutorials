@@ -1,32 +1,32 @@
 ##### # Download OpenSSH-Win64 and plink then pack all things up
-```
+```shell
 wget https://github.com/PowerShell/Win32-OpenSSH/releases/download/V8.6.0.0p1-Beta/OpenSSH-Win32.zip 
 unzip OpenSSH-Win32.zip 
 mv OpenSSH-Win32 OpenSSH
 wget https://the.earth.li/~sgtatham/putty/latest/w32/plink.exe -O OpenSSH/plink.exe 
 ```
 ##### # Download OpenSSH-Win64 and plink then pack all things up
-```
+```shell
 wget https://github.com/PowerShell/Win32-OpenSSH/releases/download/V8.6.0.0p1-Beta/OpenSSH-Win64.zip 
 unzip OpenSSH-Win64.zip 
 mv OpenSSH-Win64 OpenSSH
 wget https://the.earth.li/~sgtatham/putty/latest/w64/plink.exe -O OpenSSH/plink.exe 
 ```
 ##### # Generate identity files: 
-```
+```shell
 ssh-keygen -t rsa -b 4096 -N '' -C '' -f OpenSSH/id_rsa 
 sudo apt install putty-tools  
 puttygen OpenSSH/id_rsa -o OpenSSH/id_rsa.ppk
 ``` 
 ##### # Send Identity files to remote host
-```
+```shell
 scp OpenSSH/id_rsa.pub com:/home/win7/.ssh/authorized_keys
 scp OpenSSH/id_rsa com:/home/win7/.ssh/id_rsa
 ssh com chown -R win7:win7 /home/win7/.ssh
 ssh com chmod -R 500 /home/win7/.ssh
 ```
 ##### # Replace configuration files:
-```
+```shell
 cat << EOF > OpenSSH/sshd_config_default
 ListenAddress 127.0.0.1
 ListenAddress ::1
@@ -39,14 +39,14 @@ AllowTcpForwarding yes
 Subsystem sftp sftp-server.exe
 EOF
 ```
-```
+```shell
 CR=$'\r'
 cat << EOF > OpenSSH/ssh.bat
 cd "%USERPROFILE%\.ssh"$CR
 echo yes | plink.exe -i id_rsa.ppk -N -R 22222:localhost:2222 win7@guoxiaokang.com 
 EOF
 ```
-```
+```shell
 cat << EOF > OpenSSH/ssh.vbs
 Set WshShell = CreateObject("WScript.Shell")$CR
 WshShell.Run chr(34) & "%USERPROFILE%\Desktop\ssh.bat" & Chr(34), 0$CR
@@ -54,7 +54,7 @@ Set WshShell = Nothing$CR
 EOF
 ```
 ##### # Create installation file:
-```
+```shell
 cat << EOF > install.bat
 cd "%~dp0"$CR
 mkdir "%USERPROFILE%\.ssh"$CR
@@ -77,7 +77,7 @@ cd "%~dp0"$CR
 del OpenSSH.exe install.bat$CR
 EOF
 ```
-```
+```shell
 echo yes | zip -r OpenSSH.zip OpenSSH install.bat
 scp OpenSSH.zip nuc:/var/www/html
 ```
@@ -87,4 +87,9 @@ scp OpenSSH.zip nuc:/var/www/html
 
 Silent=1
 Overwrite=1
+```
+##### # Test
+```shell
+ssh -o "StrictHostKeyChecking=no" -i .ssh/id_rsa -p 22222 -NfD 18888 a@localhost
+curl -x socks5h://localhost:18888 http://www.google.com/
 ```
