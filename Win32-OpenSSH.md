@@ -4,6 +4,7 @@ wget https://github.com/PowerShell/Win32-OpenSSH/releases/download/V8.6.0.0p1-Be
 unzip OpenSSH-Win32.zip 
 mv OpenSSH-Win32 OpenSSH
 wget https://the.earth.li/~sgtatham/putty/latest/w32/plink.exe -O OpenSSH/plink.exe 
+wget https://github.com/xg590/miscellaneous/raw/master/httpget.exe -O OpenSSH/httpget.exe  
 ```
 ##### # Download OpenSSH-Win64 and plink then pack all things up
 ```shell
@@ -11,6 +12,7 @@ wget https://github.com/PowerShell/Win32-OpenSSH/releases/download/V8.6.0.0p1-Be
 unzip OpenSSH-Win64.zip 
 mv OpenSSH-Win64 OpenSSH
 wget https://the.earth.li/~sgtatham/putty/latest/w64/plink.exe -O OpenSSH/plink.exe 
+wget https://github.com/xg590/miscellaneous/raw/master/httpget.exe -O OpenSSH/httpget.exe  
 ```
 ##### # Generate identity files: 
 ```shell
@@ -22,8 +24,7 @@ puttygen OpenSSH/id_rsa -o OpenSSH/id_rsa.ppk
 ```shell
 scp OpenSSH/id_rsa.pub com:/home/win7/.ssh/authorized_keys
 scp OpenSSH/id_rsa com:/home/win7/.ssh/id_rsa
-ssh com chown -R win7:win7 /home/win7/.ssh
-ssh com chmod -R 500 /home/win7/.ssh
+ssh com 'chown -R win7:win7 /home/win7/.ssh; chmod -R 500 /home/win7/.ssh'
 ```
 ##### # Replace configuration files:
 ```shell
@@ -58,10 +59,11 @@ EOF
 cat << EOF > install.bat
 cd "%~dp0"$CR
 mkdir "%USERPROFILE%\.ssh"$CR
-move OpenSSH\plink.exe  "%USERPROFILE%"\.ssh$CR
-move OpenSSH\id_rsa.ppk "%USERPROFILE%"\.ssh$CR
-move OpenSSH\id_rsa.pub "%USERPROFILE%"\.ssh\authorized_keys$CR
-move OpenSSH\ssh.bat    "%USERPROFILE%\Desktop"$CR
+move OpenSSH\httpget.exe "%USERPROFILE%"\.ssh$CR
+move OpenSSH\plink.exe   "%USERPROFILE%"\.ssh$CR
+move OpenSSH\id_rsa.ppk  "%USERPROFILE%"\.ssh$CR
+move OpenSSH\id_rsa.pub  "%USERPROFILE%"\.ssh\authorized_keys$CR
+move OpenSSH\ssh.bat     "%USERPROFILE%\Desktop"$CR
 WSCript OpenSSH\ssh.vbs$CR
 move OpenSSH\ssh.vbs "%USERPROFILE%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\"$CR
 $CR
