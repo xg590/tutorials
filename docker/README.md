@@ -55,6 +55,11 @@ $ docker stop d078614a4c02
 * List stopped container
 ```
 docker container ls -f 'status=exited'
+docker rm $(docker container ls -f 'status=exited' --quiet) # remove exited containers
+```
+* Remove untagged images
+```
+docker rmi $(docker images -f "dangling=true" -q)
 ```
 * Access the shell
 ``` 
