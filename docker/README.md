@@ -32,7 +32,9 @@
    * New image is composed and built.
    * Serve Nextcloud with MariaDB and Apache.
 6. [Deploy a flask-based web](flask.md)
-   * Dockerfile and resource to build an image that runs flask 
+   * Dockerfile and resource to build an image that runs flask
+## Caveat
+* By referring to the option "--publish [ip:hostPort:containerPort | ip::containerPort | hostPort:containerPort | containerPort]", there is clearly no way of exposing ports on loopback interface. One should ask program that runs in container to listen on 0.0.0.0
 ## Quick Reference
 * [Command-line reference](https://docs.docker.com/engine/reference/run/)
 * [Dockerfile reference](https://docs.docker.com/engine/reference/builder/)
