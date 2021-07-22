@@ -1,5 +1,5 @@
 ### Deploy a flask project
-[Dockerfile reference](https://docs.docker.com/engine/reference/builder/)
+* [Dockerfile reference](https://docs.docker.com/engine/reference/builder/)
 ```
 cd /tmp
 python3 -m venv cleanPython
@@ -32,10 +32,3 @@ EOF
 docker build -t newimage .
 docker run -dp 192.168.x.xxx:5000:5000 newimage
 ```
-* Access the shell
-```
-$ docker ps
-CONTAINER ID   IMAGE      COMMAND                  CREATED         STATUS         PORTS                           NAMES
-02e786c5c7b5   newimage   "python3 -m flask ru…"   2 minutes ago   Up 2 minutes   192.168.x.xxx:5000->5000/tcp   ecstatic_perlman
-docker exec -it 02e786c5c7b5 bash
-``` 
