@@ -1,8 +1,8 @@
 ```shell
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh 
 bash Miniconda3-latest-Linux-x86_64.sh -b -f -p $HOME/software/miniconda3/
-$HOME/software/miniconda3/bin/conda create -y -c rdkit -n rdkit_2019 rdkit=2019  pandas=1.0 # -c channel; -n envName
-source $HOME/software/miniconda3/bin/activate rdkit_2019
+$HOME/software/miniconda3/bin/conda create -y -c rdkit -n rdkit rdkit=2020.09  pandas==1.2 # -c channel; -n envName
+source $HOME/software/miniconda3/bin/activate rdkit
 pip install jupyter jupyter_contrib_nbextensions 
 jupyter contrib nbextension install --user
 mkdir ~/.jupyter
