@@ -34,6 +34,8 @@
 6. [Deploy a flask-based web](flask.md)
    * Dockerfile and resource to build an image that runs flask 
 ## Quick Reference
+* [Command-line reference](https://docs.docker.com/engine/reference/run/)
+* [Dockerfile reference](https://docs.docker.com/engine/reference/builder/)
 * Get a shell ( hold down CTRL and type p followed by q to <b>detach</b> )
 ``` 
 $ docker run -d -i -t -name new_york_city nginx bash
@@ -54,13 +56,22 @@ $ docker stop d078614a4c02
 ```
 docker container ls -f 'status=exited'
 ```
+* Access the shell
+``` 
+#           --interactive --tty  
+docker exec  -i            -t   02e786c5c7b5 bash
+```
+* Run ss in container
+```
+sudo nsenter -t $(docker inspect -f '{{.State.Pid}}' new_york_city) -n ss -nplt
+```
 * Refresh containers created by [docker-compose](https://github.com/xg590/tutorials/blob/master/docker/nextcloud.md) 
 ```
 $ docker-compose rm -v -s -f
 $ docker volume ls
 $ docker volume rm new_york_univ_db_volume new_york_univ_nextcloud_vol
 ``` 
-* Publish port [reference](https://docs.docker.com/engine/reference/run/)
+* Publish port
   * docker run -p=[ip:hostPort:containerPort | ip::containerPort | hostPort:containerPort | containerPort]   
 ``` 
   docker run -dp 192.168.xxx.xxx:4321:3000 getting-started
