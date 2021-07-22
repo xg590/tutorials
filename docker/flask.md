@@ -15,7 +15,7 @@ app = Flask(__name__)
 @app.route('/')
 def hello_world():
     return 'Hello, Docker!'
-EOF 
+EOF
 
 cat << EOF > Dockerfile
 # syntax=docker/dockerfile:1  
