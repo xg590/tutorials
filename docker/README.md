@@ -17,20 +17,22 @@
   * Container has its own network interface and filesystem 
   * Varibles can be configured for a container
 ## Tutorial
-1. [Set up docker](https://github.com/xg590/tutorials/blob/master/docker/setup.md)
+1. [Set up docker](setup.md)
    * Install docker in Ubuntu18.04
    * Test installation
    * Get docker-compose
-2. [Configure a dockerized software](https://github.com/xg590/tutorials/blob/master/docker/dockerized_nginx.md)
+2. [Configure a dockerized software](dockerized_nginx.md)
    * Run a nginx webserver
-3. [Explore the networking](https://github.com/xg590/tutorials/blob/master/docker/networking.md)
+3. [Explore the networking](networking.md)
    * Run two separate containers so that we can ping one from the another via internal network.
-4. [Orchestration between containers](https://github.com/xg590/tutorials/tree/master/dockerized_nextcloud)
+4. [Orchestration between containers](dockerized_nextcloud)
    * Serve Nextcloud with the assitance from Let's Encrypt, MariaDB, and Nginx. (Perfer the 5th item)
    * All containers are created from official images. No new image is created. 
 5. [Build an image and use it with other containers](https://github.com/xg590/nextcloud)
    * New image is composed and built.
    * Serve Nextcloud with MariaDB and Apache.
+6. [Deploy a flask-based web](flask.md)
+   * Dockerfile and resource to build an image that runs flask 
 ## Quick Reference
 * Get a shell ( hold down CTRL and type p followed by q to <b>detach</b> )
 ``` 
