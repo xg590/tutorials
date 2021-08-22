@@ -3,8 +3,13 @@ function FindProxyForURL(url, host) {
   if ( 
     dnsDomainIs(host, "sciencedirect.com") 
     || dnsDomainIs(host, "elsevier.com") 
-    || dnsDomainIs(host, "pubs.acs.org") 
+    || dnsDomainIs(host, "acs.org") 
+    || dnsDomainIs(host, "rsc.org") 
+    || dnsDomainIs(host, "iucr.org") 
     || dnsDomainIs(host, "nature.com") 
+    || dnsDomainIs(host, "springer.com") 
+    || dnsDomainIs(host, "wiley.com") 
+    || dnsDomainIs(host, "portlandpress.com") 
   )
   return "SOCKS5 127.0.0.1:8080";  
   
