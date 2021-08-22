@@ -388,7 +388,20 @@ x11vnc -display :1 -no6 -rfbportv6 -1 -rfbport 5900 -listen 192.168.0.???
 * We need a new port for Xorg by specifying -display :1 
 ### Samba 
 ```
-[global] 
+[global]
+   workgroup = WORKGROUP
+   server string = %h server (Samba, Ubuntu)
+   log file = /var/log/samba/log.%m
+   max log size = 1000
+   logging = file
+   panic action = /usr/share/samba/panic-action %d
+   server role = standalone server
+   obey pam restrictions = yes
+   unix password sync = yes
+   passwd program = /usr/bin/passwd %u
+   passwd chat = *Enter\snew\s*\spassword:* %n\n *Retype\snew\s*\spassword:* %n\n *password\supdated\ssuccessfully* .
+   pam password change = yes
+   map to guest = bad user
    bind interfaces only = yes
    interfaces = enp3s0
 [nuc]
@@ -399,7 +412,8 @@ x11vnc -display :1 -no6 -rfbportv6 -1 -rfbport 5900 -listen 192.168.0.???
     browsable = yes
     create mask = 0644
     directory mask = 0755
-    force user = username
+    public = yes
+    force user = [YOUR_USERNAME]
 ```
 ### Screen 
 Start a screen session in the backgroup
