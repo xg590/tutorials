@@ -60,6 +60,10 @@ sudo date -s "$(wget -qSO- --max-redirect=0 google.com 2>&1 | grep Date: | cut -
 eval `ssh-agent`
 ssh-add path_to_private_key
 ```
+### SSH jumphost
+```
+scp -i .ssh/targetHostIdentityFileOnMiddleHost -oProxyCommand="ssh -i .ssh/middleHostIdentityFileOnLocalHost -W %h:%p middleHost" targetHost:/some/path/to/file ./
+```
 ### Don't Starve Together
 ```shell
 sudo dpkg --add-architecture i386 && dpkg --print-foreign-architectures
