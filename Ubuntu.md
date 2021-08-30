@@ -151,7 +151,7 @@ sudo letsencrypt renew
   * Public cert: /etc/letsencrypt/live/your_domain_name/fullchain.pem
   * Private key: /etc/letsencrypt/live/your_domain_name/privkey.pem
 ### dhcpd
-* A dhcp server 
+* A dhcp server
 ```
 sudo apt install isc-dhcp-server
 cat << EOF > /etc/dhcp/dhcpd.conf
@@ -170,7 +170,14 @@ EOF
 sudo systemctl restart isc-dhcp-server.service
 ```
 * dhcpd’s messages are being sent to syslog. 
-* Edit /etc/dhcpcd.conf (dhcp client config) if a static ip is wanted.
+#### Use Raspberry Pi to convert wireless network to wired network
+1. Edit /etc/dhcpcd.conf (dhcp client daemon config) to set a static ip for the wired interface (This is the gateway ip)
+2. Install dhcpd on wired interface so wired network can get network info
+3. Connect to wireless network
+4. Masquerade packets from wired interface
+```
+iptables -t nat -A POSTROUTING -s 192.168.3.0/24 -o wlan0 -j MASQUERADE
+```
 ### Apache2 & CGI
 Common Gateway Interface Daemon
 ```shell
