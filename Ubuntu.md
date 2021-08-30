@@ -150,8 +150,9 @@ sudo letsencrypt renew
 * Location of cert
   * Public cert: /etc/letsencrypt/live/your_domain_name/fullchain.pem
   * Private key: /etc/letsencrypt/live/your_domain_name/privkey.pem
-### dhcpd
-* A dhcp server
+### DHCP 
+* Assume eth0 is already configured with ip 192.168.3.3/24
+* A dhcp server (dhcpd) can be started for eth0
 ```
 sudo apt install isc-dhcp-server
 cat << EOF > /etc/dhcp/dhcpd.conf
@@ -164,18 +165,30 @@ subnet 192.168.3.0 netmask 255.255.255.0 {
  option domain-name-servers 8.8.8.8, 8.8.4.4; 
 }
 EOF
-cat << EOF >> /etc/default/isc-dhcp-server # specify the interfaces dhcpd should listen to.
+cat << EOF > /etc/default/isc-dhcp-server # specify the interfaces dhcpd should listen to.
 INTERFACESv4="eth0"
 EOF
 sudo systemctl restart isc-dhcp-server.service
 ```
 * dhcpd’s messages are being sent to syslog. 
 #### Use Raspberry Pi to convert wireless network to wired network
-1. Edit /etc/dhcpcd.conf (dhcp client daemon config) to set a static ip for the wired interface (This is the gateway ip)
-2. Install dhcpd on wired interface so wired network can get network info
-3. Connect to wireless network
-4. Masquerade packets from wired interface
+1. Set a static ip for the wired interface (This is the gateway ip)
 ```
+cat << EOF >> /etc/dhcpcd.conf # This is config file for dhcp client 
+interface eth0
+static ip_address=192.168.3.3/24
+static routers=192.168.3.0
+EOF
+```
+2. Install dhcpd on wired interface so wired network can get network info 
+3. There is a bug for Raspbian OS that isc-dhcp-server starts too early before interface eth0 has an IP addr.
+4. We have delay isc-dhcp-server 30 second in startup script.
+```
+sed -i "14a sleep 30" /etc/init.d/isc-dhcp-server 
+```
+5. Allow forward and masquerade packets from wired interface
+```
+echo "1" > /proc/sys/net/ipv4/ip_forward
 iptables -t nat -A POSTROUTING -s 192.168.3.0/24 -o wlan0 -j MASQUERADE
 ```
 ### Apache2 & CGI
