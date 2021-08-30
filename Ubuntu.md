@@ -150,6 +150,27 @@ sudo letsencrypt renew
 * Location of cert
   * Public cert: /etc/letsencrypt/live/your_domain_name/fullchain.pem
   * Private key: /etc/letsencrypt/live/your_domain_name/privkey.pem
+### dhcpd
+* A dhcp server 
+```
+sudo apt install isc-dhcp-server
+cat << EOF > /etc/dhcp/dhcpd.conf
+default-lease-time 600;
+max-lease-time 7200;
+
+subnet 192.168.3.0 netmask 255.255.255.0 {
+ range 192.168.3.100 192.168.3.200;
+ option routers 192.168.3.3;
+ option domain-name-servers 8.8.8.8, 8.8.4.4; 
+}
+EOF
+cat << EOF >> /etc/default/isc-dhcp-server # specify the interfaces dhcpd should listen to.
+INTERFACESv4="eth0"
+EOF
+sudo systemctl restart isc-dhcp-server.service
+```
+* dhcpd’s messages are being sent to syslog. 
+* Edit /etc/dhcpcd.conf (dhcp client config) if a static ip is wanted.
 ### Apache2 & CGI
 Common Gateway Interface Daemon
 ```shell
