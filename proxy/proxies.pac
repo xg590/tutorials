@@ -1,4 +1,5 @@
 function FindProxyForURL(url, host) { 
+  
   // Hostname matches 
   if (
     dnsDomainIs(host, "whatismyipaddress.com") 
@@ -13,7 +14,7 @@ function FindProxyForURL(url, host) {
   )
   return "DIRECT";
   
-  // Connect to interal host. 
+  // Connect to internal host. 
   if (
     isPlainHostName(host)
     || shExpMatch(host, "*.local")  
