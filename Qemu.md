@@ -3,6 +3,8 @@ Install Qemu
 ```
 sudo apt-get update && sudo apt-get install -y qemu-system-arm  
 ```
+### Qemu Networking
+sudo apt-get install bridge-utils dnsmasq
 ### Emulate Raspberry Pi OS Lite (Release date: May 7th 2021)
 ```
 wget https://github.com/dhruvvyas90/qemu-rpi-kernel/raw/master/kernel-qemu-5.4.51-buster 
@@ -21,4 +23,18 @@ qemu-system-arm \
   -drive "file=2021-05-07-raspios-buster-armhf-lite.img,if=none,index=0,media=disk,format=raw,id=disk0" \
   -dtb versatile-pb-buster-5.4.51.dtb \
   -kernel kernel-qemu-5.4.51-buster
-```
+  https://wiki.qemu.org/Documentation/Networking/NAT
+  
+  qemu-system-arm \
+  -name rpios  \
+  -machine versatilepb \
+  -cpu arm1176 \
+  -m 256 \
+  -device "virtio-blk-pci,drive=disk0,disable-modern=on,disable-legacy=off" \
+  -net tap -net nic \
+  -append 'root=/dev/vda2 panic=1' \
+  -no-reboot \
+  -drive "file=2021-05-07-raspios-buster-armhf-lite.img,if=none,index=0,media=disk,format=raw,id=disk0" \
+  -dtb versatile-pb-buster-5.4.51.dtb \
+  -kernel kernel-qemu-5.4.51-buster
+``` 
