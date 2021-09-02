@@ -1,40 +1,26 @@
-### Install mitmproxy on Linux
+### Start man-in-the-middle Proxy
 ```
-pip install wheel mitmproxy
+pip install wheel mitmproxy            # Installation
+mitmproxy                               
 ```
-### Install root CA certificate 
-* Windows: Install mitmproxy-ca-cert.p12 
-  * Find root CA [certificate](https://docs.mitmproxy.org/stable/concepts-certificates/) in .mitmproxy directory
-* iOS: Visit mitm.it 
-### Capture webpage
+### Configure clients
+* Configure MS Windows web browser, or iOS/Android WiFi settings
+* Visit mitm.it to download root CA certificate 
+  * Windows: Install mitmproxy-ca-cert.p12 
+  * iOS/Android: Follow instructions
+### Handle request in mitmproxy
 ```shell
-mitmproxy --set block_global=false
 ? help
 z clear screen
-f filter # !(~t image/jpeg) & (~u /homepage)
-w save flow
+f filter         # !(~t image/jpeg) & (~u /homepage)
+w save flow      # /path/of/saved/flows
 ```
-### Write Python script to modify response header
-* The way to program mitmproxy is writing an [addon](https://docs.mitmproxy.org/stable/addons-overview/) script. 
+### Parse saved flows in Python
 ```
-class ModifyResponseHeader:  
-    def response(self, flow): 
-        flow.response.headers["foo"] = "bar" 
-
-addons = [ AddHeader() ] 
-```
-* Run it then check the result
-```
-mitmproxy --set block_global=false -s addon.py
-```
-* More example @ https://docs.mitmproxy.org/stable/addons-examples/
-### Read response in Python
-```
-# 
 from mitmproxy import io, http
 from mitmproxy.exceptions import FlowReadException 
 
-with open("homepage", "rb") as logfile:
+with open("/path/of/saved/flows", "rb") as logfile:
     freader = io.FlowReader(logfile) 
     try:
         for f in freader.stream(): 
@@ -47,3 +33,17 @@ with open("homepage", "rb") as logfile:
     except FlowReadException as e:
         print(f"Flow file corrupted: {e}")
 ```
+### Write addon.py to modify response header
+* The way to program mitmproxy is writing an [addon](https://docs.mitmproxy.org/stable/addons-overview/) script. 
+```
+class ModifyResponseHeader:  
+    def response(self, flow): 
+        flow.response.headers["foo"] = "bar" 
+
+addons = [ ModifyResponseHeader() ] 
+```
+* Run it then check the result
+```
+mitmproxy -s addon.py
+```
+* More example @ https://docs.mitmproxy.org/stable/addons-examples/
