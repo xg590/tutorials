@@ -1,8 +1,9 @@
-### Start man-in-the-middle Proxy
+### Start man-in-the-middle Proxy [[option list](https://docs.mitmproxy.org/stable/concepts-options/)]
 ```
 pip install wheel mitmproxy            # Installation
-mitmproxy                               
+mitmproxy --listen-host 192.168.x.x
 ```
+
 ### Configure clients
 * Configure MS Windows web browser, or iOS/Android WiFi settings
 * Visit mitm.it to download root CA certificate 
