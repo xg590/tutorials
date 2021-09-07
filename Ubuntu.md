@@ -69,6 +69,7 @@ iptables -P OUTPUT ACCEPT
 iptables -P FORWARD ACCEPT
 ```
 ### crontab ([credit](https://stackoverflow.com/users/45978/joe-casadonte))
+* I dont know why but it is better to use absolute path of a command
 ```
 (crontab -l 2>/dev/null; echo "@reboot date > /tmp/date") | crontab -
 ```
