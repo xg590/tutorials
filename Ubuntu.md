@@ -27,6 +27,47 @@ sudo systemctl set-default multi-user.target
 ```
 sudo systemctl start graphical.target
 ```
+### systemctl
+* Service will not start after reboot
+```
+systemctl disable apache2 
+```
+* Check if disabling works. Equvialent to CentOS's "chkconfig --list"
+```
+systemctl list-unit-files --state=enabled 
+```
+* Apache2 will stop instantly
+```
+systemctl stop apache2    
+```
+* Check if stopping works
+```
+systemctl status apache2    
+```
+### iptables
+```shell
+#!/bin/bash
+if [ `id -u` != 0 ] 
+then  
+  echo You Are Not Root 
+  exit 
+fi  
+ 
+iptables -F 
+iptables -X 
+iptables -Z 
+iptables -t nat -F 
+iptables -t nat -X 
+iptables -t nat -Z 
+ 
+iptables -A INPUT -p tcp --dport ssh -j ACCEPT 
+iptables -A INPUT -i lo -j ACCEPT 
+iptables -A INPUT -i enp0s3 -m state --state RELATED,ESTABLISHED -j ACCEPT
+ 
+iptables -P INPUT DROP 
+iptables -P OUTPUT ACCEPT 
+iptables -P FORWARD ACCEPT
+```
 ### crontab ([credit](https://stackoverflow.com/users/45978/joe-casadonte))
 ```
 (crontab -l 2>/dev/null; echo "@reboot date > /tmp/date") | crontab -
