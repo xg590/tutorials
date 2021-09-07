@@ -31,6 +31,10 @@ sudo systemctl start graphical.target
 ```
 (crontab -l 2>/dev/null; echo "@reboot date > /tmp/date") | crontab -
 ```
+### Pipe via SSH
+```
+echo LOL | ssh remoteHost 'cat > /tmp/pipeOverSSH'
+```
 ### Single User Mode
 * Press F10 to select boot media
 * Choose hard disk and press ESC
