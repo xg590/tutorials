@@ -14,7 +14,7 @@ host github.com
     identityfile ~/.ssh/github
 EOF
 ``` 
-4. In terminal, connect to the github.com
+4. In terminal, test a password-free connection to the github.com
 ```shell
 ssh -T github.com
 ```
@@ -60,6 +60,7 @@ git push just_a_placeholder master
 ~Done
 
 ## Rename a remote directory
+* Only if you can ssh github.com without password, this shall work.
 ```shell
 git clone git@github.com:AccountName/RepoName.git
 cd RepoName
