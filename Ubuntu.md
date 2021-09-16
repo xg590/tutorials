@@ -116,7 +116,7 @@ sudo dpkg --add-architecture i386 && dpkg --print-foreign-architectures
 sudo apt-get update && sudo apt-get install -y libstdc++6:i386 libgcc1:i386 libcurl4-gnutls-dev:i386 
 cat << EOF > dst_in_screen.sh
 screen -s /bin/bash -d -m -S dst
-screen -S dst -X stuff 'bash ${PWD}/run_dedicated_servers.sh'\$(echo -ne '\015')
+screen -S dst -X stuff 'bash ${PWD}/run_dedicated_servers.sh ^M'
 EOF
 (crontab -l 2>/dev/null; echo "@reboot bash ${PWD}/dst_in_screen.sh") | crontab - 
 screen -S dst -X stuff ^C # Stop running
@@ -277,7 +277,7 @@ sudo apt update -y && sudo apt install -y python3-pip
 pip3 install jupyter jupyter_contrib_nbextensions
 .local/bin/jupyter contrib nbextension install --user
 screen -s /bin/bash -d -m -S jupyter
-screen -S jupyter -X stuff '.local/bin/jupyter-notebook'$(echo -ne '\015')
+screen -S jupyter -X stuff '.local/bin/jupyter-notebook ^M'
 ```
 ### Clear Cache
 ```shell
@@ -507,6 +507,18 @@ x11vnc -display :1 -no6 -rfbportv6 -1 -rfbport 5900 -listen 192.168.0.???
     public = yes
     force user = [YOUR_USERNAME]
 ```
+### Autossh
+* [Homepage](https://www.harding.motd.ca/autossh/index.html)
+* Compile
+```
+wget https://www.harding.motd.ca/autossh/autossh-1.4g.tgz
+wget https://www.harding.motd.ca/autossh/autossh-1.4g.cksums
+grep SHA256 autossh-1.4g.cksums | cut -f2 -d=  | xargs -I % echo % autossh-1.4g.tgz | sha256sum -c
+tar zxvf autossh-1.4g.tgz
+cd autossh-1.4g
+./configure
+make
+```
 ### Screen 
 Start a screen session in the backgroup
 ```
@@ -514,7 +526,7 @@ screen -d -m -S autossh
 ```
 Send a command into the session to run [Autossh](https://www.harding.motd.ca/autossh/autossh-1.4g.tgz) 
 ```
-screen -S autossh -X stuff 'autossh -M 12345 hostname'$(echo -ne '\015')
+screen -S autossh -X stuff 'autossh -M 12345 hostname ^M'
 ```
 * Split screen vertically  : <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>Shift</kbd>+<kbd>\ </kbd>
 * Split screen horizentally: <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>Shift</kbd>+<kbd>s</kbd> 
