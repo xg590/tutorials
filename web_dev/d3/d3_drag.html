@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <style> 
+    .active {
+      stroke: #000;
+      stroke-width: 2px;
+  } 
+  </style> 
+</head>
+<body>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <svg width="1000" height="500" style="border: 1px solid black">
+    <circle cx="250" cy="250" r="200" style="fill:none;stroke:#FF7F7F;stroke-width:16px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;z-index: 1;"/>
+    <circle cx="750" cy="250" r="200" style="fill:none;stroke:#FF7F7F;stroke-width:16px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;z-index: 1;"/>
+  </svg>  
+  <script>
+  
+  var svg = d3.select("svg"),
+      width = +svg.attr("width"),
+      height = +svg.attr("height"),
+      radius = 32; 
+ 
+  var circles = [{},{},
+               // dcx: default_center_X_coordinate
+                 {dcx: 250, dcy: 250, color: '#1f77b4', id: 0}, 
+                 {dcx: 750, dcy: 250, color: '#aec7e8', id: 1}]; 
+  
+  svg.selectAll("circle")
+    .data(circles)
+    .enter().append("circle")
+      .attr("cx", function(d) { return d.dcx; })
+      .attr("cy", function(d) { return d.dcy; })
+      .attr("dcx", function(d) { return d.dcx; })
+      .attr("dcy", function(d) { return d.dcy; })
+      .attr("r", radius)
+      .attr("id", function(d) { return d.id; })
+      .style("fill", function(d, i) { return d.color; })
+      .call(d3.drag()
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended));
+   
+  function dragstarted(d) {
+    d3.select(this)
+      .raise()
+      .classed("active", true);
+  }
+  
+  function keepInCircle(dcx, dcy, x, y, r) {
+    const dx = x - dcx, 
+          dy = y - dcy, 
+        dist = Math.sqrt(dx * dx + dy * dy)
+    return (dist>r) ? { x:dcx+dx/dist*r, y:dcy+dy/dist*r } : {x:x, y:y}  
+  } 
+  
+  function dragged(d) {  
+    console.log(d.id);
+    var obj = keepInCircle(d.dcx, d.dcy, d3.event.x, d3.event.y, 200)  
+    d3.select(this)
+      .attr("cx", obj.x)
+      .attr("cy", obj.y);
+  }
+  
+  function dragended(d) {
+    d3.select(this)
+	  .attr("cx", d.dcx)
+	  .attr("cy", d.dcy)
+	  .classed("active", false);
+  }
+  
+  </script>
+</body>
+</html>
