@@ -7,7 +7,7 @@
 * Programmer:
   * Good at Python/MicroPython 
     * Primary choice of my programming project
-    * Play with everything like socket, http, concurrency, machine learning, drone, microcontroller, and digital radio.
+    * Play with everything like socket, http, concurrency, machine learning, microcontroller, [drone](https://github.com/xg590/Tello-Python), and [digital radio](https://github.com/xg590/SX1276).
   * OK with C/C++, SQL, Cypher, Shellscript, Javascript.
     * Indispensible tools for my python project
     * Do specific job like text mining, data management, server management, or frontend development.
