@@ -17,5 +17,6 @@ set CYGWIN_ROOT=C:\cygwin
 ```
 df -h
 /sbin/fdisk.exe -l /dev/sdb
-dd if=2021-05-07-raspios-buster-armhf-lite.img of=/dev/sdb bs=1M
+apt-cyg install pv
+dd if=2021-05-07-raspios-buster-armhf-lite.img | pv | dd of=/dev/sdb
 ```
