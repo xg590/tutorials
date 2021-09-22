@@ -5,9 +5,9 @@
     * Years of experience as the sysadmin of my previous research group (Computational and Theoretical Chemistry Lab @ Zhengzhou University)
     * Worked as a contractor to support old cluster or install new cluster for other institutions
 * Programmer:
-  * Good at Python 
+  * Good at Python/MicroPython 
     * Primary choice of my programming project
-    * Play with everything like socket, http, concurrency, machine learning, drone, and internet of things (IoT).
+    * Play with everything like socket, http, concurrency, machine learning, drone, microcontroller, and digital radio.
   * OK with C/C++, SQL, Cypher, Shellscript, Javascript.
     * Indispensible tools for my python project
     * Do specific job like text mining, data management, server management, or frontend development.
@@ -15,10 +15,8 @@
     * Front-end : Vue.js
     * Back-end  : Flask
     * Database  : Neo4j and Postgresql
-    * Deployment: AWS (LightSail, EC2, VPC, Route 53, S3) and Docker 
+    * Deployment: AWS (LightSail, EC2, VPC, Route 53, S3), GCP and Docker 
 * IoT enthusiast:
-  * Raspberry Pi and Arduino (derivatives)
-  * Video streaming
-  * Motor or servo drivers
-  * Sensors like gps, gyro, or compass
-  * Own drones like Mavic_Pro/Spark/Tello/Mavic_Mini and FPV. 
+  * Projects based on Raspberry Pi, Arduino, and ESP8266/ESP32 
+  * Home automation
+  * Rover
