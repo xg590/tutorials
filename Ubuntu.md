@@ -18,7 +18,8 @@ Boot (Ubuntu 20.04)
 sudo systemctl set-default multi-user.target 
 ```
 * Boot into graphical mode: 
-```sudo systemctl set-default graphical.target 
+```
+sudo systemctl set-default graphical.target 
 ```
 * Switch to text mode from graphical mode without reboot: 
 ```sudo systemctl start multi-user.target 
@@ -27,6 +28,75 @@ sudo systemctl set-default multi-user.target
 ```
 sudo systemctl start graphical.target
 ```
+
+### Virtual Terminal
+Change VT (equals to press Crtl+Alt+Fx)
+```
+sudo chvt N
+```
+Current N
+```
+sudo fgconsole
+```
+### X11vnc
+* Thanks to [Ziyue Yang](https://yzygitzh.github.io/productivity/2017/09/05/remote-desktop-solutions.html) for mentioning x11vnc
+* One weird problem: The ubuntu MUST have a monitor connected to it otherwise I will freeze. So ... 
+* Install the needed software.
+```
+sudo apt install -y x11vnc
+```
+#### Things are in the best scenario if you enabled automatic login. 
+You can use x11vnc out of box and use the vnc viewer then.
+```
+x11vnc -display :0 
+```
+#### Thinge are complicated if you use a greeting screen (need password to enter an account).
+0. Try this command and connect port 5900. If it succeeds, then goto step 6. 
+```
+sudo x11vnc -display :0 -auth /run/user/125/gdm/Xauthority
+```
+1. Disable Wayland and enable Xorg display server if necessary.
+```
+sudo sed -i s/#WaylandEnable/WaylandEnable/ /etc/gdm3/custom.conf
+sudo reboot
+```
+2. Now user gdm is running Xorg and displaying a greeting screen.
+```
+$ ps axu|grep Xorg
+```
+3. The greeting screen is on vt1 (virtual terminal 1) where you can login. 
+```
+gdm ... /usr/lib/xorg/Xorg vt1 -auth /run/user/gdm_uid/gdm/Xauthority ...
+```
+* Let's check which VT is active. You will connect to this terminal if you use x11vnc. 
+```
+sudo fgconsole
+1
+```
+4. Let's setup a vnc server to see the greeting screen. we need root privilege because we need acsess gdm's Xauthority 
+```
+sudo x11vnc -display :0 -auth /run/user/gdm_uid/gdm/Xauthority 
+```
+* Use vnc viewer to log in.
+5. After login, our vnc viewer will went black because vt1 goes dormat and a new virtual terminal is activated. 
+* Of course it is run by the user we just logged in. OK, check the active VT again
+```
+sudo fgconsole
+2 
+```
+* We get another number (eg. 2), which means the a new VT2 is created by the user we logged in and becomes active.   
+```
+$ ps axu|grep Xorg
+your_username ... /usr/lib/xorg/Xorg vt2 -auth /run/user/your_uid/gdm/Xauthority ...
+``` 
+* See, a new Xorg client (NOT server) at vt2.  
+6. Now you can safely kill the first x11vnc and start a new one without using Xauthority.
+```
+x11vnc -display :1 -no6 -rfbportv6 -1 -rfbport 5900 -listen 192.168.0.???
+```
+* Specify a interface by using -listen IP binded on it. 
+* Disable ipv6 by using -no6 and -rfbportv6 -1 (Invalid Port).  
+* We need a new port for Xorg by specifying -display :1 
 ### systemctl
 * Service will not start after reboot
 ```
@@ -410,75 +480,8 @@ nautilus &                 # file manager and graphical shell for GNOME
 gnome-settings-daemon &
 EOF
 ```
-### Virtual Terminal
-Change VT (equals to press Crtl+Alt+Fx)
-```
-sudo chvt N
-```
-Current N
-```
-sudo fgconsole
-```
-### X11vnc
-* Thanks to [Ziyue Yang](https://yzygitzh.github.io/productivity/2017/09/05/remote-desktop-solutions.html) for mentioning x11vnc
-* One weird problem: The ubuntu MUST have a monitor connected to it otherwise I will freeze. So ... 
-* Install the needed software.
-```
-sudo apt install -y x11vnc
-```
-#### Things are in the best scenario if you enabled automatic login. 
-You can use x11vnc out of box and use the vnc viewer then.
-```
-x11vnc -display :0 
-```
-#### Thinge are complicated if you use a greeting screen (need password to enter an account).
-0. Try this command and connect port 5900. If it succeeds, then goto step 6. 
-```
-sudo x11vnc -display :0 -auth /run/user/125/gdm/Xauthority
-```
-1. Disable Wayland and enable Xorg display server if necessary.
-```
-sudo sed -i s/#WaylandEnable/WaylandEnable/ /etc/gdm3/custom.conf
-sudo reboot
-```
-2. Now user gdm is running Xorg and displaying a greeting screen.
-```
-$ ps axu|grep Xorg
-```
-3. The greeting screen is on vt1 (virtual terminal 1) where you can login. 
-```
-gdm ... /usr/lib/xorg/Xorg vt1 -auth /run/user/gdm_uid/gdm/Xauthority ...
-```
-* Let's check which VT is active. You will connect to this terminal if you use x11vnc. 
-```
-sudo fgconsole
-1
-```
-4. Let's setup a vnc server to see the greeting screen. we need root privilege because we need acsess gdm's Xauthority 
-```
-sudo x11vnc -display :0 -auth /run/user/gdm_uid/gdm/Xauthority 
-```
-* Use vnc viewer to log in.
-5. After login, our vnc viewer will went black because vt1 goes dormat and a new virtual terminal is activated. 
-* Of course it is run by the user we just logged in. OK, check the active VT again
-```
-sudo fgconsole
-2 
-```
-* We get another number (eg. 2), which means the a new VT2 is created by the user we logged in and becomes active.   
-```
-$ ps axu|grep Xorg
-your_username ... /usr/lib/xorg/Xorg vt2 -auth /run/user/your_uid/gdm/Xauthority ...
-``` 
-* See, a new Xorg client (NOT server) at vt2.  
-6. Now you can safely kill the first x11vnc and start a new one without using Xauthority.
-```
-x11vnc -display :1 -no6 -rfbportv6 -1 -rfbport 5900 -listen 192.168.0.???
-```
-* Specify a interface by using -listen IP binded on it. 
-* Disable ipv6 by using -no6 and -rfbportv6 -1 (Invalid Port).  
-* We need a new port for Xorg by specifying -display :1 
 ### Samba 
+* Config
 ```
 [global]
    workgroup = WORKGROUP
@@ -506,6 +509,10 @@ x11vnc -display :1 -no6 -rfbportv6 -1 -rfbport 5900 -listen 192.168.0.???
     directory mask = 0755
     public = yes
     force user = [YOUR_USERNAME]
+```
+* Add a samba user if the same unix user exists
+```
+sudo smbpasswd -a $USER
 ```
 ### Autossh
 * [Homepage](https://www.harding.motd.ca/autossh/index.html)
@@ -545,6 +552,10 @@ ls | head | xargs -n 1 -P 3 program_X
 ### [Move files](https://unix.stackexchange.com/a/230536)
 ```
 rsync -rv --include '*/' --include '*.js' --exclude '*' --prune-empty-dirs --remove-source-files Source/ Target/ 
+```
+### Turn off screen [Credit to Siva Charan](https://superuser.com/a/374661)
+```
+sleep 5 ; xset dpms force off 
 ```
 ### Youtube-dl
 ```
