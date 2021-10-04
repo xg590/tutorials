@@ -1,3 +1,19 @@
+### Basics
+* Push a new local repo to GitHub
+```
+echo "# test" >> README.md
+git init
+git add README.md
+git commit -m "first commit"                         # record changes 
+git branch -M main                                   # name current branch called main
+git remote add origin git@github.com:xg590/test.git  # give the remote depo git@github.com:xg590/test.git a shorter name "origin"
+git push -u origin main                              # push current branch to origin
+```
+* Other 
+```
+git branch -l                                        # what is current branch name
+git remote -v                                        # what is remote (what does origin stand for)
+```
 ## Create a Depository
 0. Prepare a pair of key on local machine
 ```shell
@@ -19,6 +35,7 @@ EOF
 ssh -T github.com
 ```
 you will get the response "Hi xxx! You've successfully authenticated, but GitHub does not provide shell access."
+
 5. Install git in terminal
 ```shell
 sudo apt-get/apt-cyg/yum install git
