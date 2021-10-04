@@ -6,7 +6,7 @@ git init
 git add README.md
 git commit -m "first commit"                         # record changes 
 git branch -M main                                   # name current branch called main
-git remote add origin git@github.com:xg590/test.git  # give the remote depo git@github.com:xg590/test.git a shorter name "origin"
+git remote add origin git@github.com:xg590/test.git  # give the remote depo git@github.com:xg590/test.git a shorter REMOTENAME "origin"
 git push -u origin main                              # push current branch to origin
 ```
 * Other 
