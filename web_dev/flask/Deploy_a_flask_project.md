@@ -1,8 +1,9 @@
+### Deploy a wsgi application with Apache Webserver
 #### 1. Create a Flask app
 ##### 1.1 Install pip, apache2, mod_wsgi, and flask
 ```
 sudo su
-apt install -y python3-pip apache2 libapache2-mod-wsgi-py3
+apt update && apt install -y python3-pip apache2 libapache2-mod-wsgi-py3
 pip3 install --target /var/www/py3_mod Flask
 ```
 ##### 1.2 Test a Flask app
@@ -14,6 +15,9 @@ sys.path.append('/var/www/py3_mod')
 from flask import Flask
 app = Flask(__name__)
 @app.route("/")
+def index():
+    return "FrontPage"
+@app.route('/hello')
 def hello():
     return "Hello World"
 if __name__ == "__main__":
@@ -29,34 +33,34 @@ python3 /var/www/wsgi/foo/bar/__init__.py
    Use a production WSGI server instead.
  * Debug mode: off
  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
- ```
-#### 2. Create a wsgi server
+```
+* Now we can visit http://127.0.0.1:5000/ and http://127.0.0.1:5000/hello to see the test result
+#### 2. WSGI configuration
 ##### 2.1 A wsgi file
 ```python 
-cat << EOF > /var/www/wsgi/foo/bar.wsgi
+cat << EOF > /var/www/wsgi/foo/bar/.wsgi
 #!/usr/bin/python3
 import sys
 import logging
 logging.basicConfig(stream=sys.stderr)
 sys.path.append("/var/www/wsgi/foo")
 
-from bar import app as application
+from bar import app as application # Do not change the alias name "application" 
 application.secret_key = 'Add your secret key'
 EOF
 ```
 ##### 2.2 A conf file
-```
-rm /etc/apache2/sites-enabled/000-default.conf 
-cat << EOF > /etc/apache2/sites-enabled/test_flask.conf
+``` 
+cat << EOF > /etc/apache2/sites-enabled/000-default.conf
 <VirtualHost *:80>
-		WSGIScriptAlias /bar /var/www/wsgi/foo/bar.wsgi
-		<Directory /var/www/wsgi/foo/>
-			Order allow,deny
-			Allow from all
-		</Directory>
-		ErrorLog ${APACHE_LOG_DIR}/error.log
-		LogLevel warn
-		CustomLog ${APACHE_LOG_DIR}/access.log combined
+    WSGIScriptAlias /bar /var/www/wsgi/foo/bar/.wsgi
+    <Directory /var/www/wsgi/foo/bar>
+        Order allow,deny
+        Allow from all
+    </Directory>
+    ErrorLog \${APACHE_LOG_DIR}/error.log
+    LogLevel warn
+    CustomLog \${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
 EOF
 ```
@@ -64,4 +68,4 @@ EOF
 ```shell
 systemctl restart apache2
 ```
-#### Visit http://you.ip/bar
+* Now we can visit http://127.0.0.1/bar and http://127.0.0.1/bar/hello to see the test result 
