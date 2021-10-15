@@ -69,3 +69,10 @@ EOF
 systemctl restart apache2
 ```
 * Now we can visit http://127.0.0.1/bar and http://127.0.0.1/bar/hello to see the test result 
+##### Troubleshooting
+* client denied by server configuration
+```
+    <Directory /var/www/wsgi/foo/bar>
+        Require all granted
+    </Directory>
+```
