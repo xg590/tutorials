@@ -550,8 +550,13 @@ ls | head | xargs -n 1 -P 3 program_X
 ```
 * -n num of arguments for each program
 ### [Move files](https://unix.stackexchange.com/a/230536)
+* Exclude something
 ```
 rsync -rv --include '*/' --include '*.js' --exclude '*' --prune-empty-dirs --remove-source-files Source/ Target/ 
+```
+* Over SSH (remote_123 should be valid setting in SSH configuration)
+```
+rsync -azv --exclude unwanted/directory/in/source remote_123:/source/ local_target/
 ```
 ### Turn off screen [Credit to Siva Charan](https://superuser.com/a/374661)
 ```
