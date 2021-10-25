@@ -138,6 +138,11 @@ iptables -P INPUT DROP
 iptables -P OUTPUT ACCEPT 
 iptables -P FORWARD ACCEPT
 ```
+* Sometime switch function is needed so (POSTROUTING is to manipulate outgoing packet)
+```
+iptables -t nat -A POSTROUTING -s 172.16.1.0/24 -d 172.16.1.0/24 -j ACCEPT
+iptables -t nat -A POSTROUTING -s 172.16.1.0/24 -j MASQUERADE
+```
 ### crontab ([credit](https://stackoverflow.com/users/45978/joe-casadonte))
 * I dont know why but it is better to use absolute path of a command
 ```
