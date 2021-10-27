@@ -117,6 +117,10 @@ ALTER TABLE news // Add a dedicated column to store index
                GENERATED ALWAYS AS (to_tsvector('english', content)) STORED; 
 CREATE INDEX foo_idx ON news USING GIN (vectorized_content); // Create index on the dedicated column
 ``` 
+8. Headline
+```
+SELECT ts_headline('english', 'The most common type of search is to find all documents containing given query terms and return them in order of their similarity to the query.', to_tsquery('query & similarity'));
+```
 #### Explain
 ```
 explain (analyze,buffers) select * from t1 where c1 like '%存储过程%';
