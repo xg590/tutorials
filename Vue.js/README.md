@@ -26,10 +26,9 @@ js["scripts"]["serve"] = "vue-cli-service serve --port 5000"
    * .vue file: there are three elements, including \<template\> \<script\>, and \<style\>.
    * Template, decorated with styles, is exported in script element.
    * In script element, there is a default exported JS object. This object is where you locally register components (see an example in App.vue), define component inputs (props, see an example in HelloWorld.vue), handle local state, define methods, and more.
-
-
- 
- 
-
 ### Build
-  * ccc
+* if run build 
+```
+npm run build
+```
+A new subdirectory <i>dist</i>, which contains the new website, will emerge under <i>test_project</i> dir. Now it can be served via apache...
