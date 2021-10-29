@@ -1,4 +1,5 @@
 ### Vue.js and Nodejs
+
 * Install
 ```
 sudo su
@@ -22,9 +23,13 @@ npm run serve
 js["scripts"]["serve"] = "vue-cli-service serve --port 5000"
 ```
 * Basics of Vue.js
-  * .vue file: there are three elements, including <template> <script> <style>.
-  * Template, decorated with styles, is exported in script element.
-  * In script element, there is a default exported JS object. This object is where you locally register components (see an example in App.vue), define component inputs (props, see an example in HelloWorld.vue), handle local state, define methods, and more. 
+   * .vue file: there are three elements, including \<template\> \<script\>, and \<style\>.
+   * Template, decorated with styles, is exported in script element.
+   * In script element, there is a default exported JS object. This object is where you locally register components (see an example in App.vue), define component inputs (props, see an example in HelloWorld.vue), handle local state, define methods, and more.
+
+
+ 
+ 
 
 ### Build
-* 1
+  * ccc
