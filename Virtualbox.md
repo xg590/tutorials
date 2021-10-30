@@ -104,3 +104,7 @@ vboxmanage modifyvm yyy --nic1 nat --nictype1 82540EM --cableconnected1 on
 ```
 sudo usermod -aG vboxusers $USER
 ```
+* "Failed to attach the USB device xxx to the virtual machine xxxx"
+  * It may because VBox extenstion package is not installed or the USB device need a higher version of controller. 
+  * Enable USB controller in Virtual Machine Settings 
+  * Choose 3.0 Controller
