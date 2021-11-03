@@ -486,6 +486,11 @@ gnome-settings-daemon &
 EOF
 ```
 ### Samba 
+* Add a samba user if the same unix user exists
+```
+sudo apt install samba 
+sudo smbpasswd -a $USER
+```
 * Config
 ```
 [global]
@@ -503,7 +508,7 @@ EOF
    pam password change = yes
    map to guest = bad user
    bind interfaces only = yes
-   interfaces = enp3s0
+   interfaces = lo enp3s0
 [nuc]
     comment = Samba on Ubuntu
     path = /var/www/html
@@ -514,10 +519,6 @@ EOF
     directory mask = 0755
     public = yes
     force user = [YOUR_USERNAME]
-```
-* Add a samba user if the same unix user exists
-```
-sudo smbpasswd -a $USER
 ```
 ### Autossh
 * [Homepage](https://www.harding.motd.ca/autossh/index.html)
