@@ -98,6 +98,27 @@ export default {
 </script> 
 ``` 
 * So, HelloWorld.vue exports HelloWorld, App.vue imports HelloWorld and exports App, main.js inject App into template index.html
+### SPA with many components
+* New element App in src/App.vue is exported and injected. 
+```
+<template>
+  <img alt="Vue logo" src="@/assets/logo.png">
+  <node123 msg="Section 1"/>
+  <node456 msg="Section 2"/>
+</template>
+
+<script>
+import node123 from '@/components/node1.vue'
+import node456 from '@/components/node2.vue'
+
+export default {
+  name: 'App',
+  components: {
+    node123, node456
+  }
+}
+</script>
+```
 ### Multi-Page Application
 * Away from single page application (SPA), MPA use a different folder structure, which is specified in vue.config.js 
 * Let's create folders
@@ -135,8 +156,7 @@ module.exports = {
       entry: 'src/pages123/page1/main.js', 
       template: 'public/index.html',
       filename: 'index.html', // Create dist/index.html 
-      title: 'p1',
-      chunks: [ 'chunk-vendors', 'chunk-common', 'index' ]
+      title: 'p1', 
     }, 
     'about456': { 
       entry: 'src/pages123/page2/main.js', 
@@ -163,5 +183,4 @@ src/
     └── page2
         ├── App.vue
         └── main.js
-``` 
-*
+```
