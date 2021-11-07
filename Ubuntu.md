@@ -97,6 +97,12 @@ x11vnc -display :1 -no6 -rfbportv6 -1 -rfbport 5900 -listen 192.168.0.???
 * Specify a interface by using -listen IP binded on it. 
 * Disable ipv6 by using -no6 and -rfbportv6 -1 (Invalid Port).  
 * We need a new port for Xorg by specifying -display :1 
+### Repair grub after MS Windows installation.
+* Use USB installation stick to try Ubuntu and run following code 
+```
+sudo add-apt-repository ppa:yannubuntu/boot-repair 
+sudo apt update && sudo apt install boot-repair boot-repair 
+```
 ### systemctl
 * Service will not start after reboot
 ```
