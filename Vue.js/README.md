@@ -1,3 +1,93 @@
+### Vue Introduction line by line
+```html
+ 1 <!DOCTYPE html>
+ 2 <html>   
+ 3   <body>
+ 4     <div id="app" v-cloak>
+ 5       {{ msg }}
+ 6       <input @focusout="log" v-model="msg" />
+ 7       <hr />
+ 8       <svg><circle id="c" v-bind:cx="x" :cy="y" r="50" v-bind:fill="'pi'+z" v-on:click="goDown"/></svg>
+ 9       <hr />
+10       <table>
+11         <thead> 
+12           <tr> <th> 1 </th> <th> | </th> <th> 2 </th> <th> | </th> <th> 3 </th> </tr> 
+13         </thead>
+14         <tbody>
+15           <tr v-is="'mytr'" v-for="(item, idx) in itemList" :left123="item.left" :right456="item.right"></tr> 
+16         </tbody>
+17       </table>  
+18     </div>
+19     <script src="https://unpkg.com/vue@next"></script>
+20     <script> 
+21       const app = Vue.createApp({
+22         data: function () {
+23           return {
+24             msg : "Hello World",
+25             x : 50,
+26             y : 50,
+27             z: 'nk',
+28             itemList: [{"left": 3, "right": 4},
+29                 {"left": 5, "right": 6}], 
+30           }
+31         },
+32         methods: {
+33           goDown: function () {
+34             var c = document.getElementById('c'); 
+35             this.y += 5;
+36           },
+37           log: function () {
+38             console.log(this.msg);
+39           }
+40         }
+41       })
+42       app.component('mytr', {
+43         template: `
+44         <tr> 
+45           <td v-is="'mytd'" v-bind:left123nested="left123"> </td>
+46           <td> {{middle}} </td>
+47           <td> {{right456}} </td>
+48           <td> {{middle}} </td>
+49           <input v-is="'myinput'" v-model="inputValue789"/>
+50         </tr>
+51         ` ,
+52         props:['left123', 'right456'],
+53         data () {
+54           return {
+55             middle: "|" ,
+56             inputValue789: 'preloaded content'
+57           }
+58         }
+59       })
+60       app.component('mytd', {
+61         template: `
+62           <td> {{left123nested}} </td> 
+63         ` ,
+64         props:['left123nested'],
+65       })
+66       app.component('myinput', {
+67         template: `
+68           <input v-model="inputValue012" />
+69         ` ,
+70         props: ['modelValue'],
+71         computed: {
+72           inputValue012: {
+73             get () {
+74               return this.modelValue;
+75             },
+76             set (value) {
+77               console.log('Catch preloaded content: ', this.modelValue, value);
+78               this.$emit('update:modelValue', value);
+79             }
+80           }
+81         }
+82       })
+83       app.mount('#app') 
+84     </script>
+85   </body>
+86 </html>
+```
+
 ### Vue/cli Introduction
 * Install
 ```
