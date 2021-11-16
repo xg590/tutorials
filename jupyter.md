@@ -18,8 +18,8 @@ EOF
 ### Install jupyter
 ```
 sudo apt update && sudo apt install python3-pip python3-venv
-python3 -m venv test
-source test/bin/activate
+python3 -m venv jupyter
+source jupyter/bin/activate
 pip install jupyter jupyter_contrib_nbextensions
 jupyter contrib nbextension install --user
 ```
@@ -32,13 +32,4 @@ python3 -m ipykernel install --user --name myenv --display-name "Python (myenv)"
 ```
 jupyter kernelspec list  
 jupyter kernelspec uninstall unwanted-kernel
-```
-### Some fucking problem with Python at this time (Jan 13 2021)
-* Comand completion does not work because of this error. It is damn fucking annoying. 
-```
-TypeError: __init__() got an unexpected keyword argument 'column'
-```
-* Solution: Downgrade two packages.
-```
-pip install --upgrade parso==0.5.2 jedi==0.15.2
 ```
