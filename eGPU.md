@@ -6,7 +6,7 @@
 * Connection
   * Thunderbolt 3 PCIe x4 connection (rear connector only) is supported according to Intel NUC [datasheet](https://www.intel.com/content/dam/support/us/en/documents/intel-nuc/NUC10i357FN_TechProdSpec.pdf). 
   * Use rear end USB Type-C port.  
-* Windows 10 High Performance Mode: Powershell in Admin Privilege 
+* Windows 10 High Performance Mode: Powershell in Admin Privilege [[Credit](https://community.intel.com/t5/Intel-NUCs/RTX-3060Ti-not-working-with-NUC-and-eGPU-Razer-Core-X-Chroma/m-p/1253473)] 
 ```
 powercfg -duplicatescheme 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
 powercfg -setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
@@ -15,5 +15,20 @@ powercfg -setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
 * Disconnect eGPU: Do it in GPU control panel before cut the power
 ### GPU-accelerated Transcoding
 * [Ref](https://docs.nvidia.com/video-technologies/video-codec-sdk/ffmpeg-with-nvidia-gpu/)
-* Compile in WSL
+* \# Prereq
+```
+sudo apt-get install build-essential yasm cmake libtool libc6 libc6-dev unzip wget libnuma1 libnuma-dev
+```
+* \# Install ffnvcodec
+```
+git clone https://github.com/FFmpeg/nv-codec-headers.git
+cd nv-codec-headers && sudo make install 
+```
+* \# Install FFmpeg
+```
+git clone https://github.com/FFmpeg/FFmpeg
+cd FFmpeg 
+./configure --enable-nonfree --enable-cuda-nvcc --enable-libnpp  --enable-static --disable-shared \
+            --extra-cflags=-I/usr/local/cuda/include --extra-ldflags=-L/usr/local/cuda/lib64
+make -j 4
 ```
