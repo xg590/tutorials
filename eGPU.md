@@ -12,3 +12,4 @@ powercfg -duplicatescheme 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
 powercfg -setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
 ```
 * Install Nvidia Driver  
+* Disconnect eGPU: Do it in GPU control panel before cut the power
