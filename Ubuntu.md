@@ -526,6 +526,11 @@ sudo smbpasswd -a $USER
     public = yes
     force user = [YOUR_USERNAME]
 ```
+* Smbclient
+```
+sudo apt install smbclient
+smbclient //ip/share_folder -U '%' -c "put somefile"
+```
 ### Autossh
 * [Homepage](https://www.harding.motd.ca/autossh/index.html)
 * Compile
