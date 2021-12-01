@@ -274,3 +274,8 @@ src/
         ├── App.vue
         └── main.js
 ```
+### Tips
+* Enable debug in production build
+```
+npm run build -- --mode development
+```
