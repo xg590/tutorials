@@ -1,11 +1,11 @@
 ## Analyze a very simple websocket packet (Captured by WireShark)
 * This is a 12-byte packet (long payload has additional packet fragments)
 ```
-1        2        3        4        5               6 7        8        9        10       11             12  
+1        2        3        4        5        6        7        8        9        10       11       12  
 10000001 10000110 11100010 10110100 10110111 01010011 11010011 10000110 10000100 01100111 11010111 10000010
 │   │  │ |│     │ |                                 | |                                                   |
 │   └──┤ │└─────┤ └─────────────────────────────────┤ ├───────────────────────────────────────────────────┘
-①     ② ③      ④                                  ⑤ ⑥ 
+①      ② ③      ④                                   ⑤ ⑥ 
 ```
   * ① Fin: This bit tells whether this is the last message in a series. If it's 0, then the server keeps listening for more parts of the message; otherwise, the server should consider the message delivered.
   * Three reserved bits between ① and ② serve no purpose.
