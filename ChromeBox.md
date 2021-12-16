@@ -7,5 +7,8 @@
 7. Connect to WiFi but do not agree OS legal term
 8. Press ctrl+alt+F2
 9. login with chronos (no password required)
+```
+curl -L -O https://mrchromebox.tech/setup-kodi.sh && sudo bash setup-kodi.sh
+```
 10. Install new firmware
 11. Install Ubuntu
