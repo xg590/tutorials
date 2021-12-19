@@ -64,6 +64,10 @@ vboxmanage storageattach <vmname> --storagectl SATA --port 1 --device 0 --type d
 ```
 vboxmanage extpack install xxx.vbox-extpack
 ```
+* Register an old VM
+```
+vboxmanager registervm xxx.vbox
+```
 ### Install a Ubuntu20.04.1 Guest OS
 1. Create a profile (yyy is virtual machine name, xxx is sub-folder)
 ```
