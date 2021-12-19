@@ -1,4 +1,4 @@
-### Windows 10
+### Use eGPU on Windows 10
 * Material List
   * Razor Core X 
   * RTX 3060 Ti
@@ -13,7 +13,7 @@ powercfg -setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
 ```
 * Install Nvidia Driver  
 * Disconnect eGPU: Do it in GPU control panel before cut the power
-### GPU-accelerated Transcoding
+#### GPU-accelerated Transcoding
 * [Ref](https://docs.nvidia.com/video-technologies/video-codec-sdk/ffmpeg-with-nvidia-gpu/)
 * \# Prereq
 ```
@@ -45,3 +45,17 @@ cd FFmpeg
             --extra-cflags=-I/usr/local/cuda/include --extra-ldflags=-L/usr/local/cuda/lib64 
 make -j 4
 ```
+### ChromeBox
+1. Unscrew four bottom screws
+2. Unscrew write-only protect screw
+3. Upgrade RAM only at this moment and leave SSD alone
+4. Poke the recovery hole while press power button
+5. Press ctrl+d to turn off OS verification
+6. Poke the recovery hole again so ChromeBox enters development mode
+7. Connect to WiFi but do not agree OS legal terms
+8. Press ctrl+alt+F2
+9. Login with chronos (no password required) and flash ChromeBox with a new firmware
+```
+curl -L -O https://mrchromebox.tech/setup-kodi.sh && sudo bash setup-kodi.sh
+```
+10. Regular reboot and install Ubuntu
