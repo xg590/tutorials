@@ -1,6 +1,9 @@
-### Download MPEG-TS streaming 
-* I prefer the [static build](https://johnvansickle.com/ffmpeg/) like [amd64-static](https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz) 
-```python
+'''
+# I prefer the [static build](https://johnvansickle.com/ffmpeg/) like [amd64-static](https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz) 
+# FFmpeg Vocabulary
+    time_base: interval between timestamps (time_base = second timestamp - first timestamp). It is a timing unit.
+    duration_ts: duration timestamp. duration = duration_ts * time_base
+'''
 import os, requests, re, threading, subprocess
 def downloader(video_name, url): 
     os.makedirs(video_name, exist_ok=True) 
@@ -27,8 +30,4 @@ def compressor(video_name):   # combind and convert ts(es) to mp4
 video_name = 'interesting'
 url = "https://some.video.site/interesting.m3u8.22.ts"
 threading.Thread(target=downloader, args=(video_name, url)).start()  # Run this and you will be notified when the downloading is done.
-threading.Thread(target=compressor, args=(video_name,)).start()      # You must run this after downloader
-```
-### FFmpeg Vocabulary  
-* time_base: interval between timestamps (time_base = second timestamp - first timestamp). It is a timing unit.
-* duration_ts: duration timestamp. duration = duration_ts * time_base
+threading.Thread(target=compressor, args=(video_name,)).start()      # You must run this after downloader 
