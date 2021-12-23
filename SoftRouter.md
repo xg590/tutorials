@@ -40,6 +40,7 @@ EOF
 * Unmask and start hostapd
 * Now I got my new AP
 ```
+sudo systemctl disable hostapd
 sudo systemctl unmask hostapd
 sudo systemctl start hostapd
 ```
@@ -69,12 +70,21 @@ EOF
 sudo tee /etc/default/isc-dhcp-server << EOF >/dev/null # specify the interfaces dhcpd should listen to.
 INTERFACESv4="wlan1"
 EOF
+sudo systemctl disable isc-dhcp-server.service
 sudo systemctl restart isc-dhcp-server.service
 ```
 * OK, now my connected device get configured automatically.
 ### NAT
 * Allow forward and routing packet from clients to the internet. [Here is wlan0 instead of wlan1]
 ```
+echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward >/dev/null
+sudo iptables -t nat -A POSTROUTING -s 192.168.3.0/24 -o wlan0 -j MASQUERADE
+```
+### After Reboot
+```
+sudo ip addr add 192.168.3.3/24 dev wlan1
+sydo systemctl start hostapd  
+sydo systemctl start isc-dhcp-server   
 echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward >/dev/null
 sudo iptables -t nat -A POSTROUTING -s 192.168.3.0/24 -o wlan0 -j MASQUERADE
 ```
