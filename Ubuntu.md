@@ -1,4 +1,14 @@
-### CLI and GUI 
+### Content 
+* [CLI and GUI](#cliandgui)
+* [systemctl](#systemctl)
+* [iptables](#iptables)
+* [DHCP](#dhcp)
+* [nmcli](#nmcli)
+* [ip](#ip)
+* [FTP](#ftp)
+* [Samba](#samba)
+* [screen](#screen)
+### CLI and GUI <a name="cliandgui"></a>
 ```
 Boot (Ubuntu 20.04)
   \_systemD (another init system than system V)
@@ -103,7 +113,7 @@ x11vnc -display :1 -no6 -rfbportv6 -1 -rfbport 5900 -listen 192.168.0.???
 sudo add-apt-repository ppa:yannubuntu/boot-repair 
 sudo apt update && sudo apt install boot-repair boot-repair 
 ```
-### systemctl
+### systemctl <a name="systemctl"></a>
 * Service will not start after reboot
 ```
 systemctl disable apache2 
@@ -120,7 +130,7 @@ systemctl stop apache2
 ```
 systemctl status apache2    
 ```
-### iptables
+### iptables <a name="iptables"></a>
 ```shell
 #!/bin/bash
 if [ `id -u` != 0 ] 
@@ -164,7 +174,7 @@ echo LOL | ssh remoteHost 'cat > /tmp/pipeOverSSH'
 * Land into grub menu and use key E to edit "Ubuntu"
 * Add "single" after line starting with "linux"
 * Press F10 to save and exit
-### Aria2c
+### aria2c
 ```
 aria2c -j5 --header="User-Agent: Mozilla/5.0 (Windows NT 6.1; ) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36"  
 ```
@@ -206,7 +216,7 @@ screen -S dst -X stuff ^C # Stop running
 ```
 sudo apt-get install -y qt5-default libqt5serialport5
 ```
-### Rsync
+### rsync
 ```
 cat << EOF > /etc/rsyncd.conf
 pid file = /var/run/rsyncd.pid
@@ -277,7 +287,7 @@ sudo letsencrypt renew
 * Location of cert
   * Public cert: /etc/letsencrypt/live/your_domain_name/fullchain.pem
   * Private key: /etc/letsencrypt/live/your_domain_name/privkey.pem
-### DHCP 
+### DHCP <a name="dhcp"></a>
 * Assume eth0 is already configured with ip 192.168.3.3/24 (Otherwise dhcpd will fail to start)
 * A dhcp server (dhcpd) can be started for 192.168.3.0/24
 ```
@@ -299,7 +309,7 @@ sudo systemctl restart isc-dhcp-server.service
 ```
 * dhcpd’s messages are being sent to syslog.
 * List dhcpd's users 
-#### Use Raspberry Pi to convert wireless network to wired network
+#### Convert wireless network to wired network
 1. Set a static ip for the wired interface (This is the gateway ip)
 ```
 cat << EOF >> /etc/dhcpcd.conf # This is config file for dhcp client 
@@ -383,7 +393,7 @@ sudo apt-offline install --skip-changelog bundle.zip
 sudo apt-get install tightvncserver
 vncserver -localhost -nolisten tcp
 ```
-### Configurate Network via Network Manager
+### Network Manager <a name="nmcli"></a>
 On Ubuntu 20.04, the network is managed by Network Manager ([CLI](https://developer.gnome.org/NetworkManager/stable/nmcli.html)) by default. <b>IT SUCKS!!!</b>. 
 * Show current connection
 ```
@@ -418,9 +428,12 @@ nmcli radio wifi off
 nmcli conn mod <connectionName> ipv4.dns "8.8.8.8 8.8.4.4"   # Permanent
 resolvectl dns interface_name 8.8.8.8 8.8.4.4                # Temporary 
 ``` 
+### ip <a name="ip"></a>
 * Delete wrong route (common for multi NICs)
 ```
 ip route del default dev interface_name
+ip route del 0.0.0.0/0 via 192.168.1.1
+ip route del 0.0.0.0/0 via 192.168.1.1 metric 9999
 ``` 
 ### Configure Network via netplan
 * List NIC
@@ -448,7 +461,7 @@ network:
 ```
 systemctl disable cups cups-browsed nmbd apache2 smbd
 ```
-### FTP
+### FTP service <a name="ftp"></a>
 ```
 ftp -inv ftp.ebi.ac.uk <<EOF
 user anonymous {mypassword}
@@ -491,7 +504,7 @@ nautilus &                 # file manager and graphical shell for GNOME
 gnome-settings-daemon &
 EOF
 ```
-### Samba 
+### Samba <a name="samba"></a>
 * Add a samba user if the same unix user exists
 ```
 sudo apt install samba 
@@ -543,7 +556,7 @@ cd autossh-1.4g
 ./configure
 make
 ```
-### Screen 
+### Screen <a name="screen"></a>
 Start a screen session in the backgroup
 ```
 screen -d -m -S autossh
