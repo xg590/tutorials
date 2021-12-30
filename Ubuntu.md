@@ -330,7 +330,7 @@ echo "1" > /proc/sys/net/ipv4/ip_forward
 iptables -t nat -A POSTROUTING -s 192.168.3.0/24 -o wlan0 -j MASQUERADE
 ```
 ### Apache2 & CGI
-Common Gateway Interface Daemon
+* Common Gateway Interface Daemon
 ```shell
 # As root
 apt install -y apache2 python3 python3-pip
@@ -355,7 +355,12 @@ print("""Content-type:text/html
 EOF
 chmod o+x /usr/lib/cgi-bin/test.py
 ```
-Visit http://your_domain/cgi-bin/test.py  
+* Visit http://your_domain/cgi-bin/test.py  
+* [ScriptAlias](https://httpd.apache.org/docs/2.4/howto/cgi.html) 
+  * Revise <i>/etc/apache2/conf-available/serve-cgi-bin.conf</i> after <i>a2enmod cgid</i>
+```
+The ScriptAlias directive tells Apache that a particular directory is set aside for CGI programs
+``` 
 ### Jupyter-notebook
 ```
 mkdir ~/.jupyter
