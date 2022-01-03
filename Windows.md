@@ -1,3 +1,14 @@
+### Install Windows to External SSD
+* I got a SanDisk Extreme PRO USB (SSD), and I want install Windows 10 on it.
+1. Install a clean Win10 in VirtrualBox.
+1.1. If the target PC use UEFI instead of Legacy BIOS, then Win10 VM should be installed with EFI. 
+1.2. Turn on EFI support: VM Settings-> System -> Extended Features: Enable EFI (special OSes only)
+2. Mount the win10-installed 50GB disk in a Ubuntu VM.
+3. dd the disk to SanDisk USB.
+```
+dd if=/dev/sdb | pv | dd of=/dev/sdc bs=64K
+```
+* If Win10 disk is 50GB then USB may have 70GB unallocated free space left.
 ### Route 
 I got two Network Interface Cards (NICs), and each has its place in routing table. Since only the second NIC is connect to the internet, I will delete the route involving the 1st NIC.<Br>
 #### Show the routing table
