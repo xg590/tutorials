@@ -1,5 +1,14 @@
-### Install Windows to External SSD
-* I got a SanDisk Extreme PRO USB (SSD), and I want install Windows 10 on it.
+### ImDisk 
+```
+imdisk -a -o rw,rem,awe -p "/Q /FS:FAT32  /A:4096 /V:ramdisk" -m K: -s 3G
+# -a attach a new volume
+# -o option: read/write, removable, and use physical memory.
+# -p format the volume. see the help of command format
+# -m deiver letter
+# -s size
+```
+### Install Windows to a USB Stick. (Microsoft discourages the installation)
+* I got a 128GB SanDisk Extreme PRO USB (SSD), and I want install Windows 10 on it. 
 1. Install a clean Win10 in VirtrualBox.
 1.1. If the target PC use UEFI instead of Legacy BIOS, then Win10 VM should be installed with EFI. 
 1.2. Turn on EFI support: VM Settings-> System -> Extended Features: Enable EFI (special OSes only)
