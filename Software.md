@@ -375,7 +375,7 @@ singularity exec library://alpine cat /etc/alpine-release
 ``` 
 * Play on NYU HPC GREENE
 ```
-cp /scratch/work/public/overlay-fs-ext3/overlay-5GB-200K.ext3.gz /scratch/${USER}/
+coverlay-5GB-200K.ext3.gz /scratch/${USER}/
 gzip -d overlay-5GB-200K.ext3.gz
 singularity exec --overlay overlay-5GB-200K.ext3 /scratch/work/public/singularity/ubuntu-20.04.1.sif /bin/bash
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh 
@@ -404,6 +404,18 @@ chmod 700 ~/bin/jupyter.sh
 ```
 singularity exec --overlay overlay-5GB-200K.ext3 /scratch/work/public/singularity/ubuntu-20.04.1.sif ~/bin/jupyter.sh
 ``` 
+* Play t5chem
+```
+scp greene:/scratch/work/public/overlay-fs-ext3/overlay-5GB-200K.ext3.gzz .
+gzip -d overlay-5GB-200K.ext3.gz 
+singularity exec --overlay overlay-5GB-200K.ext3 ubuntu-20.04.1.sif /bin/bash
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh 
+bash Miniconda3-latest-Linux-x86_64.sh -b -f -p /ext3/miniconda3/
+/ext3/miniconda3/bin/conda create -n t5chem python=3.8
+source /ext3/miniconda3/bin/activate t5chem 
+pip install t5chem torch jupyter jupyter_contrib_nbextensions
+jupyter contrib nbextension install --user
+```
 ### HTTP Basic Authentication
 ```
 import base64, requests 
