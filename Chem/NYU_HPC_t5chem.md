@@ -19,3 +19,9 @@ singularity exec --nv --overlay ~/software/t5chem.ext3 /scratch/work/public/sing
 source /ext3/miniconda3/bin/activate t5chem
 python3
 ```
+### Office
+```
+singularity exec --overlay=software/t5chem/t5chem.ext3 software/t5chem/ubuntu-20.04.1.sif /bin/bash
+source /ext3/miniconda3/bin/activate t5chem
+jupyter-notebook
+```
