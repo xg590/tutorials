@@ -603,3 +603,11 @@ wget https://yt-dl.org/downloads/latest/youtube-dl
 youtube-dl --sub-lang en --write-sub --skip-download https://www.youtube.com/watch?v=xxx 
 youtube-dl --all-subs    --write-sub --cookies cookies.txt --user-agent "Safari/537.36" https://www.youtube.com/watch?v=xxx 
 ```
+### Lack of so (Dynamic Link Library)
+* Take libffi.so.6 as the example
+```
+wget http://mirrors.kernel.org/ubuntu/pool/main/libf/libffi/libffi6_3.2.1-8_amd64.deb
+ar x libffi6_3.2.1-8_amd64.deb
+tar Jxf data.tar.xz 
+export LD_LIBRARY_PATH=$PWD/usr/lib/x86_64-linux-gnu/
+```
