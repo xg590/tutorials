@@ -416,6 +416,20 @@ source /ext3/miniconda3/bin/activate t5chem
 pip install t5chem torch jupyter jupyter_contrib_nbextensions
 jupyter contrib nbextension install --user
 ```
+* Persistent Overlays
+``` 
+$ sudo su  
+# dd if=/dev/zero of=2G.ext3 bs=1M count=2048
+# mkfs.ext3 2G.ext3
+# chmod 777 2G.ext3
+# singularity shell --overlay 2G.ext3  ubuntu-20.04.1.sif
+Singularity> mkdir /ext
+Singularity> chmod 777 /ext
+Singularity> exit
+# exit
+$ singularity shell --overlay 2G.ext3  ubuntu-20.04.1.sif
+Singularity> touch /ext/success
+```
 ### HTTP Basic Authentication
 ```
 import base64, requests 
