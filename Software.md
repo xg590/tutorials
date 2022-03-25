@@ -4,6 +4,27 @@
 ```
   IdentitiesOnly=yes (ssh-agent offers too many wrong identities, suppress it)
 ```
+
+### Wireshark
+* Install  
+```
+sudo apt install wireshark ### Allow non-root user to capture packet.
+sudo usermod -a -G wireshark $USER 
+```
+* Remote capture
+1. Run [tcpdump](https://www.tcpdump.org/manpages/tcpdump.1.html) and [netcat](https://linuxcommandlibrary.com/man/netcat) on remote machine (192.168.x.3)
+   ```shell
+   # tcpdump 
+   #   -n     Don’t convert host addresses to names.  This can be used to avoid DNS lookups. 
+   #   -nn    Don’t convert protocol and port numbers etc. to names either.  
+   #   -U     No buffer mode for the real-time analysis. Output message immediately.  
+   #   -w     Set the default capture file name, or '-' for standard output. 
+   sudo tcpdump -i eth0 -nn -U -w - port 80 | nc -l 192.168.x.3 45454
+   ```
+2. Run wireshark on local machine
+   ```
+   wireshark -k -i TCP@192.168.x.3:45454 
+   ```
 ### GitHub
 #### Basics
 * Push a new local repo to GitHub
@@ -222,16 +243,6 @@ me@webserver:~$ ./software/miniconda3/bin/conda-env create -f environment.yml
 me@webserver:~$ source software/miniconda3/bin/activate rdkit_on_hpc
 (rdkit_on_hpc) me@webserver:~$
 ``` 
-### Wireshark
-* Install  
-```
-sudo apt install wireshark ### Allow non-root user to capture packet.
-sudo usermod -a -G wireshark $USER 
-```
-* Remote capture
-```shell 
-wireshark -k -i <(ssh piMachine "sudo tcpdump -i eth1 -nn -w - src 192.168.4.100")
-```  
 ### VirtualBox
 * [Manual](https://www.virtualbox.org/manual/ch08.html)
 * List virtual machines
