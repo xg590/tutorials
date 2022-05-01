@@ -20,3 +20,9 @@ Other Trick in Drivers/Graph Editor
   * Activate the curve and then press <kbd>Ctrl</kbd> + <kbd>RightMouseClick</kbd>
 * Axis Zooming: 
   * <kbd>Ctrl</kbd> + <kbd>MiddleMouseDrag</kbd> 
+
+How to UV unwrapping (Take Cube as an example)
+---
+* For a closed surface wrapping a cube, we need cut 7 edges to make one unwrapping ploygen.
+* 
+* Mark all edges to be cut open as seams.
