@@ -9,3 +9,6 @@
       * set SDKMANAGER=%STUDIO_SDK_PATH%\tools\bin\sdkmanager.bat
     * to 
       * set SDKMANAGER=%STUDIO_SDK_PATH%\cmdline-tools\latest\bin\sdkmanager.bat 
+* Preview in Unreal Engine
+  * Better restart VR headset before launching Unreal Engine Editor
+  * Enabling Oculus Link is OK 
