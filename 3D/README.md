@@ -10,5 +10,7 @@ This is the UV mapping.<br/>
 This is the result.<br/>
 <img src="misc/target.jpg" style="width:560px;length:420px"></img> <br/>  
 3. Learn Unreal<br/>
-3.1 Begin with blueprint scripting ([how to create a game scene](https://www.youtube.com/watch?v=gQmiqmxJMtA), [how to create a shooting game](https://www.youtube.com/watch?v=ITCWa3oLNAQ)).<br/>
+3.1 Begin with blueprint scripting ([how to create a game scene](https://www.youtube.com/watch?v=gQmiqmxJMtA), [how to create a shooting game](https://www.youtube.com/watch?v=ITCWa3oLNAQ)).<br/> 
+This is the result.<br/>
+<img shootTarget.jpgstyle="width:600px;length:380px"></img> <br/>  
 3.2 Play a VR game ([how to setup Oculus Quest 2](https://www.youtube.com/watch?v=Nqg3qlJdCCM)).
