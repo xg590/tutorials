@@ -13,7 +13,7 @@ This is the result.<br/>
 3.1 Begin with blueprint scripting ([how to create a game scene](https://www.youtube.com/watch?v=gQmiqmxJMtA), [how to create a shooting game](https://www.youtube.com/watch?v=ITCWa3oLNAQ)).<br/> 
 This is the result after I followed the shooting game tutorial.<br/>
 <img src="misc/shootTarget.jpg" style="width:600px;length:380px"></img> <br/> 
-3.2 Play a VR game ([how to setup Oculus Quest 2](https://www.youtube.com/watch?v=Nqg3qlJdCCM)) <br/>  
+3.2 Play a VR game ([how to setup Oculus Quest 2](https://www.youtube.com/watch?v=Nqg3qlJdCCM)) <br/>
 3.3 Learn to use C++ ([How to create a new class in C++ and inherit it in blueprint](https://www.youtube.com/watch?v=LsNW4FPHuZE))<br/> 
 4. Unreal VR<br/>
 4.1 https://www.youtube.com/c/VRPlayground/videos
