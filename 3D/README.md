@@ -19,39 +19,3 @@ This is the result after I followed the shooting game tutorial.<br/>
 4.1 Understand generic [<b>User Input</b>](https://youtu.be/p5Rp500kbOc) <br/> 
 4.2 Oculus Quest 2 Controller has two new types of user input in Unreal Engine: [Oculus Hand](https://developer.oculus.com/documentation/unreal/unreal-hand-tracking/) and [Oculus Touch](https://developer.oculus.com/documentation/unreal/unreal-controller-input-mapping-reference/) <br/>
 4.3 [Create](https://www.youtube.com/watch?v=mee_6vlWZ8c) a hand: SkeletalMesh, Animation, etc.
-### C++ Note
-* Function template, Arrow operator, Class implementation, Overloading 
-```cpp
-#include <iostream>
-#include <typeinfo>
-using namespace std; 
-
-class Animal {
-  public:
-    int age = 3; 
-    string sex() {
-      return "Female";
-    }
-    template <class T> string origin(T); // Overloading 
-};
-
-// origin is a template function, in which T is undetermined data type. It returns a String
-template <class T> string Animal::origin (T i) { 
-  if (typeid(911)==typeid(i)) {
-      return "Benin";
-  }  else {
-      return "Canada";
-  } 
-}
-
-int main () {
-  Animal cat;
-  cout << "age: " << cat.age << endl;
-  cout << "sex: " << cat.sex() << endl;
-  
-  Animal* ptr = &cat; 
-  cout << "origin: " <<  ptr->origin(1) << endl; // Arrow operator
-  cout << "origin: " <<  ptr->origin("1") << endl;  
-  return 0;
-}
-``` 
