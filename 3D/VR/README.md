@@ -12,5 +12,12 @@
 * Preview in Unreal Engine
   * Better restart VR headset before launching Unreal Engine Editor
   * Enabling Oculus Link is OK 
+* Error [Attempt to construct staged filesystem reference from absolute path [FIX]](https://www.pizzolab.com/attempt-to-construct-staged-filesystem-reference-from-absolute-path/)
+```
+cmd > adb shell
+cmd > cd sdcard
+cmd > rm -r UE4Game/
+exit
+```
 #### Download [Oculus Developer Hub](https://developer.oculus.com/downloads/package/oculus-developer-hub-win) 
 #### Learn [Unreal Motion Graphics](https://www.unrealengine.com/marketplace/en-US/product/your-first-hour-with-umg-project-files)
