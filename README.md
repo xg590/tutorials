@@ -15,14 +15,15 @@
     * Back-end  : Flask
     * Database  : Neo4j and Postgresql
     * Deployment: Amazon Cloud and Google Cloud (AWS LightSail, EC2, VPC, S3, Google ComputeEngine, CloudStorage, Docker) 
-* My automation projects: 
+* Personal automation projects: 
   * [Rover](https://github.com/xg590/IoT_Rover): 
     * Control a rover over internet.
   * [Drone](https://github.com/xg590/Tello-Python)
-    * Fly my Tello drone
+    * Fly my Tello drone.
   * [Home automation](https://github.com/xg590/Home_Automation): 
-    * Automate my ceiling light and air conditioner 
+    * Automate my ceiling light and air conditioner, DIY a WiFi remote. 
   * [Remote control of microcontroller](https://github.com/xg590/pyWebREPL):
-    * A python library for ESP8266/ESP32
+    * A Python library for ESP8266/ESP32.
   * [Digital radio for kilometer-range wireless communication](https://github.com/xg590/SX1276):
-    * A micropython library for SX1276 
+    * A MicroPython library for SX1276. 
+    * Might be the first library of implementing Frequency Hoppoing.
