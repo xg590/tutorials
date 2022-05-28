@@ -4,6 +4,9 @@
   * HPC sysadmin 
     * Sysadmin of clusters for Chemistry Department at Zhengzhou University
     * Worked as a contractor to support old clusters for other departments and install new cluster for other institutions.
+* PhD research:
+  * Build a database.
+  * Run AI model on it.
 * Programmer:
   * Good at Python/MicroPython 
     * Primary programming choice.
