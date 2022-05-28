@@ -19,9 +19,9 @@
   * [Rover](https://github.com/xg590/IoT_Rover): 
     * Control a rover over internet.
   * [Drone](https://github.com/xg590/Tello-Python)
-    * Fly my Tello drone.
+    * Fly my Tello drone autonomously and see video streamed from it.
   * [Home automation](https://github.com/xg590/Home_Automation): 
-    * Automate my ceiling light and air conditioner, DIY a WiFi remote. 
+    * Automate my ceiling light and air conditioner, DIY a WiFi remote and more. 
   * [Remote control of microcontroller](https://github.com/xg590/pyWebREPL):
     * A Python library for ESP8266/ESP32.
   * [Digital radio for kilometer-range wireless communication](https://github.com/xg590/SX1276):
