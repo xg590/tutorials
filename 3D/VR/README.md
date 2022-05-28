@@ -10,6 +10,10 @@
     * to 
       * set SDKMANAGER=%STUDIO_SDK_PATH%\cmdline-tools\latest\bin\sdkmanager.bat 
 * Preview in Unreal Engine
+<<<<<<< HEAD
+  * Better restart VR headset 
+  * For me, enabling Oculus Link is a Must before launching Unreal Engine Editor
+=======
   * Better restart VR headset before launching Unreal Engine Editor
   * Enabling Oculus Link is OK 
 * Error [Attempt to construct staged filesystem reference from absolute path [FIX]](https://www.pizzolab.com/attempt-to-construct-staged-filesystem-reference-from-absolute-path/)
@@ -19,5 +23,6 @@ cmd > cd sdcard
 cmd > rm -r UE4Game/
 exit
 ```
+>>>>>>> 08c01c0ad702928022a4230682ee9b44339cdeaf
 #### Download [Oculus Developer Hub](https://developer.oculus.com/downloads/package/oculus-developer-hub-win) 
 #### Learn [Unreal Motion Graphics](https://www.unrealengine.com/marketplace/en-US/product/your-first-hour-with-umg-project-files)
