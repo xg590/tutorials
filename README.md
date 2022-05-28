@@ -15,7 +15,7 @@
     * Back-end  : Flask
     * Database  : Neo4j and Postgresql
     * Deployment: Amazon Cloud and Google Cloud (AWS LightSail, EC2, VPC, S3, Google ComputeEngine, CloudStorage, Docker) 
-* Automation projects (based on Raspberry Pi, Pico, Arduino, and ESP8266/ESP32): 
+* My automation projects: 
   * [Rover](https://github.com/xg590/IoT_Rover): 
     * Control a rover over internet.
   * [Drone](https://github.com/xg590/Tello-Python)
