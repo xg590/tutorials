@@ -1,3 +1,26 @@
+### Create T5Chem ext3
+```
+scp greene:/scratch/work/public/overlay-fs-ext3/overlay-10GB-400K.ext3.gz .  
+gzip -dk overlay-10GB-400K.ext3.gz
+mv overlay-10GB-400K.ext3 newT5ChemAndRDKit.ext3
+singularity exec --overlay newT5ChemAndRDKit.ext3 ubuntu-20.04.1.sif /bin/bash
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh 
+bash Miniconda3-latest-Linux-x86_64.sh -b -f -p /ext3/miniconda3/
+/ext3/miniconda3/bin/conda create -n newT5ChemAndRDKit python=3.8
+source /ext3/miniconda3/bin/activate newT5ChemAndRDKit
+pip install jupyter jupyter_contrib_nbextensions
+pip install t5chem 
+# jupyter contrib nbextension install --use
+``` 
+### T5Chem_prop
+```python3
+#pip install h5py 
+import sys, os
+sys.path.insert(0,f'{os.getenv("HOME")}/software/t5chem_prop')
+sys.path.insert(1,f'{os.getenv("HOME")}/software/t5chem_prop/t5chem') 
+import t5chem 
+t5chem.__version__
+```
 ### What kind of GPUs in Greene HPC @ NYU?
 ```
 [user@log-3 slurm]$ grep -i gres=gpu /opt/slurm/etc/slurm.conf
