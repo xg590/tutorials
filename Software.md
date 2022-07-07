@@ -613,6 +613,16 @@ awk '{print $1 " slots="$2}' $PE_HOSTFILE > .hostfile
 ```
 qmod -sj | -usf (suspend | unsuspend)  
 ```
+### SLURM
+* Job detail
+```
+[x@log-1 dir]$ scontrol show jobid 21919507
+JobId=21919507 JobName=log-1.hpc.nyu.edu-data
+   UserId=x(x) GroupId=x(x) MCS_label=N/A
+   Priority=14817 Nice=0 Account=users QOS=interact 
+   RunTime=00:13:57 TimeLimit=00:30:00 TimeMin=N/A 
+   TresPerNode=gres:gpu:rtx8000:1
+```
 ### Win32-OpenSSH
 ##### # Download OpenSSH-Win32 and plink (Win7_x86)
 ```shell
