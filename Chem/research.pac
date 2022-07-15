@@ -8,6 +8,7 @@ function FindProxyForURL(url, host) {
     || dnsDomainIs(host, "acs.org") 
     || dnsDomainIs(host, "rsc.org") 
     || dnsDomainIs(host, "cell.com") 
+    || dnsDomainIs(host, "oup.com")  
     || dnsDomainIs(host, "iucr.org") 
     || dnsDomainIs(host, "nature.com") 
     || dnsDomainIs(host, "springer.com") 
@@ -15,6 +16,10 @@ function FindProxyForURL(url, host) {
     || dnsDomainIs(host, "portlandpress.com") 
     || dnsDomainIs(host, "tandfonline.com")
     || dnsDomainIs(host, "whatismyip.com")
+    || dnsDomainIs(host, "webofscience.com") 
+    || dnsDomainIs(host, "webofknowledge.com") 
+    || dnsDomainIs(host, "clarivate.com") 
+    || dnsDomainIs(host, "ieee.org") 
   )
   //return "SOCKS5 127.0.0.1:1080";   
   return "SOCKS 127.0.0.1:1080";   
