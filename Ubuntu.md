@@ -486,6 +486,23 @@ get 5zu3.xml.gz
 bye
 EOF
 ```
+* list local dir 
+```
+!ls 
+```
+* Client
+```
+smbclient '\\192.168.1.123\someDir' -c 'prompt OFF;lcd "localDir";mput movie.mp4' -U userName passwd
+```
+### NFS 
+* Client
+```
+sudo apt install nfs-common
+showmount -e 192.168.1.123 
+# Export list for 192.168.1.123:
+# /mnt/someDir 192.168.1.0/24
+mount 192.168.1.123:/mnt/someDir /nfs/general
+```
 ### List Service
 ```
 systemctl list-units --type service --all
