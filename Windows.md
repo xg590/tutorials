@@ -7,6 +7,10 @@ imdisk -a -o rw,rem,awe -p "/Q /FS:FAT32  /A:4096 /V:ramdisk" -m K: -s 3G
 # -m deiver letter
 # -s size
 ```
+### Shutdown Log
+* eventvwr.msc
+* Event Viewer (local) -> Windows Logs -> System -> Actions -> Filter Current Log
+* Filter Event IDs: 1074 - initiated by an app; 6006 - turned off correctly; 6008 - improper shutdown 
 ### Install Windows to a USB Stick. (Microsoft discourages the installation)
 * I got a 128GB SanDisk Extreme PRO USB (SSD), and I want install Windows 10 on it. 
 1. Install a clean Win10 in VirtrualBox.
