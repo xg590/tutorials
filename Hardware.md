@@ -1,3 +1,66 @@
+### Disk
+* sector (physical block): disk controller IO
+* sector is the minimum unit of GUID partition table. 
+* logical block: filesystem IO
+```
+  sudo fdisk -l | grep "Sector size" 
+  sudo blockdev --getbsz /dev/sda
+```
+#### GPT
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/GUID_Partition_Table_Scheme.svg/360px-GUID_Partition_Table_Scheme.svg.png"></img>
+* Partition table header (LBA 1)
+``` 
+  # dd bs=512 skip=1 count=1 if=/dev/sdc 2>/dev/null | hexdump -C 
+  00000000  45 46 49 20 50 41 52 54  00 00 01 00 5c 00 00 00  |EFI PART....\...| # second 512 bytes of the disk, 45 46 49 20 50 41 52 54 is the signature
+  00000010  49 75 ea e1 00 00 00 00  01 00 00 00 00 00 00 00  |Iu..............|
+  00000020  ff ff ef 00 00 00 00 00  00 08 00 00 00 00 00 00  |................|
+  00000030  de ff ef 00 00 00 00 00  0d 88 38 00 68 43 4f f7  |..........8.hCO.|
+  00000040  af a3 b5 16 0f d2 22 fe  02 00 00 00 00 00 00 00  |......".........|
+  00000050  80 00 00 00 80 00 00 00  f2 2c 2e 18 00 00 00 00  |.........,......|
+  00000060  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+  *
+  00000200                                                                       # third 512 bytes (ignore this)
+``` 
+* Partition entries (LBA 2–33)
+```
+  # dd bs=512 skip=2 count=32 if=/dev/sdc 2>/dev/null | hexdump -C
+  00000000  a2 a0 d0 eb e5 b9 33 44  87 c0 68 b6 b7 26 99 c7  |......3D..h..&..| # first partition
+  00000010  a0 3e 3e 61 0c 35 8c 4f  b1 6e 6e 08 8e 7a e7 58  |.>>a.5.O.nn..z.X|
+  00000020  00 08 00 00 00 00 00 00  ff 1f 7a 00 00 00 00 00  |..........z.....|
+  00000030  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+  *
+  00000080  af 3d c6 0f 83 84 72 47  8e 79 3d 69 d8 47 7d e4  |.=....rG.y=i.G}.| # second partition (0x80 is 128 bytes)
+  00000090  d8 16 47 92 1a 40 a8 4c  94 65 1f 51 fe fa 7c 0c  |..G..@.L.e.Q..|.|
+  000000a0  00 20 7a 00 00 00 00 00  ff f7 ef 00 00 00 00 00  |. z.............|
+  000000b0  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+  *
+  00004000
+```
+#### dd
+* seek skips n blocks from the beginning of the output file.
+* skip skips n blocks from the beginning of the input file.
+```
+sdX=sdd
+firstLBA=`sfdisk -d /dev/$sdX|grep first-lba|cut -f2 -d:|xargs echo -n` 
+lastLBA=` sfdisk -d /dev/$sdX|grep  last-lba|cut -f2 -d:|xargs echo -n` 
+echo $firstLBA $lastLBA # 2048 15728606 for someDisk; 34 524254 for virtualDisk
+
+rm GPT.bak
+dd bs=512               count=34 if=/dev/$sdX 2>/dev/null >  GPT.bak # save LBA  0 ~  34
+dd bs=512 skip=$lastLBA count=34 if=/dev/$sdX 2>/dev/null >> GPT.bak # save LBA -0 ~ -34
+```
+* Zero
+```
+dd bs=512 seek=$lastLBA count=34 if=/dev/zero of=/dev/$sdX
+dd bs=512               count=34 if=/dev/zero of=/dev/$sdX
+dd bs=512               count=34 if=/dev/$sdX 2>/dev/null | hexdump -C
+dd bs=512 skip=$lastLBA count=34 if=/dev/$sdX 2>/dev/null | hexdump -C 
+```
+* restore
+``` 
+dd bs=512 if=GPT.bak         count=34               if=GPT.bak of=/dev/$sdX 
+dd bs=512 if=GPT.bak skip=34 count=34 seek=$lastLBA if=GPT.bak of=/dev/$sdX 
+```
 ### Use eGPU on Windows 10
 * Material List
   * Razor Core X 
