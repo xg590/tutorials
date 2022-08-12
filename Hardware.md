@@ -47,19 +47,19 @@ echo $firstLBA $lastLBA # 2048 15728606 for someDisk; 34 524254 for virtualDisk
 
 rm GPT.bak
 dd bs=512               count=34 if=/dev/$sdX 2>/dev/null >  GPT.bak # save LBA  0 ~  34
-dd bs=512 skip=$lastLBA count=34 if=/dev/$sdX 2>/dev/null >> GPT.bak # save LBA -0 ~ -34
+dd bs=512 skip=$lastLBA count=33 if=/dev/$sdX 2>/dev/null >> GPT.bak # save LBA -1 ~ -34
 ```
 * Zero
 ```
-dd bs=512 seek=$lastLBA count=34 if=/dev/zero of=/dev/$sdX
 dd bs=512               count=34 if=/dev/zero of=/dev/$sdX
+dd bs=512 seek=$lastLBA count=33 if=/dev/zero of=/dev/$sdX
 dd bs=512               count=34 if=/dev/$sdX 2>/dev/null | hexdump -C
-dd bs=512 skip=$lastLBA count=34 if=/dev/$sdX 2>/dev/null | hexdump -C 
+dd bs=512 skip=$lastLBA count=33 if=/dev/$sdX 2>/dev/null | hexdump -C 
 ```
 * restore
 ``` 
 dd bs=512 if=GPT.bak         count=34               if=GPT.bak of=/dev/$sdX 
-dd bs=512 if=GPT.bak skip=34 count=34 seek=$lastLBA if=GPT.bak of=/dev/$sdX 
+dd bs=512 if=GPT.bak skip=34 count=33 seek=$lastLBA if=GPT.bak of=/dev/$sdX 
 ```
 ### Use eGPU on Windows 10
 * Material List
