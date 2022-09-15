@@ -50,6 +50,7 @@ application.secret_key = 'Add your secret key'
 EOF
 ```
 ##### 2.2 A conf file
+* WSGIScriptAlias /barInURL /var/www/wsgi/foo/bar/.wsgi
 ``` 
 cat << EOF > /etc/apache2/sites-enabled/000-default.conf
 <VirtualHost *:80>
