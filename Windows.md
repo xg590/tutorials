@@ -1,3 +1,8 @@
+### PowerShell
+```
+$URL="http://yzlab3.chem.nyu.edu/software/LogTech_unifying250.exe"
+Invoke-WebRequest -URI $URL -OutFile unifying250.exe
+```
 ### ImDisk 
 ```
 imdisk -a -o rw,rem,awe -p "/Q /FS:FAT32  /A:4096 /V:ramdisk" -m K: -s 3G
@@ -51,9 +56,10 @@ With the help of command <i>ipconfig</i>, we should know the ip-interface bindin
 ```
 > route delete 0.0.0.0 if 17
 ```
+### Virtualbox
 ```
 sdelete.exe c: -z
-VBoxManage.exe modifymedium disk "D:\win10.vdi" --compact
+C:\Progra~1\Oracle\VirtualBox\VBoxManage.exe modifymedium --compact D:\win10.vdi 
 ```
 ### Python and PIP
 1. Download and install [Python3](https://www.python.org/) 
