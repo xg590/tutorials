@@ -314,6 +314,11 @@ vboxmanage extpack install xxx.vbox-extpack
 ```
 vboxmanager registervm xxx.vbox
 ```
+* Compress a disk
+```
+dd if=/dev/zero of=/somewhere bs=4M
+vboxmanage modifymedium --compact /path/to/the/disk.vdi
+```
 #### Install a Ubuntu20.04.1 Guest OS
 1. Create a profile (yyy is virtual machine name, xxx is sub-folder)
 ```
