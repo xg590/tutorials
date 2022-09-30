@@ -121,7 +121,13 @@ git add *
 git status 
 git commit -m 'LoRa'
 git push  
-``` 
+```
+#### Revert vs. Reset
+```
+git log --oneline
+git revert specified_HEAD # Only undo one specified commit
+git reset  specified_HEAD # All commit after one specified commit
+```
 ### Q_emulator?
 #### Emu X86/AMD64
 * Install
