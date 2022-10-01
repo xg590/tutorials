@@ -150,7 +150,7 @@ iptables -A INPUT -p tcp --dport ssh -j ACCEPT
 iptables -A INPUT -i lo -j ACCEPT 
 iptables -A INPUT -i enp0s3 -m state --state RELATED,ESTABLISHED -j ACCEPT
  
-iptables -P INPUT DROP 
+iptables -P INPUT DROP   # Since we accept ESTABLISHED connection, the reply of our outgoing request will not be dropped. 
 iptables -P OUTPUT ACCEPT 
 iptables -P FORWARD ACCEPT
 ```
@@ -158,6 +158,10 @@ iptables -P FORWARD ACCEPT
 ```
 iptables -t nat -A POSTROUTING -s 172.16.1.0/24 -d 172.16.1.0/24 -j ACCEPT
 iptables -t nat -A POSTROUTING -s 172.16.1.0/24 -j MASQUERADE
+```
+* DELETE
+```
+iptables -D INPUT 1      # Delete the first rule in INPUT chain of table filter
 ```
 ### crontab ([credit](https://stackoverflow.com/users/45978/joe-casadonte))
 * I dont know why but it is better to use absolute path of a command
