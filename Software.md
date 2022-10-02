@@ -6,6 +6,10 @@
 ```
 ### Scapy
 * Network packet manipulator
+### Terminal QR Code
+```
+qrencode -t ASCII 'Hello World!'
+```
 ### Wireshark
 * Install  
 ```
