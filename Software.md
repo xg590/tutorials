@@ -9,6 +9,7 @@
 ### Terminal QR Code
 ```
 qrencode -t ASCII 'Hello World!'
+echo "Hello World" | qrencode -t ASCII
 ```
 ### Wireshark
 * Install  
