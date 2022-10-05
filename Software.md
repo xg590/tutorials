@@ -25,12 +25,18 @@ sudo usermod -a -G wireshark $USER
    #   -nn    Don’t convert protocol and port numbers etc. to names either.  
    #   -U     No buffer mode for the real-time analysis. Output message immediately.  
    #   -w     Set the default capture file name, or '-' for standard output. 
+   #   port   A filter
    sudo tcpdump -i eth0 -nn -U -w - port 80 | nc -l 192.168.x.3 45454
+   # nc -l 192.168.x.3 45454   Remote machine is going to listen on port 45454 of its local interface 192.168.x.3 of for an incoming connection  
    ```
 2. Run wireshark on local machine
    ```
    wireshark -k -i TCP@192.168.x.3:45454 
    ```
+* Wireshark filter
+```
+ip.dst_host == 192.168.x.123 && tcp.port == 8266 && websocket
+```
 ### GitHub
 #### Basics
 * Push a new local repo to GitHub
