@@ -431,6 +431,7 @@ On Ubuntu 20.04, the network is managed by Network Manager ([CLI](https://develo
 * Disable WIFI
 ```
 nmcli radio wifi off
+nmcli r     all  off # turn on airplane mode
 ```
 * Change DNS 
 ```
@@ -631,4 +632,13 @@ wget http://mirrors.kernel.org/ubuntu/pool/main/libf/libffi/libffi6_3.2.1-8_amd6
 ar x libffi6_3.2.1-8_amd64.deb
 tar Jxf data.tar.xz 
 export LD_LIBRARY_PATH=$PWD/usr/lib/x86_64-linux-gnu/
+```
+### Power behavior
+* Not suspended after close the lid
+```
+cat << EOF >> sudo tee -a /etc/systemd/logind.conf
+HandleLidSwitch=suspend
+HandleLidSwitchExternalPower=ignore
+EOF
+sudo systemctl restart systemd-logind
 ```
