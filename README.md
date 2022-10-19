@@ -29,4 +29,4 @@
     * A Python library for ESP8266/ESP32.
   * [Digital radio for kilometer-range wireless communication](https://github.com/xg590/SX1276) 
     * A MicroPython library for SX1276. 
-    * Might be the first library of implementing Frequency Hoppoing.
+    * Might be the first library of exploiting its Frequency Hoppoing feature.
