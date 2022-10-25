@@ -122,3 +122,18 @@ make -j 4
 curl -L -O https://mrchromebox.tech/setup-kodi.sh && sudo bash setup-kodi.sh
 ```
 10. Regular reboot and install Ubuntu
+### MyCloudEx2Ultra
+* Use nfs to sync folders. Install nfs client tools
+```
+sudo apt install nfs-common
+```
+* See what's on the nfs server
+```
+$ showmount -e 192.168.xxx.xxx
+Export list for 192.168.xxx.xxx:
+/mnt/abc 192.168.xxx.0/24
+```
+* Mount the share
+```
+sudo mount -t nfs 192.168.xxx.xxx:/mnt/abc /local_mount_point
+```
