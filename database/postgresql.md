@@ -1,4 +1,5 @@
 ### Basics (Ubuntu 20.04)
+
 #### 1. Installation
 ```shell
 sudo apt-get install -y postgresql python3-dev libpq-dev python3-pip 
@@ -35,6 +36,13 @@ newDB=# INSERT INTO news (id, title, content, author) VALUES
     (2, 'Hitting the beach was voted the best part of life in the region', 'Exploring tracks and trails was second most popular, followed by visiting the shops and then checking out local parks.', 'Ethan'),
     (3, 'Machine Learning from scratch', 'Bare bones implementations of some of the foundational models and algorithms.', 'Jo'); 
 ```
+#### 5. Restart the server
+``` 
+sudo -u postgres /usr/lib/postgresql/12/bin/pg_ctl -D /var/lib/postgresql/12/main stop # Stop  default service 
+sudo -u postgres /usr/lib/postgresql/12/bin/pg_ctl -D /home/xxx/postgresql/       start
+pg_dump dbname > db.bak
+```
+
 ### Topics 
 #### Run PostgreSQL on a new directory.
 ```shell

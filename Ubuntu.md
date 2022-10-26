@@ -647,3 +647,7 @@ HandleLidSwitchExternalPower=ignore
 EOF
 sudo systemctl restart systemd-logind
 ```
+## Fresh Installation
+```
+echo "$USER ALL=(ALL:ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers 
+```

@@ -54,6 +54,18 @@ git push -u origin main                              # push current branch to or
 git branch -l                                        # what is current branch name
 git remote -v                                        # what is remote (what does origin stand for)
 ```
+* [Remove sensitive file](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository)
+```
+git clone git@github.com:xg590/IoT.git
+cd IoT/
+git filter-repo --invert-paths --path xxx/xxx/xxx.ipynb 
+git remote add origin git@github.com:xg590/IoT.git
+git push origin --force --all
+```
+* Undo `git add *`
+```
+git status && git reset && git status
+``` 
 #### Create a Depository
 0. Prepare a pair of key on local machine
 ```shell
