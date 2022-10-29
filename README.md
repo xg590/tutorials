@@ -5,8 +5,8 @@
     * Sysadmin of clusters for Chemistry Department at Zhengzhou University
     * Worked as a contractor to support old clusters for other departments and install new cluster for other institutions.
 * PhD research:
-  * Build a database.
-  * Run AI model on it.
+  * Collect and recover all covalent inhibitors in Protein Data Bank.
+  * Train machine-learning models to predict the product of covalent inhibition.
 * Programmer:
   * Good at Python/MicroPython 
     * Primary programming choice.
@@ -19,14 +19,17 @@
     * Database  : Neo4j and Postgresql
     * Deployment: Amazon/Google Cloud and Docker 
 * Personal automation projects: 
-  * [Rover](https://github.com/xg590/IoT_Rover) 
-    * Control a rover over internet.
+  * [Digital Radio](https://github.com/xg590/SX1276) 
+    * A MicroPython library for the SX1276 chip (kilometer-range LoRa modem)
+    * Might be the first library of exploiting the <i>Frequency Hoppoing</i> feature of SX1276.
   * [Drone](https://github.com/xg590/Tello-Python)
-    * Fly my Tello drone autonomously and see video streamed from it.
+    * Control my Tello drone and capture the video stream from it.
   * [Home automation](https://github.com/xg590/Home_Automation) 
     * Automate my ceiling light and air conditioner, DIY a WiFi remote and more. 
-  * [Remote control of microcontroller](https://github.com/xg590/pyWebREPL) 
-    * A Python library for ESP8266/ESP32.
-  * [Digital radio for kilometer-range wireless communication](https://github.com/xg590/SX1276) 
-    * A MicroPython library for SX1276. 
-    * Might be the first library of exploiting its Frequency Hoppoing feature.
+  * [pyWebREPL](https://github.com/xg590/pyWebREPL) 
+    * A Python library to control microcontroller ESP8266/ESP32 in real time 
+  * [Rover](https://github.com/xg590/IoT_Rover) 
+    * Build a rover and control it over the internet.
+  * [remoteKM](https://github.com/xg590/remoteKM)
+    * Build a gadget that emulates keyboard and mouse.
+    * Control the gadget over the internet to install Microsoft Windows for my parents' computer.
