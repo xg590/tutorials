@@ -213,6 +213,10 @@ dd if=2021-05-07-raspios-buster-armhf-lite.img | pv | dd of=/dev/sdb
 2. [HTTP Trace](https://chrome.google.com/webstore/detail/http-trace/idladlllljmbcnfninpljlkaoklggknp)
 3. [Google Input](https://chrome.google.com/webstore/detail/google-input-tools/mclkkofklkfljcocdinagocijmpgbhab)
 ### Jupyter
+* [Run a jupyter notebook in command line](https://discourse.jupyter.org/t/jupyter-run-requires-notebook-to-be-previously-run/12250/2)
+```
+jupyter-execute xg590.ipynb
+```
 * Prepare a hashed password of notebook server 
 ```
 from notebook.auth import passwd

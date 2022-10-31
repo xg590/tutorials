@@ -20,16 +20,15 @@
     * Deployment: Amazon/Google Cloud and Docker 
 * Personal automation projects: 
   * [Digital Radio](https://github.com/xg590/SX1276) 
-    * A MicroPython library for the SX1276 chip (kilometer-range LoRa modem)
-    * Might be the first library of exploiting the <i>Frequency Hoppoing</i> feature of SX1276.
+    * A MicroPython library to operate a kilometer-range radio modem (SX1276)
+    * Might be the first library that exploits the <i>Frequency Hoppoing</i> feature of SX1276.
   * [Drone](https://github.com/xg590/Tello-Python)
-    * Control my Tello drone and capture the video stream from it.
+    * Control my Tello drone and capture the video stream.
   * [Home automation](https://github.com/xg590/Home_Automation) 
     * Automate my ceiling light and air conditioner, DIY a WiFi remote and more. 
   * [pyWebREPL](https://github.com/xg590/pyWebREPL) 
-    * A Python library to control microcontroller ESP8266/ESP32 in real time 
+    * A Python library to control microcontroller (ESP8266/ESP32) in real time 
   * [Rover](https://github.com/xg590/IoT_Rover) 
-    * Build a rover and control it over the internet.
+    * A rover that is controlled over the internet.
   * [remoteKM](https://github.com/xg590/remoteKM)
-    * Build a gadget that emulates keyboard and mouse.
-    * Control the gadget over the internet to install Microsoft Windows for my parents' computer.
+    * A gadget that emulates keyboard/mouse and is controlled over the internet to install Operating System for my parents' computer.
