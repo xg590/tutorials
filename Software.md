@@ -480,6 +480,59 @@ Singularity> exit
 $ singularity shell --overlay 2G.ext3  ubuntu-20.04.1.sif
 Singularity> touch /ext/success
 ```
+* [Create debian package](https://github.com/apptainer/singularity/blob/master/dist/debian/DEBIAN_PACKAGE.md)
+```
+sudo apt-get update && sudo apt-get install -y build-essential uuid-dev libgpgme-dev squashfs-tools libseccomp-dev wget pkg-config git cryptsetup-bin
+export VERSION=3.8.7
+wget https://github.com/hpcng/singularity/releases/download/v${VERSION}/singularity-${VERSION}.tar.gz && tar -xzf singularity-${VERSION}.tar.gz
+sudo apt install debhelper dh-autoreconf help2man libarchive-dev libssl-dev cryptsetup golang-go devscripts
+cd singularity-3.8.7/
+cp -r dist/debian .
+debuild --build=binary --no-sign --lintian-opts --display-info --show-overrides 
+dh clean
+rm -rf debian
+```
+* Download pre-built images
+```
+singularity search ubuntu
+singularity pull                    library://ubuntu # Download ubuntu in SIF format
+singularity build ubuntu.sif        library://ubuntu # Download           SIF
+```
+* Apt in Singularity Container
+```
+singularity build --sandbox             ubuntu library://ubuntu # Downlaod ubuntu in a folder 
+sudo singularity shell --writable       ubuntu
+Singularity> apt update
+Singularity> apt install unix2dos
+Singularity> exit  
+singularity build --fakeroot ubuntu.sif ubuntu                  # Convert the folder to SIF    
+singularity shell ubuntu.sif                                    # test 
+
+```
+* Singularity Definition File. ([BootStrap](https://docs.sylabs.io/guides/3.0/user-guide/definition_files.html?highlight=bootstrap#header), [%post](https://docs.sylabs.io/guides/3.0/user-guide/quick_start.html#singularity-definition-files))
+```
+cat << EOF > esp_idf_442.def
+BootStrap: library
+From: ubuntu:22.04
+
+%post
+    apt-get -y update
+    apt-get -y install git wget flex bison gperf python3 python3-pip python3-setuptools cmake ninja-build ccache libffi-dev libssl-dev dfu-util libusb-1.0-0 screen
+    git clone -b v4.4.2 --recursive https://github.com/espressif/esp-idf.git /opt/esp_dev/esp_idf_442
+    export IDF_TOOLS_PATH=/opt/esp_dev/idf_tools
+    /opt/esp_dev/esp_idf_442/install.sh esp32
+
+%environment
+    export PATH=~/bin:\$PATH
+    export IDF_TOOLS_PATH=/opt/esp_dev/idf_tools
+
+%labels
+    Author xg590
+EOF
+singularity build --fakeroot esp_idf_442.sif esp_idf_442.def
+singularity shell esp_idf_442.sif
+Singularity> . /opt/esp_dev/esp_idf_442/export.sh
+```
 ### HTTP Basic Authentication
 ```
 import base64, requests 
