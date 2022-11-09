@@ -17,7 +17,7 @@
     * Front-end : Vue.js
     * Back-end  : Flask
     * Database  : Neo4j and Postgresql
-    * Deployment: Amazon/Google Cloud and Docker 
+    * Deployment: Amazon/Google Cloud and Docker/Singularity
 * Personal automation projects: 
   * [Digital Radio](https://github.com/xg590/SX1276) 
     * A MicroPython library to operate a kilometer-range radio modem (SX1276)
