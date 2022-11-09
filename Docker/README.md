@@ -83,3 +83,11 @@ $ docker volume rm new_york_univ_db_volume new_york_univ_nextcloud_vol
 ``` 
   docker run -dp 192.168.xxx.xxx:4321:3000 getting-started
 ```
+* Change settings
+```
+vim /lib/systemd/system/docker.service
+# /usr/bin/dockerd --data-root /home/a/docker_volumes -H fd:// ...
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+docker info
+```

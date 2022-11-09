@@ -1,3 +1,5 @@
+## Content
+* [VirtualBox](#VirtualBox)
 ### Trubleshooting
 * There were xxxx failed login attempts since the last successful login. 
   * Modify config file
@@ -151,6 +153,28 @@ git log --oneline
 git revert specified_HEAD # Only undo one specified commit
 git reset  specified_HEAD # All commit after one specified commit
 ```
+#### Host a Git server
+* Set up a remote depo on a remote server
+```
+sudo su
+apt install -y git
+useradd -m -s /bin/bash git
+su - git
+mkdir ~/.ssh
+ssh-keygen -t ed25519 -C '' -N '' -f "${HOME}/.ssh/id_ed25519"
+cp ~/.ssh/id_ed25519.pub ~/.ssh/authorized_keys
+mkdir abc.git && cd abc.git
+git init --bare
+```
+* Local Machine
+```
+mkdir abc && cd abc
+git init 
+git add * 
+git commit -m "testMyGitServer"
+git remote add origin git@remote_ip:abc.git
+git push origin master
+```
 ### Q_emulator?
 #### Emu X86/AMD64
 * Install
@@ -277,7 +301,7 @@ me@webserver:~$ ./software/miniconda3/bin/conda-env create -f environment.yml
 me@webserver:~$ source software/miniconda3/bin/activate rdkit_on_hpc
 (rdkit_on_hpc) me@webserver:~$
 ``` 
-### VirtualBox
+### VirtualBox <a name="VirtualBox"></a>
 * [Manual](https://www.virtualbox.org/manual/ch08.html)
 * List virtual machines
 ```
@@ -395,144 +419,8 @@ sudo usermod -aG vboxusers $USER
 * "Failed to attach the USB device xxx to the virtual machine xxxx"
   * It may because VBox extenstion package is not installed or the USB device need a higher version of controller. 
   * Enable USB controller in Virtual Machine Settings 
-  * Choose 3.0 Controller
+  * Choose 3.0 Controller 
 
-### Singularity
-* Install Dependencies
-```
-sudo apt-get update && sudo apt-get install -y build-essential uuid-dev libgpgme-dev squashfs-tools libseccomp-dev wget pkg-config git cryptsetup-bin
-```
-* Install Go 1.14.12
-```
-export VERSION=1.14.12 OS=linux ARCH=amd64 && wget https://dl.google.com/go/go$VERSION.$OS-$ARCH.tar.gz && sudo tar -C /usr/local -xzvf go$VERSION.$OS-$ARCH.tar.gz && rm go$VERSION.$OS-$ARCH.tar.gz
-echo 'export PATH=/usr/local/go/bin:$PATH' >> ~/.bashrc && source ~/.bashrc
-```
-* Download Singularity 3.7.0
-```
-export VERSION=3.7.0 && wget https://github.com/hpcng/singularity/releases/download/v${VERSION}/singularity-${VERSION}.tar.gz && tar -xzf singularity-${VERSION}.tar.gz 
-```
-* Build Singularity
-```
-cd singularity && ./mconfig && make -C ./builddir && sudo make -C ./builddir install
-```
-Source bash completion file
-```
-. /usr/local/etc/bash_completion.d/singularity
-```
-Testing & Checking the Build Configuration
-```
-singularity exec library://alpine cat /etc/alpine-release
-``` 
-* Play on NYU HPC GREENE
-```
-coverlay-5GB-200K.ext3.gz /scratch/${USER}/
-gzip -d overlay-5GB-200K.ext3.gz
-singularity exec --overlay overlay-5GB-200K.ext3 /scratch/work/public/singularity/ubuntu-20.04.1.sif /bin/bash
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh 
-bash Miniconda3-latest-Linux-x86_64.sh -b -f -p /ext3/miniconda3/
-wget https://yzlab3.chem.nyu.edu/share/rdkit_on_hpc.yml
-/ext3/miniconda3/bin/conda-env create -f rdkit_on_hpc.yml 
-source /ext3/miniconda3/bin/activate rdkit_on_hpc 
-/ext3/miniconda3/envs/rdkit_on_hpc/bin/jupyter contrib nbextension install --user
-mkdir ~/.jupyter
-# from notebook.auth import passwd
-cat << EOF >> ~/.jupyter/jupyter_notebook_config.py
-c.NotebookApp.ip = '0.0.0.0' 
-c.NotebookApp.password = 'sha1:ffed18eb1683:ee67a85ceb6baa34b3283f8f8735af6e2e2f9b55'
-EOF
-cat <<EOF > ~/bin/jupyter.sh
-#!/bin/bash
-source /ext3/miniconda3/bin/activate rdkit_on_hpc
-XDG_RUNTIME_DIR=/scratch/xg590
-port=\$(shuf -i 10000-19999 -n 1) 
-jupyter notebook --no-browser --port \$port --notebook-dir=`pwd` &
-/usr/bin/ssh -N -R 39073:localhost:\$port iMac
-EOF
-chmod 700 ~/bin/jupyter.sh
-```
-* Run
-```
-singularity exec --overlay overlay-5GB-200K.ext3 /scratch/work/public/singularity/ubuntu-20.04.1.sif ~/bin/jupyter.sh
-``` 
-* Play t5chem
-```
-scp greene:/scratch/work/public/overlay-fs-ext3/overlay-5GB-200K.ext3.gzz .
-gzip -d overlay-5GB-200K.ext3.gz 
-singularity exec --overlay overlay-5GB-200K.ext3 ubuntu-20.04.1.sif /bin/bash
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh 
-bash Miniconda3-latest-Linux-x86_64.sh -b -f -p /ext3/miniconda3/
-/ext3/miniconda3/bin/conda create -n t5chem python=3.8
-source /ext3/miniconda3/bin/activate t5chem 
-pip install t5chem torch jupyter jupyter_contrib_nbextensions
-jupyter contrib nbextension install --user
-```
-* Persistent Overlays
-``` 
-$ sudo su  
-# dd if=/dev/zero of=2G.ext3 bs=1M count=2048
-# mkfs.ext3 2G.ext3
-# chmod 777 2G.ext3
-# singularity shell --overlay 2G.ext3  ubuntu-20.04.1.sif
-Singularity> mkdir /ext
-Singularity> chmod 777 /ext
-Singularity> exit
-# exit
-$ singularity shell --overlay 2G.ext3  ubuntu-20.04.1.sif
-Singularity> touch /ext/success
-```
-* [Create debian package](https://github.com/apptainer/singularity/blob/master/dist/debian/DEBIAN_PACKAGE.md)
-```
-sudo apt-get update && sudo apt-get install -y build-essential uuid-dev libgpgme-dev squashfs-tools libseccomp-dev wget pkg-config git cryptsetup-bin
-export VERSION=3.8.7
-wget https://github.com/hpcng/singularity/releases/download/v${VERSION}/singularity-${VERSION}.tar.gz && tar -xzf singularity-${VERSION}.tar.gz
-sudo apt install debhelper dh-autoreconf help2man libarchive-dev libssl-dev cryptsetup golang-go devscripts
-cd singularity-3.8.7/
-cp -r dist/debian .
-debuild --build=binary --no-sign --lintian-opts --display-info --show-overrides 
-dh clean
-rm -rf debian
-```
-* Download pre-built images
-```
-singularity search ubuntu
-singularity pull                    library://ubuntu # Download ubuntu in SIF format
-singularity build ubuntu.sif        library://ubuntu # Download           SIF
-```
-* Apt in Singularity Container
-```
-singularity build --sandbox             ubuntu library://ubuntu # Downlaod ubuntu in a folder 
-sudo singularity shell --writable       ubuntu
-Singularity> apt update
-Singularity> apt install unix2dos
-Singularity> exit  
-singularity build --fakeroot ubuntu.sif ubuntu                  # Convert the folder to SIF    
-singularity shell ubuntu.sif                                    # test 
-
-```
-* Singularity Definition File. ([BootStrap](https://docs.sylabs.io/guides/3.0/user-guide/definition_files.html?highlight=bootstrap#header), [%post](https://docs.sylabs.io/guides/3.0/user-guide/quick_start.html#singularity-definition-files))
-```
-cat << EOF > esp_idf_442.def
-BootStrap: library
-From: ubuntu:22.04
-
-%post
-    apt-get -y update
-    apt-get -y install git wget flex bison gperf python3 python3-pip python3-setuptools cmake ninja-build ccache libffi-dev libssl-dev dfu-util libusb-1.0-0 screen
-    git clone -b v4.4.2 --recursive https://github.com/espressif/esp-idf.git /opt/esp_dev/esp_idf_442
-    export IDF_TOOLS_PATH=/opt/esp_dev/idf_tools
-    /opt/esp_dev/esp_idf_442/install.sh esp32
-
-%environment
-    export PATH=~/bin:\$PATH
-    export IDF_TOOLS_PATH=/opt/esp_dev/idf_tools
-
-%labels
-    Author xg590
-EOF
-singularity build --fakeroot esp_idf_442.sif esp_idf_442.def
-singularity shell esp_idf_442.sif
-Singularity> . /opt/esp_dev/esp_idf_442/export.sh
-```
 ### HTTP Basic Authentication
 ```
 import base64, requests 
