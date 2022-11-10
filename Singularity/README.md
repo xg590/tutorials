@@ -2,6 +2,7 @@
 * [Install the Singularity](Installation.md)
 * Use definition file to build a SIF image: [Development environment for ESP MCU](Def_File_ESP_IDF.md)
 * Use Overlay because you should not write to the SIF image: [Build a jupyter notebook server](Overlay_jupyter.md)
+* Other Arch: [Build the notebook server for Raspberry Pi](Armhf.md)
 ### Quick Start <a name="Singularity"></a>
 * Download pre-built images (SIF)
 ```
@@ -24,7 +25,7 @@ Singularity> exit
 ``` 
 singularity build --fakeroot ubuntu.sif ubuntu_123 # Convert the folder to SIF    
 singularity shell ubuntu.sif                       # test
-``` 
+```
 ### Why I choose Singularity
 * It is the best solution I can find to deploy jupyter notebook server in a new machine
   1. First I can create a image (sif file) in which jupyter notebook is installed 

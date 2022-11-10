@@ -3,7 +3,7 @@
 ```
 singularity build --sandbox  jupyter library://ubuntu
 singularity shell --writable jupyter << EOF
-mkdir -p /ext/dev && chmod 777 /ext/dev
+mkdir -p /ext && chmod 777 /ext
 bash Miniconda3-latest-Linux-x86_64.sh -b -f -p /ext/miniconda3/
 /ext/miniconda3/bin/conda create -y -n jupyter python=3
 source /ext/miniconda3/bin/activate jupyter
@@ -19,11 +19,10 @@ BootStrap: localimage
 From: ${HOME}/jupyter
 
 %environment
-    export THIS_IS_A_TEST="foo bar"
-    export JUPYTER_RUNTIME_DIR="/ext/dev"
+    export THIS_IS_A_TEST="foo bar" 
 
 %runscript
-    /usr/bin/bash -c "source /ext/miniconda3/bin/activate jupyter && jupyter-notebook" 
+    /usr/bin/bash -c "source /ext/miniconda3/bin/activate jupyter && jupyter-notebook --notebook-dir='/ext/dev'" 
 
 %help
     Help Message~
@@ -62,8 +61,7 @@ $ sudo su
 # mkfs.ext3 2G.ext3
 # chmod 777 2G.ext3
 # singularity shell --overlay 2G.ext3  ubuntu.sif
-Singularity> mkdir /ext
-Singularity> chmod 777 /ext
+Singularity> mkdir /ext/cfg /ext/dev
 Singularity> exit
 # exit
 $ singularity shell --overlay 2G.ext3  ubuntu.sif
