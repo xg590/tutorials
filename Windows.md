@@ -83,9 +83,10 @@ icacls administrators_authorized_keys /inheritance:r
 icacls administrators_authorized_keys /grant SYSTEM:(F)
 icacls administrators_authorized_keys /grant BUILTIN\Administrators:(F)
 ```
-### Backup Driver
+### Backup/Restore Driver
 ```
 Export-WindowsDriver -Online -Destination “D:\Drivers Backup”
+Dism /online /Add-Driver /Driver:“D:\Drivers Backup” /Recurse
 ```
 ### NUC + Razer Core X
 * [Troubleshooting: Nvidia graphical card not recognized](https://community.intel.com/t5/Intel-NUCs/RTX-3060Ti-not-working-with-NUC-and-eGPU-Razer-Core-X-Chroma/td-p/1253473)
