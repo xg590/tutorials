@@ -5,27 +5,45 @@
 * Build a container
 ```
 singularity build --sandbox  jupyter docker://debian:bullseye
-sudo singularity shell --writable jupyter
-apt update && apt install -y python3 python3-pip
-mkdir /ext && chmod 777 /ext 
-pip3 install jupyter jupyter_contrib_nbextensions
-jupyter contrib nbextension install
-apt clean && pip cache purge
+sudo singularity shell --writable jupyter << EOF
+apt update && apt install -y python3 python3-pip python3-venv libffi-dev libxml2 libxslt-dev
+apt clean 
 exit
+EOF
+
+singularity shell --writable jupyter << EOF
+mkdir /ext && chmod 777 /ext && cd /ext
+python3 -m venv jupyter
+source jupyter/bin/activate
+pip install jupyter jupyter_contrib_nbextensions
+pip cache purge
+jupyter contrib nbextension install
+exit
+EOF
 ```
 * Build the SIF
-```
+``` 
+sudo chmod 644 jupyter/./var/cache/apt/archives/lock	 
+sudo chmod 644 jupyter/./var/cache/ldconfig/aux-cache	 
+sudo chmod 644 jupyter/./var/lib/apt/lists/lock		 
+sudo chmod 644 jupyter/./var/log/apt/term.log			 
+sudo chmod 755 jupyter/./var/cache/apt/archives/partial 
+sudo chmod 755 jupyter/./var/lib/apt/lists/partial		 
+sudo chmod 755 jupyter/./etc/ssl/private
+
 cat << EOF > jupyter.def
 BootStrap: localimage
 From: ${HOME}/jupyter
 
 %environment
     export THIS_IS_A_TEST="foo bar" 
-    export  JUPYTER_CONFIG_DIR="/ext/cfg" 
+    export JUPYTER_CONFIG_DIR="/ext/cfg" 
+    export PIP_TARGET="/ext/site-packages"
+    export PYTHONPATH="/ext/site-packages"
 
 %runscript
     # debian:bullseye is different than Ubuntu
-    /bin/bash -c "jupyter-notebook --notebook-dir='/ext/dev'"  
+    /bin/bash -c "source /ext/jupyter/bin/activate ; jupyter-notebook --notebook-dir='/ext/dev'"  
 
 %help
     Help Message~
@@ -33,7 +51,7 @@ From: ${HOME}/jupyter
 %labels
     Author xg590
 EOF
-singularity build --fakeroot jupyter.sif jupyter.def
+singularity build  --fakeroot jupyter.sif jupyter.def
 singularity inspect --deffile jupyter.sif
 ```
 * Overlay (You don't have the write permission of jupyter.sif. Use a overlay so you can create file. Otherwise, jupyter notebook sever will not run because it cannot create temporary files.)
