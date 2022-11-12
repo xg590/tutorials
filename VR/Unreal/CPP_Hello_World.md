@@ -1,5 +1,6 @@
 Before you try the C++ Hello World, I recommend this introduction [video](https://www.youtube.com/watch?v=p5Rp500kbOc) for knowing what C++ Programming is in the Unreal Engine.
 ## C++ Hello World
+* Checkout this GitHub [repo](https://github.com/xg590/UE4_helloWorld) so you can play it before learn.
 ### A Minimalistic Game with Unreal Engine 4.27
 1. Create a blank C++ Game project (name it as "helloWorld") with no Starter Content.
 <img src="../misc/createProject.png"></img>

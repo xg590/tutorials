@@ -1,15 +1,17 @@
 ### Who I am
-* Researcher and technican related to High Performance Computation (HPC): 
-  * Use HPC to investigate organic reaction mechanism and material property ([Several papers](https://www.researchgate.net/scientific-contributions/Xiaokang-Guo-2045488309))
+* Researcher and technican related to <i>high performance computation</i> (HPC):
+  * Utilized HPC to investigate organic reaction mechanism and material property ([Published Papers](https://www.researchgate.net/scientific-contributions/Xiaokang-Guo-2045488309))
   * HPC sysadmin 
     * Sysadmin of clusters for Chemistry Department at Zhengzhou University
-    * Worked as a contractor to support old clusters for other departments and install new cluster for other institutions.
+    * Worked as a contractor to support old clusters for other departments and to install new clusters for other institutions.
 * PhD research:
-  * Collect and recover all covalent inhibitors in Protein Data Bank.
-  * Train machine-learning models to predict the product of covalent inhibition.
+  * Collected covalent inhibitors and created a database (CovBinderInPDB).
+    * CovBinderInPDB is publicly accessible at <a href="https://yzhang.hpc.nyu.edu/CovBinderInPDB/">https://yzhang.hpc.nyu.edu/CovBinderInPDB/</a>
+    * X. Guo, Y. Zhang, <i>J. Chem. Inf. Model.</i>, <b>2022</b>, newly accepted.
+  * Trained the first machine-learning model for predicting the covalent inhibition.
+    * Because only CovBinderInPDB has collected the products of covalent inhibitions
 * Programmer:
-  * Good at Python/MicroPython 
-    * Primary programming choice.
+  * Good at Python/MicroPython
     * Play with everything like machine learning, robotics, backend development.
   * OK with C/C++, SQL, Cypher, Shellscript, Javascript.
     * Do specific job like text mining, data or server management, frontend or VR development.
@@ -20,7 +22,7 @@
     * Deployment: Amazon/Google Cloud and Docker/Singularity
 * Personal automation projects: 
   * [Digital Radio](https://github.com/xg590/SX1276) 
-    * A MicroPython library to operate a kilometer-range radio modem (SX1276)
+    * A MicroPython library to operate SX1276 (a kilometer-range radio modem)
     * Might be the first library that exploits the <i>Frequency Hoppoing</i> feature of SX1276.
   * [Drone](https://github.com/xg590/Tello-Python)
     * Control my Tello drone and capture the video stream.
