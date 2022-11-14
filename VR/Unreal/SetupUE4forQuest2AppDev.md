@@ -16,7 +16,7 @@
     <td></td>
   </tr>
   <tr> 
-    <td><a href="https://developer.android.com/studio/archive">Android Studio 4.4.2</a></td>
+    <td><a href="https://developer.android.com/studio/archive">Android Studio</a></td>
     <td>Build-Tools for Quest App</td>
     <td>Don't custom installation path</td>
   </tr>
@@ -27,12 +27,14 @@
   </tr>
   <tr> 
     <td><a href="https://store.epicgames.com/en-US/download">Epic Games Launcher</a></td>
-    <td>Install Ureal Engine 4.27</td>
+    <td>Install Unreal Engine 4.27</td>
     <td>I strongly recommend 4.27</td>
   </tr>
 </table>
 
 2. [Set up Android SDK for UE](https://docs.unrealengine.com/5.0/en-US/how-to-set-up-android-sdk-and-ndk-for-your-unreal-engine-development-environment/)
+
+    2.0 Some assholes at Google decide you have to install Android API 33 before you install other APIs. You have to replace it with API 32.
 
     2.1 Install "Android SDK Command-line Tools (latest)".
 

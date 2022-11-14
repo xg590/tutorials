@@ -15,3 +15,4 @@
    cmd > rm -r UE4Game/
    exit
 ```
+2. Found thousands of Error? Try "Generate Visual Studio project files"
