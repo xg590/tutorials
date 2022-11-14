@@ -10,9 +10,17 @@
 ### Troubleshooting
 1. Cannot [Attempt to construct staged filesystem reference from absolute path](https://www.pizzolab.com/attempt-to-construct-staged-filesystem-reference-from-absolute-path/)
 ```
-   cmd > adb shell
-   cmd > cd sdcard
-   cmd > rm -r UE4Game/
-   exit
+   C:\Users\xg590>adb shell
+   hollywood:/ $ rm -rf sdcard/UE4Game/
+   hollywood:/ $ exit
 ```
-2. Found thousands of Error? Try "Generate Visual Studio project files"
+2. Found thousands of Error? 
+   
+   2.1 Try "Generate Visual Studio project files"
+3. Want to delete a C++ class
+
+   3.1 Close UE and VS
+   
+   3.2 Delete foo.h and foo.cpp in the src folder and delete the binary folder
+
+   3.3 Reopen UE and the project will rebuild
