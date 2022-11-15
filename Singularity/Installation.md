@@ -29,6 +29,7 @@ Source bash completion file
 sudo apt install debhelper dh-autoreconf help2man libarchive-dev libssl-dev cryptsetup golang-go devscripts
 cd singularity-3.8.7/
 cp -r dist/debian .
+wget https://golang.google.cn/dl/go1.16.12.src.tar.gz -O debian/go1.16.12.src.tar.gz
 debuild --build=binary --no-sign --lintian-opts --display-info --show-overrides 
 dh clean
 rm -rf debian

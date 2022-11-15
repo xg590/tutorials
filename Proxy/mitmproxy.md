@@ -1,14 +1,16 @@
-### Start man-in-the-middle Proxy [[option list](https://docs.mitmproxy.org/stable/concepts-options/)]
+### Get Start
+1. On the proxy server. [[Server option](https://docs.mitmproxy.org/stable/concepts-options/)]
 ```
-pip install wheel mitmproxy            # Installation
-mitmproxy --listen-host 192.168.x.x
+pip install wheel mitmproxy
+mitmproxy --listen-host 0.0.0.0
 ```
-
-### Configure clients
-* Configure MS Windows web browser, or iOS/Android WiFi settings
-* Visit mitm.it to download root CA certificate 
-  * Windows: Install mitmproxy-ca-cert.p12 
-  * iOS/Android: Follow instructions
+2. Configure proxy settings on the client device to use http://x.x.x.x:8080 as http proxy
+3. Use broswer on the client device to visit http://mitm.it and download the root cert.
+4. Import and trust the cert.
+```
+sudo mv mitmproxy-ca-cert.pem /usr/local/share/ca-certificates/mitmproxy.cert
+sudo update-ca-certificates
+``` 
 ### Handle request in mitmproxy
 ```shell
 ? help

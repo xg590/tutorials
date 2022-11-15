@@ -178,6 +178,10 @@ echo LOL | ssh remoteHost 'cat > /tmp/pipeOverSSH'
 * Land into grub menu and use key E to edit "Ubuntu"
 * Add "single" after line starting with "linux"
 * Press F10 to save and exit
+### See Charging Percent
+```
+cat /sys/class/power_supply/BAT0/capacity
+```
 ### aria2c
 ```
 aria2c -j5 --header="User-Agent: Mozilla/5.0 (Windows NT 6.1; ) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36"  

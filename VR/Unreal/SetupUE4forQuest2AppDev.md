@@ -34,11 +34,15 @@
 
 2. [Set up Android SDK for UE](https://docs.unrealengine.com/5.0/en-US/how-to-set-up-android-sdk-and-ndk-for-your-unreal-engine-development-environment/)
 
-    2.0 Some assholes at Google decide you have to install Android API 33 before you install other APIs. You have to replace it with API 32.
+    2.0 You need to replace the Android API 33 with API 32 (SDK Platforms). BTW, some assholes at Google decide you have to install Android API 33 before you replace it.
 
-    2.1 Install "Android SDK Command-line Tools (latest)".
+    2.1 For SDK Tools: Install "Android SDK Build-Tools 29.0.2"
 
-    2.2 Edit "Epic Games\UE_4.27\Engine\Extras\Android\SetupAndroid.bat" and run it.
+    2.2 Install "NDK (Side by side) 21.4.xxx"
+
+    2.3 Install "Android SDK Command-line Tools (latest)".
+
+    2.4 Edit "Epic Games\UE_4.27\Engine\Extras\Android\SetupAndroid.bat" and run it.
     ```
     Before: set SDKMANAGER=%STUDIO_SDK_PATH%\tools\bin\sdkmanager.bat
     After : set SDKMANAGER=%STUDIO_SDK_PATH%\cmdline-tools\latest\bin\sdkmanager.bat
@@ -49,9 +53,5 @@
 ### Troubleshooting
 1. Install [.NET Core 3.1 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/3.1) to fix hostfxr.dll problem.
 2. Install [.NET SDK 4.6+](https://dotnet.microsoft.com/en-us/download) to fix Cannot find .NetFxSDK problem
-3. Cannot preview in Unreal Engine 
-    * Enable plugin Oculus VR if you see a greyed VR Preview
-    * Restart VR headset and enable Oculus Link
-    * Then launch Unreal Engine Editor 
 ### Ref
 1. How to make a Quest 2 Game : Unreal Engine 4 [(youtube)](https://www.youtube.com/watch?v=Nqg3qlJdCCM) 

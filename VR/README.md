@@ -24,3 +24,10 @@
    3.2 Delete foo.h and foo.cpp in the src folder and delete the binary folder
 
    3.3 Reopen UE and the project will rebuild
+4. Cannot preview in Unreal Engine 
+
+   4.1 Enable plugin Oculus VR if you see a greyed VR Preview
+
+   4.2 Restart VR headset and enable Oculus Link
+
+   4.3 Then relaunch Unreal Engine Editor 
