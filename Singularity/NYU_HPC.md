@@ -8,7 +8,7 @@ bash Miniconda3-latest-Linux-x86_64.sh -b -f -p /ext3/miniconda3/
 wget https://yzlab3.chem.nyu.edu/share/rdkit_on_hpc.yml
 /ext3/miniconda3/bin/conda-env create -f rdkit_on_hpc.yml 
 source /ext3/miniconda3/bin/activate rdkit_on_hpc 
-/ext3/miniconda3/envs/rdkit_on_hpc/bin/jupyter contrib nbextension install --user
+/ext3/miniconda3/envs/rdkit_on_hpc/bin/jupyter contrib nbextension install --sys-prefix
 mkdir ~/.jupyter
 # from notebook.auth import passwd
 cat << EOF >> ~/.jupyter/jupyter_notebook_config.py
@@ -39,5 +39,5 @@ bash Miniconda3-latest-Linux-x86_64.sh -b -f -p /ext3/miniconda3/
 /ext3/miniconda3/bin/conda create -n t5chem python=3.8
 source /ext3/miniconda3/bin/activate t5chem 
 pip install t5chem torch jupyter jupyter_contrib_nbextensions
-jupyter contrib nbextension install --user
+jupyter contrib nbextension install --sys-prefix
 ```

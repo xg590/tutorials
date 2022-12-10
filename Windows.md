@@ -98,3 +98,9 @@ powercfg -setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
 ```
 mount -t drvfs f: /some/path
 ```
+### RDP issue
+```
+RDP Message: You must change your password before logging on the first time. Please update your password or contact
+```
+* We need save the RDP connection as a .rdp file then add a new line to it
+  * Adding “enablecredsspsupport:i:0” to *.rdp file is used to disable “Credential Security Support Provider”(CredSSP) in the RDP client.  
