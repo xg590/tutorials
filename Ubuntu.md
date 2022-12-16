@@ -300,6 +300,7 @@ sudo letsencrypt renew
   * chain.pem     contains intermediate certificates. Some webservers like separated certficate files.
   * fullchain.pem contains cert.pem and chain.pem. Some webservers like unseparated certficate files.
   * private.pem   counterpart of the server certificate
+
 ### DHCP <a name="dhcp"></a>
 * Assume eth0 is already configured with ip 192.168.3.3/24 (Otherwise dhcpd will fail to start)
 * A dhcp server (dhcpd) can be started for 192.168.3.0/24

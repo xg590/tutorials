@@ -36,6 +36,7 @@
   *
   00004000
 ```
+
 #### dd
 * seek skips n blocks from the beginning of the output file.
 * skip skips n blocks from the beginning of the input file.
@@ -60,6 +61,36 @@ dd bs=512 skip=$((lastLBA+1)) count=33 if=/dev/$sdX 2>/dev/null | hexdump -C
 ``` 
 dd bs=512                     count=34 if=GPT.bak         if=GPT.bak of=/dev/$sdX 
 dd bs=512 seek=$((lastLBA+1)) count=33 if=GPT.bak skip=34 if=GPT.bak of=/dev/$sdX 
+```
+#### How can I assure a Linux installation media is genuine
+* It is easy to assure the ISO file is genuine
+```
+$ sha256sum
+c396e956a9f52c418397867d1ea5c0cf1a99a49dcf648b086d2fb762330cc88d ubuntu-22.04.1-desktop-amd64.iso
+```
+* Print out the partition table of the image in ISO file 
+```
+$ fdisk -l ubuntu-22.04.1-desktop-amd64.iso
+Disk ubuntu-22.04.1-desktop-amd64.iso: 3.56 GiB, 3826831360 bytes, 7474280 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: 9240A165-D190-4AB6-8A10-46DC207B42EE
+
+Device                              Start     End Sectors  Size Type
+ubuntu-22.04.1-desktop-amd64.iso1      64 7465119 7465056  3.6G Microsoft basic data
+ubuntu-22.04.1-desktop-amd64.iso2 7465120 7473615    8496  4.1M EFI System
+ubuntu-22.04.1-desktop-amd64.iso3 7473616 7474215     600  300K Microsoft basic data
+```
+* sha256sum the first partition
+```
+dd if=ubuntu-22.04.1-desktop-amd64.iso bs=512 skip=64 count=7465056 | sha256sum
+6e2ae12fcf69a586a3c504a1cf9f9bcd7f99a8c3f8fe71bc13b977de151aaecc
+```
+* sha256sum sdx1 after the image was burned to SD Card.
+```
+dd if=/dev/sdb1 bs=512 | sha256sum 
 ```
 ### Use eGPU on Windows 10
 * Material List
