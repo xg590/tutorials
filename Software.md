@@ -35,19 +35,19 @@ iw dev
 #   -U     No buffer mode for the real-time analysis. Output message immediately.  
 #   -w     Set the default capture file name, or '-' for standard output. 
 #   port   A filter
-sudo tcpdump -i eth0 -nn -U -w - | nc -l 0.0.0.0 45454
+sudo tcpdump -i $nic -nn -U -w - | nc -l 0.0.0.0 45454
 ```
 * On a Linux PC  
 ```
 sudo apt install wireshark ### Allow non-root user to capture packet.
 sudo usermod -a -G wireshark $USER 
 newgrp wireshark
-wireshark -k -i TCP@192.168.x.3:45454
+wireshark -k -i TCP@192.168.x.x:45454
 ```
 * On a Windows PC 
 ```
-CMD F:\>            Programs\WiresharkPortable64\WiresharkPortable64.exe -k -i TCP@192.168.x.3:45454
-ShortCut Target: F:\Programs\WiresharkPortable64\WiresharkPortable64.exe -k -i TCP@192.168.x.3:45454
+CMD F:\>            Programs\WiresharkPortable64\WiresharkPortable64.exe -k -i TCP@192.168.x.x:45454
+ShortCut Target: F:\Programs\WiresharkPortable64\WiresharkPortable64.exe -k -i TCP@192.168.x.x:45454
 ```
 * Wireshark filter
 ```
