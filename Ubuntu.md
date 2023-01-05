@@ -656,3 +656,25 @@ sudo systemctl restart systemd-logind
 ```
 echo "$USER ALL=(ALL:ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers 
 ```
+### Power Off a USB drive and reverse the Power Off
+* Know which bus the usb thumb is on (Bus 002)
+```
+$ lsusb -tv
+/:  Bus 02.Port 1: Dev 1, Class=root_hub, Driver=xhci_hcd/6p, 10000M
+    ID 1d6b:0003 Linux Foundation 3.0 root hub
+    |__ Port 1: Dev 2, If 0, Class=Mass Storage, Driver=usb-storage, 5000M
+        ID 0951:1666 Kingston Technology DataTraveler 100 G3/G4/SE9 G2/50
+/:  Bus 01.Port 1: Dev 1, Class=root_hub, Driver=xhci_hcd/8p, 480M
+    ID 1d6b:0002 Linux Foundation 2.0 root hub
+    ...
+```
+* Umount and Power Off 
+```
+sudo udisksctl unmount   -b /dev/sda1 
+sudo udisksctl power-off -b /dev/sda
+```
+* Reverse the Power Off
+```
+bus=/sys/bus/usb/devices/usb2/bConfigurationValue
+cat $bus | sudo tee $bus
+```
