@@ -83,6 +83,41 @@ $ docker volume rm new_york_univ_db_volume new_york_univ_nextcloud_vol
 ``` 
   docker run -dp 192.168.xxx.xxx:4321:3000 getting-started
 ```
+* Prune
+```
+docker system prune -a
+```
+* Inspect container
+```
+docker container top  container-name
+docker container port container-name
+```
+* From container to host
+```
+docker cp container-name:/etc/passwd .
+```
+* Save and container
+```
+docker container ls 
+docker container ls -f 'status=exited'
+docker export container-id > foo.tar
+docker import foo.tar put_any_name_here:latest
+```
+* Save and load image
+```
+docker image ls
+docker save image-id > bar.tar
+docker load < bar.tar
+```
+* Migrate
+```
+docker container ls
+docker commit container-id nextcloud
+docker save nextcloud > nextcloud.tar
+docker load --input nextcloud.tar
+docker-compose.yml
+   image: nextcloud
+```
 * Change settings
 ```
 vim /lib/systemd/system/docker.service

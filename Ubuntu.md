@@ -241,6 +241,10 @@ EOF
 rsync --daemon
 rsync -azP /local_dir/ rsync://host:port/my_remote_dir/
 ```
+* Rsync recurrently
+```
+rsync -azv --delete /mnt/e/ /mnt/h/
+```
 ### Capture Screen
 Save 10 sec screenshot 
 ```
