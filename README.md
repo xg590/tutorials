@@ -7,7 +7,7 @@
 * PhD research:
   * Collected covalent inhibitors and created a database (CovBinderInPDB).
     * CovBinderInPDB is publicly accessible at <a href="https://yzhang.hpc.nyu.edu/CovBinderInPDB/">https://yzhang.hpc.nyu.edu/CovBinderInPDB/</a>
-    * X. Guo, Y. Zhang, <i>J. Chem. Inf. Model.</i>, <b>2022</b>, newly accepted.
+    * X. Guo, Y. Zhang, <i>J. Chem. Inf. Model.</i>, <b>2022</b>, <i>62</i>, 6057–6068. [ACS Full Text](https://doi.org/10.1021/acs.jcim.2c01216)
   * Trained the first machine-learning model for predicting the covalent inhibition.
     * Because only CovBinderInPDB has collected the products of covalent inhibitions
 * Programmer:

@@ -7,7 +7,7 @@
 singularity build --sandbox  jupyter docker://debian:bullseye
 #singularity build --sandbox  jupyter library://ubuntu
 sudo singularity shell --writable jupyter << EOF
-apt update && apt install -y python3 python3-pip libffi-dev libxml2 libxslt-dev
+apt update && apt install -y wget vim python3 python3-pip libffi-dev libxml2 libxslt-dev
 apt clean
 exit
 EOF
@@ -16,7 +16,7 @@ singularity shell --writable jupyter << EOF
 mkdir /ext && chmod 777 /ext && cd /ext
 export PIP_TARGET="/ext/site-packages"
 export PYTHONPATH="/ext/site-packages"
-pip install jupyter jupyter_contrib_nbextensions wheel
+pip install jupyter notebook=="6.4.11" jupyter_contrib_nbextensions wheel
 pip cache purge
 export PATH=/ext/site-packages/bin:$PATH
 jupyter contrib nbextension install

@@ -682,3 +682,13 @@ sudo udisksctl power-off -b /dev/sda
 bus=/sys/bus/usb/devices/usb2/bConfigurationValue
 cat $bus | sudo tee $bus
 ```
+## How to disable Chrome Keyring?
+```
+Post by agordon1050 » Fri Jan 08, 2021 2:01 am 
+1. Launch Passwords & Keys
+2. GNUPG Keys, click back button.
+3. Click +, select Password Keyring
+4. Call it Default
+5. Click Continue for an Empty Password & Continue again when asked if you want to store passwords unencrypted.
+6. Right click on Default in the list (may have to mouse over to see choices), click Select as Default.   
+```

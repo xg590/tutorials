@@ -10,7 +10,7 @@ bash Miniconda3-latest-Linux-x86_64.sh -b -f -p /ext3/miniconda3/
 source /ext3/miniconda3/bin/activate newT5ChemAndRDKit
 pip install jupyter jupyter_contrib_nbextensions
 pip install t5chem 
-# jupyter contrib nbextension install --use
+# jupyter contrib nbextension install --user
 ``` 
 ### T5Chem_prop
 ```python3
@@ -42,4 +42,16 @@ srun --job-name=${HOSTNAME}-${PWD##*/} --nodes=1 --time=10:00:00 --cpus-per-task
 singularity exec --nv --overlay ~/software/newT5ChemAndRDKit_t5chem.ext3 /scratch/work/public/singularity/cuda11.4.2-cudnn8.2.4-devel-ubuntu20.04.3.sif /bin/bash
 source /ext3/miniconda3/bin/activate newT5ChemAndRDKit
 Singularity> t5chem.sh
+```
+### Grover
+```
+singularity shell --overlay /scratch/xg590/grover.ext3 /scratch/work/public/singularity/ubuntu-22.04.sif
+bash Miniconda3-latest-Linux-x86_64.sh -b -f -p /ext3/miniconda3/
+export PATH=/ext3/miniconda3/bin:$PATH
+conda create -n grover pytorch pytorch-cuda=11.6 torchvision torchaudio -c pytorch -c nvidia
+source /ext3/miniconda3/bin/activate grover  
+pip install jupyter jupyter_contrib_nbextensions scipy tensorboard scikit-learn rdkit tqdm descriptastorus
+jupyter contrib nbextension install --use
+# singularity exec --overlay /scratch/xg590/grover.ext3 /scratch/work/public/singularity/ubuntu-22.04.sif ~/bin/grover.sh
+# singularity shell --overlay /scratch/xg590/grover.ext3 /scratch/work/public/singularity/cuda11.6.124-cudnn8.4.0.27-devel-ubuntu20.04.4.sif
 ```
