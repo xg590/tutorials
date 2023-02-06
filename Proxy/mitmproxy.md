@@ -1,12 +1,12 @@
 ### Get Start
-1. On the proxy server. [[Server option](https://docs.mitmproxy.org/stable/concepts-options/)]
+1. On the proxy server (OK to run in singularity env). [[Server option](https://docs.mitmproxy.org/stable/concepts-options/)]
 ```
 pip install wheel mitmproxy
-mitmproxy --listen-host 0.0.0.0
+mitmproxy --listen-host 0.0.0.0 --listen-port 12345
 ```
-2. Configure proxy settings on the client device to use http://x.x.x.x:8080 as http proxy
+2. Configure proxy settings on the client device to use x.x.x.x and 8080 as parameters of the <b>MANUAL</b> http proxy
 3. Use broswer on the client device to visit http://mitm.it and download the root cert.
-4. Import and trust the cert.
+4. Import and trust the cert in Ubuntu; follow the instructions carefully in iOS.
 ```
 sudo mv mitmproxy-ca-cert.pem /usr/local/share/ca-certificates/mitmproxy.cert
 sudo update-ca-certificates

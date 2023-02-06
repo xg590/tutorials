@@ -8,6 +8,7 @@ singularity build --sandbox  jupyter docker://debian:bullseye
 #singularity build --sandbox  jupyter library://ubuntu
 sudo singularity shell --writable jupyter << EOF
 apt update && apt install -y wget vim python3 python3-pip libffi-dev libxml2 libxslt-dev
+#apt update && apt install -y wget vim python3 python3-pip libffi-dev libxml2 libxslt-dev libxrender1 libxext6
 apt clean
 exit
 EOF

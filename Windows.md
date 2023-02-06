@@ -5,7 +5,7 @@ Invoke-WebRequest -URI $URL -OutFile unifying250.exe
 ```
 ### ImDisk 
 ```
-imdisk -a -o rw,rem,awe -p "/Q /FS:FAT32  /A:4096 /V:ramdisk" -m K: -s 3G
+imdisk -a -o rw,rem,awe -p "/Q /FS:NTFS /A:64K /V:ramdisk /Y" -m Z: -s 6G
 # -a attach a new volume
 # -o option: read/write, removable, and use physical memory.
 # -p format the volume. see the help of command format
