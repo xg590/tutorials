@@ -2,7 +2,7 @@
 # Customized Envs
 read -e -p "Port to serve nextcloud: " -i "12345" port
 
-port=12345
+#port=12345
 # Randomized Envs
 mysql_root_password=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
 mysql_dbname=$(cat /dev/urandom | tr -dc 'a-zA-Z' | fold -w 10 | head -n 1)

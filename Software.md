@@ -745,3 +745,14 @@ Overwrite=1
 ssh -o "StrictHostKeyChecking=no" -i .ssh/id_rsa -p 22222 -NfD 18888 a@localhost
 curl -x socks5h://localhost:18888 http://www.google.com/
 ```
+### ssh-keygen
+```
+ssh-keygen -f /etc/ssh/ssh_host_ed25519_key.pub -l # get fingerprint of host 
+ssh-keyscan -t ed25519 xxx.nyu.edu
+cat << EOF > ~/.ssh/known_hosts
+xxx.nyu.edu ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBeEkL/sU86PJHQnqCb7tLjfzqBo0eqT2L6bGVs8givZ
+xxx.nyu.edu ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJVsHesY6wT8mgxyJ3B6e7OD/8v92Mc3p76EnNtX0SsU
+xxx.nyu.edu ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOO1r0g8AZ9CKvBpfmZDrIvU6vr4shg60UCG90dCRD0y
+EOF
+ssh-keygen -Hf ~/.ssh/known_hosts
+```

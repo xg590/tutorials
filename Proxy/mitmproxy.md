@@ -6,11 +6,12 @@ mitmproxy --listen-host 0.0.0.0 --listen-port 12345
 ```
 2. Configure proxy settings on the client device to use x.x.x.x and 8080 as parameters of the <b>MANUAL</b> http proxy
 3. Use broswer on the client device to visit http://mitm.it and download the root cert.
-4. Import and trust the cert in Ubuntu; follow the instructions carefully in iOS.
+4. Import and trust the cert in Ubuntu so you can use wget or similar tools. (Carefully follow all instructions if you are using iOS) 
 ```
 sudo mv mitmproxy-ca-cert.pem /usr/local/share/ca-certificates/mitmproxy.cert
 sudo update-ca-certificates
 ``` 
+5. If you need Chrome or Firefox, You have to trust the cert in these browsers. Trust Settings: Trust this certificate for identifying websites.
 ### Handle request in mitmproxy
 ```shell
 ? help

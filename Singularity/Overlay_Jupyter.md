@@ -1,6 +1,7 @@
 ### Jupyter [(Note about upper in overlayFS)](https://www.kernel.org/doc/Documentation/filesystems/overlayfs.txt)
 * Build a container
 ```
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 singularity build --sandbox  jupyter library://ubuntu
 singularity shell --writable jupyter << EOF
 mkdir -p /ext && chmod 777 /ext
