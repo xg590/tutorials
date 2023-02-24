@@ -33,7 +33,7 @@
    * Serve Nextcloud with MariaDB and Apache.
 6. [Deploy a flask-based web](flask.md)
    * Dockerfile and resource to build an image that runs flask
-7. [Deploy a local nextcloud server](dockerized_nextcloud_lan.md)
+7. [Deploy a local nextcloud server](nextcloud_lan.md)
    * Run a nextcloud server in LAN.
 ## Caveat
 * By referring to the option "--publish [ip:hostPort:containerPort | ip::containerPort | hostPort:containerPort | containerPort]", there is clearly no way of exposing ports on loopback interface. One should ask program that runs in container to listen on 0.0.0.0
