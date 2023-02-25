@@ -1,8 +1,7 @@
 * Build the docker image of jupyter
 ```
-mkdir jupyter
-cd    jupyter
-
+mkdir /tmp/jupyter
+cd /tmp/jupyter
 export NEWUSER="newuser" 
 cat << EOF > Dockerfile
 # syntax=docker/dockerfile:1
@@ -27,10 +26,12 @@ docker build -t jupyter .
 ```
 * Config the jupyter server
 ```
+mkdir jupyter
+cd    jupyter
 export NEWUSER="newuser" 
-mkdir -p dev new_site_packages 
+mkdir dev new_site_packages 
 docker run -it --name cool123 jupyter bash &
-sleep 5; docker cp cool123:/home/$NEWUSER/dev/cfg dev
+sleep 10; docker cp cool123:/home/$NEWUSER/dev/cfg dev
 cat << EOF > dev/cfg/jupyter_notebook_config.py
 c.NotebookApp.ip = '*'
 c.NotebookApp.password = 'sha1:ffed18eb1683:ee67a85ceb6baa34b3283f8f8735af6e2e2f9b55'
@@ -53,11 +54,5 @@ docker load < jupyter.tar
 ```
 * More
 ```
-docker run --name bafen_flask -itp 8888:8888 -p 5000:5000            \
-           -v $PWD/dev:/home/newuser/dev                             \
-           -v $PWD/new_site_packages:/home/newuser/new_site_packages \
-           jupyter bash
-docker start --attach Container-Id/Name 
-docker run mitm env
 docker rm $(docker container ls -f 'status=exited' --quiet) # remove exited containers
 ```
