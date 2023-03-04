@@ -6,6 +6,46 @@
 ```
   IdentitiesOnly=yes (ssh-agent offers too many wrong identities, suppress it)
 ```
+### [croc](https://github.com/schollz/croc)
+* Install
+```
+wget https://getcroc.schollz.com -O - | sudo bash -
+```
+* Send file via a public relay and a ReceiveCode123 is created.
+```
+croc send [filename]
+```
+* Receive file using the ReceiveCode123 via a public relay
+```
+croc ReceiveCode123
+```
+* Run a private relay server (Which MAY forward data)
+```
+# Two ports at least. The first port is always comm port.
+croc --debug relay --ports 5001,5002,5003,5004,5005
+```
+* Send file via a private relay
+```
+# MUST use the comm port!
+croc --relay guoxiaokang.com:5001 send [filename]
+```
+### [qft](https://github.com/TudbuT/qft)
+* Static compilation
+```
+apt-get install -y pkg-config
+
+wget https://github.com/TudbuT/qft/archive/refs/heads/nogui.zip
+unzip nogui.zip
+cd qft-nogui/
+RUSTFLAGS='-C target-feature=+crt-static' cargo build --release --target x86_64-unknown-linux-gnu
+ldd target/x86_64-unknown-linux-gnu/release/qft
+```
+* Arguments
+```
+qft helper   <bind-port>
+qft sender   <helper-address>:<helper-port> <phrase> <filename> [bitrate] [skip]
+qft receiver <helper-address>:<helper-port> <phrase> <filename> [bitrate] [skip]
+```
 ### Scapy
 * Network packet manipulator
 ### Terminal QR Code
