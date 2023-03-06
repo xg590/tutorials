@@ -1,3 +1,7 @@
+### Basic Concepts in Google Cloud
+* One Cloud, multiple projects.
+* Each project, many resources (and their API), but only serves one purpose.
+* You can create many apps (web app, mobile app, desktop app) to use the resources via API but all shall serves one purpose. These apps shares the same OAuth consent screen, which tells the purpose.
 ### Google Cloud SDK
 * Download SDK from https://cloud.google.com/sdk/docs/install
 ```

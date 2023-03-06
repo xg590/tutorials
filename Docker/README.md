@@ -128,3 +128,13 @@ sudo systemctl daemon-reload
 sudo systemctl restart docker
 docker info
 ```
+* Change container's setting
+```
+docker inspect -f "{{json .HostConfig}}" <container_name> # old settings
+docker inspect -f "{{.ID}}" <container_name> # Get the hash of container
+docker stop                 <container_name>
+vim /var/lib/docker/containers/<container_hash>/hostconfig.json
+systemctl restart docker
+docker inspect -f "{{json .HostConfig}}" <container_name> # new settings
+docker inspect -f "{{json .HostConfig.PortBindings}}" <container_name>
+```

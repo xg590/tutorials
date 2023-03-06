@@ -8,3 +8,4 @@ d.update(flask.request.headers)
 d.get('FOO', None) = None
 d.get('foo', None) = 'bar' 
 ```
+* Flask Session: Same user, Same session.
