@@ -48,6 +48,11 @@ Current N
 ```
 sudo fgconsole
 ```
+### VNC
+```
+export DISPLAY=:1
+xhost +
+```
 ### X11vnc
 * Thanks to [Ziyue Yang](https://yzygitzh.github.io/productivity/2017/09/05/remote-desktop-solutions.html) for mentioning x11vnc
 * One weird problem: The ubuntu MUST have a monitor connected to it otherwise I will freeze. So ... 
