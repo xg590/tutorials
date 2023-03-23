@@ -1,3 +1,26 @@
+### CUDA Library on Ubuntu 22.04.2 (GPU Driver Included)
+* visit https://developer.nvidia.com/cuda-toolkit
+* Download the .run file and sh it.
+```
+sudo apt install build-essential             # Installer needs gcc
+sudo sh ./cuda_11.8.0_520.61.05_linux.run    # It will try disable Nouveau kernel driver but installation will fail at the first time
+sudo reboot                                  # After the reboot nouveau kernel driver will not be loaded.
+sudo sh ./cuda_11.8.0_520.61.05_linux.run    # Installation will succeed
+```
+* Check the cuda lib and make sure it works
+```
+export            PATH=$PATH:/usr/local/cuda-11.8/bin
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-11.8/lib64
+nvcc --version
+```
+* PyTorch
+```
+bash Miniconda3-latest-Linux-x86_64.sh -b -f -p $HOME/software/miniconda3/
+$HOME/software/miniconda3/bin/conda create -y -c nvidia -c pytorch -n torch pytorch torchvision torchaudio pytorch-cuda=11.8
+source $HOME/software/miniconda3/bin/activate torch
+export            PATH=$PATH:/usr/local/cuda-11.8/bin
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-11.8/lib64
+```
 ### Disk
 * sector (physical block): disk controller IO
 * sector is the minimum unit of GUID partition table. 
