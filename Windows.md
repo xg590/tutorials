@@ -3,6 +3,27 @@
 $URL="http://yzlab3.chem.nyu.edu/software/LogTech_unifying250.exe"
 Invoke-WebRequest -URI $URL -OutFile unifying250.exe
 ```
+### Run GUI apps on WSL2 (GUI apps does not work with WSL 1)
+* Start Powershell with Admin privilege and Check the current WSL version
+```
+PS C:\Windows\system32> wsl --list --verbose
+  NAME            STATE           VERSION
+* Ubuntu-22.04    Running         1
+```
+* I am running "Ubuntu-22.04" but it is version 1
+* Check to enable "Virtual Machine Platform" and "Windows Hypervisor Platform" Feature of Windows 10 in "Turn Windows feature on or off" 
+* Reboot then Convert WSL 1 to WSL 2
+```
+wsl --set-version Ubuntu-22.04 2
+```
+* Try Google Chrome 
+```
+sudo apt install x11-apps -y
+sudo wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo apt install google-chrome-stable_current_amd64.deb
+google-chrome
+```
+* Ref: [Run Linux GUI apps on the Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/tutorials/gui-apps)
 ### ImDisk 
 ```
 imdisk -a -o rw,rem,awe -p "/Q /FS:NTFS /A:64K /V:ramdisk /Y" -m Z: -s 6G
@@ -94,7 +115,7 @@ Export-WindowsDriver -Online -Destination “D:\Drivers Backup”
 powercfg -duplicatescheme 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
 powercfg -setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
 ```
-### WSL
+### Mount USB stick on WSL
 ```
 mount -t drvfs f: /some/path
 ```
