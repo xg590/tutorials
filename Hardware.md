@@ -1,6 +1,45 @@
-### CUDA Library on Ubuntu 22.04.2 (GPU Driver Included)
+### GPU accelerated Dockerized Pytorch on WSL 2
+* Install WSL 2.
+```
+wsl --list --online # Let's see the distribution name of Ubuntu 22.04
+wsl --set-default-version 2
+wsl --install Ubuntu-22.04
+sudo apt update 
+```
+* Install Docker and Nvidia Docker 2 in Ubuntu 22.04 (WSL 2)
+```
+sudo apt install -y docker.io
+sudo dockerd # I use screen to keep dockerd running in the background
+distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+wget -O - https://nvidia.github.io/nvidia-docker/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-docker-keyring.gpg
+wget -O - https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | \
+          sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-docker-keyring.gpg] https://#g' | \
+          sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+sudo apt update 
+sudo apt install -y nvidia-docker2
+```
+* Update the Nvidia Driver to the latest on our host machine because we are pulling the latest pytorch from nvcr.io. 
+```
+mkdir test 
+wget https://raw.githubusercontent.com/xg590/tutorials/master/ML/pytorch_gpu_test_cnn.py -O test/pytorch_gpu_test_cnn.py
+nvidia-docker run -it                                    \
+                  --rm                                   \
+                  --gpus all                             \
+                  --shm-size=1g                          \
+                  --ulimit memlock=-1                    \
+                  --ulimit stack=$((64 * 1024 * 1024))   \
+                  -v ${PWD}/test:/workspace/test         \
+                  nvcr.io/nvidia/pytorch:23.03-py3
+python -c "import torch ; print(torch.cuda.is_available(), ' | ', torch.cuda.get_device_name(0))" 
+python test/pytorch_gpu_test_cnn.py
+```
+* Some useful links on this topics
+  * What is the latest pytorch? : https://catalog.ngc.nvidia.com/orgs/nvidia/containers/pytorch/tags
+  * https://docs.nvidia.com/deeplearning/frameworks/pytorch-release-notes/rel-23-03.html
+  * https://docs.nvidia.com/deeplearning/frameworks/user-guide/index.html
+### CUDA Library (GPU Driver Included) on Ubuntu 22.04.2 (PyTorch will run natively)
 * visit https://developer.nvidia.com/cuda-toolkit
-* Download the .run file and (ba)sh it.
+* Download the .run file and (ba)sh it. (.run file plus pytorch might be small than dockerized pytorch)
 ```
 sudo apt install build-essential             # Installer needs gcc
 sudo sh ./cuda_11.8.0_520.61.05_linux.run    # It will try disable Nouveau kernel driver but installation will fail at the first time
@@ -32,9 +71,6 @@ torch.cuda.is_available()
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 torch.rand(10, device=device)
 ```
-### WSL 2 
- and 
-(https://learn.microsoft.com/en-us/windows/wsl/tutorials/gpu-compute?source=recommendations)
 ### Disk
 * sector (physical block): disk controller IO
 * sector is the minimum unit of GUID partition table. 
