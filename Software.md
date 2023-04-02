@@ -656,34 +656,58 @@ qmod -sj | -usf (suspend | unsuspend)
 ```
 ### SLURM
 * Job detail
-```
-[x@log-1 dir]$ scontrol show jobid 21919507
-JobId=21919507 JobName=log-1.hpc.nyu.edu-data
-   UserId=x(x) GroupId=x(x) MCS_label=N/A
-   Priority=14817 Nice=0 Account=users QOS=interact 
-   RunTime=00:13:57 TimeLimit=00:30:00 TimeMin=N/A 
-   TresPerNode=gres:gpu:rtx8000:1
-```
+  ```
+  [x@log-1 dir]$ scontrol show jobid 21919507
+  JobId=21919507 JobName=log-1.hpc.nyu.edu-data
+     UserId=x(x) GroupId=x(x) MCS_label=N/A
+     Priority=14817 Nice=0 Account=users QOS=interact 
+     RunTime=00:13:57 TimeLimit=00:30:00 TimeMin=N/A 
+     TresPerNode=gres:gpu:rtx8000:1
+  ```
+* Task: For the following two jobs, [Credit](https://stackoverflow.com/a/53759961) 
+  ```
+  sbatch << EOF
+  #!/bin/bash
+  
+  #SBATCH --ntasks=1
+  
+  srun --ntasks=1 sleep 11 & 
+  srun --ntasks=1 sleep 12 &
+  wait
+  EOF
+  
+  sbatch << EOF
+  #!/bin/bash
+  
+  #SBATCH --ntasks=2
+  
+  srun --ntasks=1 sleep 11 & 
+  srun --ntasks=1 sleep 12 &
+  wait
+  EOF
+  ```
+  one job will be finish in 23 second because only one task could be run at the same time while another job finish in 12 second because two tasks could be run at the same time.
+  ```
+  [xg590@log-3 ~]$ sacct --format=JobID,Start,End,Elapsed,NCPUS -j 31502997 && \
+                   sacct --format=JobID,Start,End,Elapsed,NCPUS -j 31502998
+  JobID                      Start                 End    Elapsed      NCPUS
+  ------------ ------------------- ------------------- ---------- ----------
+  31502997     2023-03-31T16:15:11 2023-03-31T16:15:35   00:00:24          1
+  31502997.ba+ 2023-03-31T16:15:11 2023-03-31T16:15:35   00:00:24          1
+  31502997.ex+ 2023-03-31T16:15:11 2023-03-31T16:15:35   00:00:24          1
+  31502997.0   2023-03-31T16:15:12 2023-03-31T16:15:23   00:00:11          1
+  31502997.1   2023-03-31T16:15:23 2023-03-31T16:15:35   00:00:12          1
+  JobID                      Start                 End    Elapsed      NCPUS
+  ------------ ------------------- ------------------- ---------- ----------
+  31502998     2023-03-31T16:15:11 2023-03-31T16:15:24   00:00:13          2
+  31502998.ba+ 2023-03-31T16:15:11 2023-03-31T16:15:24   00:00:13          1
+  31502998.ex+ 2023-03-31T16:15:11 2023-03-31T16:15:24   00:00:13          2
+  31502998.0   2023-03-31T16:15:12 2023-03-31T16:15:23   00:00:11          1 # 
+  31502998.1   2023-03-31T16:15:12 2023-03-31T16:15:24   00:00:12          1 #
+  ``` 
 ### Win32-OpenSSH
 ##### # Download OpenSSH-Win32 and plink (Win7_x86)
 ```shell
-<<<<<<< HEAD
-wget http://192.168.0.22/software/Win32-OpenSSH/OpenSSH-Win32.zip 
-unzip OpenSSH-Win32.zip 
-mv OpenSSH-Win32 OpenSSH
-wget http://192.168.0.22/software/Win32-OpenSSH/plink.exe -O OpenSSH/plink.exe 
-``` 
-##### #  Download OpenSSH-Win32 and plink (Win7_x64)
-```shell
-wget http://192.168.0.22/software/Win32-OpenSSH/OpenSSH-Win64.zip 
-unzip OpenSSH-Win64.zip 
-mv OpenSSH-Win64 OpenSSH
-wget http://192.168.0.22/software/Win32-OpenSSH/plink.exe -O OpenSSH/plink.exe 
-```
-##### # HttpGet
-```
-wget http://192.168.0.22/software/Win32-OpenSSH/httpget.exe -O OpenSSH/httpget.exe  
-=======
 wget https://github.com/PowerShell/Win32-OpenSSH/releases/download/V8.6.0.0p1-Beta/OpenSSH-Win32.zip 
 unzip OpenSSH-Win32.zip 
 mv OpenSSH-Win32 OpenSSH
@@ -699,7 +723,6 @@ wget https://the.earth.li/~sgtatham/putty/latest/w64/plink.exe -O OpenSSH/plink.
 ##### # HttpGet
 ```
 wget https://github.com/xg590/miscellaneous/raw/master/httpget.exe -O OpenSSH/httpget.exe  
->>>>>>> b748ca4ecb1a2681d6f670449500976d21b712d3
 ```
 ##### # Generate identity files: 
 ```
