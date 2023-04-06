@@ -1,3 +1,4 @@
+###
 ### PowerShell
 ```
 $URL="http://yzlab3.chem.nyu.edu/software/LogTech_unifying250.exe"
@@ -81,6 +82,12 @@ With the help of command <i>ipconfig</i>, we should know the ip-interface bindin
 ```
 sdelete.exe c: -z
 C:\Progra~1\Oracle\VirtualBox\VBoxManage.exe modifymedium --compact D:\win10.vdi 
+```
+* Drag and compact [vbox_compact.bat]
+```
+REM drag a .vdi file on this batch file and it will be compacted
+C:\Progra~1\Oracle\VirtualBox\VBoxManage modifyhd --compact "%~1"
+pause
 ```
 ### Python and PIP
 1. Download and install [Python3](https://www.python.org/) 
