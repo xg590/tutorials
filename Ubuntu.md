@@ -195,6 +195,12 @@ aria2c -j5 --header="User-Agent: Mozilla/5.0 (Windows NT 6.1; ) AppleWebKit/537.
 ```
 sudo date -s "$(wget -qSO- --max-redirect=0 google.com 2>&1 | grep Date: | cut -d' ' -f5-8)Z"
 ```
+### Change Ubuntu Repo Src
+```
+sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak_`date "+%y_%m_%d"`
+sudo sed -i 's/http:\/\/.*.ubuntu.com/https:\/\/mirrors.aliyun.com/g' /etc/apt/sources.list
+sudo apt update && sudo apt full-upgrade
+```
 ### Wake-on-Lan
 * It works out of box for one of my Intel NUC. 
   * Enabled by default in BIOS
