@@ -7,6 +7,16 @@ sudo usermod -aG docker $USER
 wget https://github.com/docker/compose/releases/download/1.26.2/docker-compose-Linux-x86_64 -O docker-compose
 chmod 555 docker-compose 
 sudo mv docker-compose /usr/local/bin/docker-compose 
+cat << EOF | sudo tee /etc/docker/daemon.json  
+{
+  "registry-mirrors": [
+    "https://hub-mirror.c.163.com",
+    "https://mirror.baidubce.com"
+  ]
+}
+EOF
+sudo systemctl daemon-reload
+sudo systemctl restart docker
 ``` 
 Test installation
 ```

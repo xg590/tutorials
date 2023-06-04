@@ -10,6 +10,7 @@ RUN useradd -m $NEWUSER
 USER $NEWUSER
 WORKDIR /home/$NEWUSER
 ENV PATH="/home/$NEWUSER/.local/bin:\$PATH"
+RUN pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 RUN pip3 install --upgrade pip
 RUN pip3 install jupyter notebook=="6.4.11" jupyter_contrib_nbextensions wheel
 RUN            mkdir -p /home/$NEWUSER/dev/cfg

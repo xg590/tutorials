@@ -450,6 +450,8 @@ On Ubuntu 20.04, the network is managed by Network Manager ([CLI](https://develo
   sudo nmcli conn edit "Wired connection 1" 
   nmcli> set ipv4.method manual
   nmcli> set ipv4.addresses 192.168.0.123/24
+  nmcli> set ipv4.gateway 192.168.0.1
+  nmcli> set ipv4.dns 8.8.8.8 8.8.4.4
   nmcli> save persistent
   nmcli> quit
 ```
