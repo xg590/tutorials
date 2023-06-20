@@ -135,6 +135,10 @@ systemctl stop apache2
 ```
 systemctl status apache2    
 ```
+* List running service
+```
+systemctl list-units --type=service --state=running
+```
 ### iptables <a name="iptables"></a>
 ```shell
 #!/bin/bash

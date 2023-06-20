@@ -1,5 +1,5 @@
 ### GPU accelerated Dockerized Pytorch on WSL 2
-* Install WSL 2.
+* Install WSL 2 in CMD Prompt. (Turn on the "Windows Subsystem for Linux" features of Windows 10)
 ```
 wsl --list --online # Let's see the distribution name of Ubuntu 22.04
 wsl --set-default-version 2

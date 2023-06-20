@@ -101,6 +101,11 @@ sudo ip link set $nic down
 sudo iw $nic set type managed
 sudo ip link set $nic up 
 ```
+### curl
+```
+curl -x "socks5://user:pwd@127.0.0.1:1234" "http://ipinfo.io/ip"
+curl --interface ppp0 http://www.google.com/
+```
 ### GitHub
 #### Basics
 * Push a new local repo to GitHub

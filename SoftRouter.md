@@ -6,6 +6,12 @@
 ### What will the Router do
 * Layer 2 switching: forward frames among NUC and connected devices (clients).
 * Layer 3 routing and IP management: serve NAT and DHCP services
+### Procedures
+* hostapd: Create an Access Point (WiFi)
+* Set IP addr for wlan0
+* Prevent wlan0 from getting another IP addr via the DHCP service running on wlan0
+* isc-dhcp-server: Provide DHCP service on wlan0
+* IP forward and redirect internet traffic
 ### Hostapd: Layer 2 Wireless Switching
 * Install hostapd but I saw hostapd failed to start. 
 * When "journalctl -xe", I found "hostapd.service: Failed to schedule restart job: Unit hostapd.service is masked"
@@ -52,6 +58,12 @@ sudo systemctl start hostapd
 ```
 sudo ip addr add 192.168.3.3/24 dev wlan1
 ```
+* Stop dhcp client working for wlan1 (because we manully set an IP 192.168.3.3 for it)
+```
+sudo tee /etc/dhcpcd.conf << EOF >/dev/null 
+denyinterfaces wlan1
+EOF
+```
 * I then use a iPad connected to myAP and set ip 192.168.3.4 for iPad manually. 
 * Then pinging iPad from 192.168.3.3 is successful. 
 * Setup the DHCP service so iPhone will get ip upon joining the network.
@@ -83,8 +95,8 @@ sudo iptables -t nat -A POSTROUTING -s 192.168.3.0/24 -o wlan0 -j MASQUERADE
 ### After Reboot
 ```
 sudo ip addr add 192.168.3.3/24 dev wlan1
-sydo systemctl start hostapd  
-sydo systemctl start isc-dhcp-server   
+sudo systemctl start hostapd  
+sudo systemctl start isc-dhcp-server   
 echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward >/dev/null
 sudo iptables -t nat -A POSTROUTING -s 192.168.3.0/24 -o wlan0 -j MASQUERADE
 ```
