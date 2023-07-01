@@ -1,6 +1,6 @@
-### IKEv2
+## IKEv2
 * Here is the tutorial I follows: [DigitalOcean Tutorial](https://www.digitalocean.com/community/tutorials/how-to-set-up-an-ikev2-vpn-server-with-strongswan-on-ubuntu-22-04) 
-* Install strongSwan, set varibles, and secrets on the VPN server
+#### Install strongSwan, set varibles, and secrets on the VPN server
 ```
 sudo apt install -y strongswan strongswan-pki libcharon-extra-plugins libcharon-extauth-plugins libstrongswan-extra-plugins libtss2-tcti-tabrmd0 
 
@@ -12,7 +12,8 @@ cat << EOF > /etc/ipsec.secrets
 username123 : EAP "password321"
 EOF
 ```
-* I will blindly run the following code. DigitalOcean Tutorial has clear explanation.
+#### I will blindly run the following code. 
+* DigitalOcean Tutorial has clear explanation.
 * The DigitalOcean Tutorial gives a ipsec.conf that does not work well with MacOS Ventura so I replaced both ike and esp cipher suites with what I found somewhere else.
 ```
 pki --gen --type rsa --size 4096 --outform pem > /etc/ipsec.d/private/ca-key.pem 
@@ -54,11 +55,13 @@ conn ikev2-vpn
     esp=aes256-sha256,aes256-sha1,3des-sha1
 EOF
 ```
-* Start the service 
+#### Start the service 
 ```
 ipsec restart
 ipsec statusall
 echo 1 > /proc/sys/net/ipv4/ip_forward 
 iptables -t nat -A POSTROUTING -s $VPN_SUBNET -o ppp0 -j MASQUERADE 
 ```
-* DigitalOcean Tutorial has instructions for client setup.
+#### DigitalOcean Tutorial has instructions for client setup.
+### Trubleshooting
+* ipsec works poorly with 32bit (armhf) raspbian OS (bullseye), use arm64 raspbian.
