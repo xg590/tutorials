@@ -12,14 +12,52 @@
 ```
 cat /sys/class/power_supply/BAT0/capacity
 ```
-### GPU accelerated Dockerized Pytorch on WSL 2
-* Install WSL 2 in CMD Prompt. (Turn on the "Windows Subsystem for Linux" features of Windows 10)
-```
-wsl --list --online # Let's see the distribution name of Ubuntu 22.04
-wsl --set-default-version 2
-wsl --install Ubuntu-22.04
-sudo apt update 
-```
+### Pytorch + CUDA on WSL 2
+0. Install the latest Nvidia Driver in Windows (Not in WSL)
+1. Turn on the "Windows Subsystem for Linux" and "Virtual Machine Platform" features of Windows 10
+2. Download [WSL2 Linux kernel update package for x64 machines](https://aka.ms/wsl2kernel) and install
+3. Install WSL 2 in CMD Prompt
+    ```
+    wsl --set-default-version 2
+    # Let's see the distribution name of Ubuntu 22.04
+    wsl --list --online
+    wsl --install -d Ubuntu-22.04
+    # Let's check the version of wsl and installed distro
+    wsl -l -v
+    # In China, ...
+    sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak_`date "+%y_%m_%d"`
+    sudo sed -i 's/http:\/\/.*.ubuntu.com/https:\/\/mirrors.aliyun.com/g' /etc/apt/sources.list
+    sudo apt update 
+    sudo apt install build-essential # CUDA library installation needs gcc
+    ``` 
+4. Download the WSL-version of cuda_xxx.run [(CUDA Library)](https://developer.nvidia.com/cuda-toolkit) and sh it. 
+    ```
+    ls -l /usr/lib/wsl/lib/libcuda.so  
+    sudo sh ./cuda_11.8.0_520.61.05_linux.run --driver --toolkit --silent # Tested on WSL 2 
+    ```
+5. Check the cuda lib and make sure it works
+    ```
+    export            PATH=/usr/local/cuda-11.8/bin:$PATH
+    export LD_LIBRARY_PATH=/usr/local/cuda-11.8/lib64:$LD_LIBRARY_PATH
+    nvcc --version
+    ```
+6. Install PyTorch
+    ```
+    cat << EOF >> ~/.bashrc
+    export            PATH=\$PATH:/usr/local/cuda-11.8/bin
+    export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:/usr/local/cuda-11.8/lib64
+    EOF
+    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+    bash Miniconda3-latest-Linux-x86_64.sh -b -f -p $HOME/software/miniconda3/
+    $HOME/software/miniconda3/bin/conda create -y -c nvidia -c pytorch -n torch pytorch torchvision torchaudio pytorch-cuda=11.8
+    source $HOME/software/miniconda3/bin/activate torch  
+    ```
+7. Test Pytorch + CUDA
+    ```
+    python3 -m torch.utils.collect_env
+    python3 -c "import torch; print(torch.cuda.is_available())" 
+    ```
+### GPU accelerated Dockerized Pytorch on WSL 2 
 * Install Docker and Nvidia Docker 2 in Ubuntu 22.04 (WSL 2)
 ```
 sudo apt install -y docker.io
@@ -51,40 +89,6 @@ python test/pytorch_gpu_test_cnn.py
   * What is the latest pytorch? : https://catalog.ngc.nvidia.com/orgs/nvidia/containers/pytorch/tags
   * https://docs.nvidia.com/deeplearning/frameworks/pytorch-release-notes/rel-23-03.html
   * https://docs.nvidia.com/deeplearning/frameworks/user-guide/index.html
-### CUDA Library (GPU Driver Included) on Ubuntu 22.04.2 (PyTorch will run natively)
-* visit https://developer.nvidia.com/cuda-toolkit
-* Download the .run file and (ba)sh it. (.run file plus pytorch might be small than dockerized pytorch)
-```
-sudo apt install build-essential             # Installer needs gcc
-sudo sh ./cuda_11.8.0_520.61.05_linux.run    # It will try disable Nouveau kernel driver but installation will fail at the first time
-sudo reboot                                  # After the reboot nouveau kernel driver will not be loaded.
-sudo sh ./cuda_11.8.0_520.61.05_linux.run    # Installation will succeed
-
-sudo bash cuda_11.8.0_520.61.05_linux.run --silent --driver --toolkit # Tested on WSL 2 
-```
-* Check the cuda lib and make sure it works
-```
-export            PATH=/usr/local/cuda-11.8/bin:$PATH
-export LD_LIBRARY_PATH=/usr/local/cuda-11.8/lib64:$LD_LIBRARY_PATH
-nvcc --version
-```
-* PyTorch
-```
-bash Miniconda3-latest-Linux-x86_64.sh -b -f -p $HOME/software/miniconda3/
-$HOME/software/miniconda3/bin/conda create -y -c nvidia -c pytorch -n torch pytorch torchvision torchaudio pytorch-cuda=11.8
-source $HOME/software/miniconda3/bin/activate torch
-cat << EOF >> ~/.bashrc
-export            PATH=$PATH:/usr/local/cuda-11.8/bin
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-11.8/lib64
-EOF
-```
-* Test
-```
-import torch
-torch.cuda.is_available()
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-torch.rand(10, device=device)
-```
 ### Disk
 * sector (physical block): disk controller IO
 * sector is the minimum unit of GUID partition table. 

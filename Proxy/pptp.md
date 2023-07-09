@@ -49,7 +49,7 @@ pon pptp123
 #### Remote Machine (proxy server)
 ```
 sudo su
-echo "PermitRootLogin yes" > /etc/ssh/sshd_config
+echo -e "#Proxy Server\n\nPermitRootLogin yes\nPermitTunnel yes" >> /etc/ssh/sshd_config
 systemctl restart sshd
 echo "net.ipv4.ip_forward = 1" > /etc/sysctl.d/forward123.conf
 sysctl --system
