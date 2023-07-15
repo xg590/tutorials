@@ -72,6 +72,7 @@ Host proxy
     TCPKeepAlive yes
     ServerAliveCountMax 1
     ServerAliveInterval 5
+    DynamicForward 0.0.0.0:1080
 EOF
 echo "nameserver 8.8.8.8" > /etc/resolv.conf
 ip route add $openssh_server_ip/32 via $gateway_ip

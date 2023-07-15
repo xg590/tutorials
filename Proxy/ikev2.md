@@ -1,10 +1,10 @@
 ## IKEv2
 * Here is the tutorial I follows: [DigitalOcean Tutorial](https://www.digitalocean.com/community/tutorials/how-to-set-up-an-ikev2-vpn-server-with-strongswan-on-ubuntu-22-04) 
-#### Install strongSwan, set varibles, and secrets on the VPN server
+#### Install strongSwan, set varibles, and secrets on the VPN server (If I am playing this on Raspberry Pi, I will use arm64 version of Raspbian OS)
 ```
 sudo apt install -y strongswan strongswan-pki libcharon-extra-plugins libcharon-extauth-plugins libstrongswan-extra-plugins libtss2-tcti-tabrmd0 
 
-VPN_INBOUND_IP=192.168.56.102
+VPN_SERVER_IP=192.168.56.102
 VPN_SUBNET=40.0.0.0/24
 
 cat << EOF > /etc/ipsec.secrets
@@ -22,7 +22,7 @@ pki --self --ca --lifetime 3650 --type rsa --in  /etc/ipsec.d/private/ca-key.pem
 pki --gen --type rsa --size 4096 --outform pem > /etc/ipsec.d/private/server-key.pem 
 pki --pub --type rsa --in                        /etc/ipsec.d/private/server-key.pem | pki --issue --outform pem --lifetime 1825 \
         --flag serverAuth --flag ikeIntermediate --cacert /etc/ipsec.d/cacerts/ca-cert.pem --cakey /etc/ipsec.d/private/ca-key.pem \
-        --dn "CN=$VPN_INBOUND_IP" --san @$VPN_INBOUND_IP --san $VPN_INBOUND_IP > /etc/ipsec.d/certs/server-cert.pem
+        --dn "CN=$VPN_SERVER_IP" --san @$VPN_SERVER_IP --san $VPN_SERVER_IP > /etc/ipsec.d/certs/server-cert.pem
 
 cat << EOF > /etc/ipsec.conf
 config setup
@@ -40,7 +40,7 @@ conn ikev2-vpn
     dpddelay=300s
     rekey=no 
     left=%any
-    leftid=$VPN_INBOUND_IP
+    leftid=$VPN_SERVER_IP
     leftcert=server-cert.pem
     leftsendcert=always
     leftsubnet=0.0.0.0/0 
@@ -57,11 +57,20 @@ EOF
 ```
 #### Start the service 
 ```
-ipsec restart
-ipsec statusall
-echo 1 > /proc/sys/net/ipv4/ip_forward 
+ipsec restart && ipsec statusall
+echo "net.ipv4.ip_forward = 1" > /etc/sysctl.d/forward123.conf
+sysctl --system
+cat /proc/sys/net/ipv4/ip_forward  
 iptables -t nat -A POSTROUTING -s $VPN_SUBNET -o ppp0 -j MASQUERADE 
+ls /etc/ipsec.d/cacerts/ca-cert.pem
 ```
 #### DigitalOcean Tutorial has instructions for client setup.
+* MacOS
+  * Download /etc/ipsec.d/cacerts/ca-cert.pem
+  * Double Click it 
+  * Trust it for IP Security in Keychain Access
+```
+cp 
+```
 ### Trubleshooting
 * ipsec works poorly with 32bit (armhf) raspbian OS (bullseye), use arm64 raspbian.
