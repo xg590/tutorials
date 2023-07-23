@@ -523,7 +523,7 @@ export LD_LIBRARY_PATH=$PWD/usr/lib/x86_64-linux-gnu/
 ### Power behavior
 * Not suspended after close the lid
 ```
-cat << EOF >> sudo tee -a /etc/systemd/logind.conf
+sudo tee -a /etc/systemd/logind.conf << EOF >> /dev/null
 HandleLidSwitch=suspend
 HandleLidSwitchExternalPower=ignore
 EOF
@@ -531,7 +531,9 @@ sudo systemctl restart systemd-logind
 ```
 ## Fresh Installation
 ```
-echo "$USER ALL=(ALL:ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers 
+sudo tee -a /etc/sudoers << EOF >> /dev/null
+$USER ALL=(ALL:ALL) NOPASSWD:ALL
+EOF
 ```
 ## How to disable Chrome Keyring?
 ```

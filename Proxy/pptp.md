@@ -74,9 +74,16 @@ Host proxy
     ServerAliveInterval 5
     DynamicForward 0.0.0.0:1080
 EOF
+
+cat << EOF > /root/proxy.sh
+rfkill block wifi
 echo "nameserver 8.8.8.8" > /etc/resolv.conf
 ip route add $openssh_server_ip/32 via $gateway_ip
 pppd updetach noauth silent nodeflate defaultroute replacedefaultroute pty "/usr/bin/ssh proxy /usr/sbin/pppd nodetach notty noauth" ipparam vpn 10.0.0.1:10.0.0.2
+iptables -t nat -A POSTROUTING -s 40.0.0.0/24 -o ppp0 -j MASQUERAD 
+iptables -A INPUT -i ppp0 -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A INPUT -i ppp0 -j DROP
+EOF
 ```
 #### Bring All Things Down 
 ```

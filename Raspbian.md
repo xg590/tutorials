@@ -164,7 +164,7 @@
 
   sudo sed -i "14a sleep 30" /etc/init.d/isc-dhcp-server # Delay the start of service isc-dhcp-server 
 
-  sudo systemctl restart isc-dhcp-server.service
+  sudo reboot
   dhcp-lease-list
   ```
 * SNAT
@@ -178,4 +178,17 @@
 * Cron
   ```
   (crontab -l 2>/dev/null; echo "@reboot sleep 60 && sudo iptables -t nat -A POSTROUTING -s 192.168.3.0/24 -o wlan0 -j MASQUERADE") | crontab -
+  ```
+### Touchable 3.5in LCD
+  ```
+  https://github.com/goodtft/LCD-show
+  cd LCD-show
+  sudo ./LCD35-show
+  sudo ./rotate.sh 90
+  ```
+### Screen Keyboard
+  ```
+  sudo apt install -y matchbox-keyboard
+  sudo reboot
+  DISPLAY=:0 matchbox-keyboard &
   ```
