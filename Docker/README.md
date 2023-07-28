@@ -35,6 +35,12 @@
    * Dockerfile and resource to build an image that runs flask
 7. [Deploy a local nextcloud server](nextcloud_lan.md)
    * Run a nextcloud server in LAN.
+     ``` 
+     cd /var/www/html
+     wget https://raw.githubusercontent.com/xg590/tutorials/master/Docker/nextcloud.sh
+     bash nextcloud.sh
+     docker-compose -f nextcloud/docker-compose.yml up
+     ```
 ## Caveat
 * By referring to the option "--publish [ip:hostPort:containerPort | ip::containerPort | hostPort:containerPort | containerPort]", there is clearly no way of exposing ports on loopback interface. One should ask program that runs in container to listen on 0.0.0.0
 ## Quick Reference

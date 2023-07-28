@@ -89,3 +89,14 @@ EOF
 ```
 ip link del ppp0 # Simply delete one ppp0 of either side
 ```
+#### Raspbian OS as an internal server
+```
+openssh_server_ip=
+gateway_ip="$(ip route | grep -P -o '(?<=default via )[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}(?= dev)')" 
+cat << EOF >> /home/pi/proxy.sh
+ip route add $openssh_server_ip/32 via $gateway_ip
+pppd updetach noauth silent nodeflate pty "/usr/bin/ssh proxy /usr/sbin/pppd nodetach notty noauth" ipparam vpn 10.0.0.1:10.0.0.2
+iptables -t nat -A POSTROUTING -s 10.0.0.0/24 -o wlan0 -j MASQUERADE
+EOF
+(crontab -l 2>/dev/null; echo "@reboot sleep 60 && sudo bash /home/pi/proxy.sh") | crontab -
+```

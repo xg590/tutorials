@@ -12,6 +12,33 @@
 ```
 cat /sys/class/power_supply/BAT0/capacity
 ```
+### Pytorch + Ubuntu 22.04
+1. Install the RTX2060 driver (I am going to use pytorch-cuda=11.8 and the corresponding version of gpu driver is 520)
+    ```
+    sudo su
+    apt install -y nvidia-driver-520
+    reboot
+    ```
+2. We are going to create a single file and mount it as a new filesystem so everything is in one place
+    ```
+    dd if=/dev/zero of=/var/www/html/pytorch.ext3 bs=1M count=15000 status=progress
+    mkfs.ext3 /var/www/html/pytorch.ext3
+    mkdir -p ~/software/miniconda3
+    sudo mount -o loop /var/www/html/pytorch.ext3 ~/software/miniconda3
+    ```
+3. Install Pytorch
+    ```
+    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+    bash Miniconda3-latest-Linux-x86_64.sh -b -f -p $HOME/software/miniconda3/
+    $HOME/software/miniconda3/bin/conda create -y -c nvidia -c pytorch -n torch pytorch torchvision torchaudio pytorch-cuda=11.8
+    source $HOME/software/miniconda3/bin/activate torch  
+    ```
+4. Test Pytorch
+    ```
+    python -c "import torch; print(torch.cuda.is_available())" 
+    wget https://raw.githubusercontent.com/xg590/tutorials/master/ML/pytorch_gpu_test_cnn.py -O pytorch_gpu_test_cnn.py
+    python pytorch_gpu_test_cnn.py
+    ``` 
 ### Pytorch + CUDA on WSL 2
 0. Install the latest Nvidia Driver in Windows (Not in WSL)
 1. Turn on the "Windows Subsystem for Linux" and "Virtual Machine Platform" features of Windows 10
