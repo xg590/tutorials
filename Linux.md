@@ -242,6 +242,10 @@ xhost +
     (crontab -l 2>/dev/null; echo "@reboot date > /tmp/date") | crontab -
     ```
 * SSH
+  * Remove fingerprint
+    ```
+    sed -i.old '/192.168./d' known_hosts
+    ```
   * Pipe via SSH
     ```
     echo LOL | ssh remoteHost 'cat > /tmp/pipeOverSSH'
