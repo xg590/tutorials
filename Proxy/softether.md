@@ -10,44 +10,63 @@ tar zxvf softether-vpnserver-v4.42-9798-rtm-2023.06.30-linux-x64-64bit.tar.gz
 cd vpnserver 
 make 
 ```
-* Configure softether in user-mode (privileged port (443) will not be used)
+* Make Configuration Files
 ```
-./vpnserver start # start a server at localhost:5555
+IP=$VPN_Server_IP # Public IP or FQDN of VPN Server 
+passwd1=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1) # password of VPN Hub
+passwd2=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1) # password of User 1
+passwd3=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1) # password of User 2
 
+# For Linux server: Configure the server 
 cat << EOF > server123.cmd
-HubCreate Hub123 /PASSWORD:abc123
+HubCreate Hub123 /PASSWORD:$passwd1
 Hub Hub123
 SecureNatEnable
 DhcpSet /START:192.168.30.100 /END:192.168.30.200 /MASK:255.255.255.0 /EXPIRE:7200 /GW:192.168.30.33 /DNS:8.8.8.8 /DNS2:8.8.4.4 /DOMAIN: /LOG:yes 
 UserCreate user123 /GROUP:none /REALNAME:none /NOTE:none
 UserCreate user456 /GROUP:none /REALNAME:none /NOTE:none
-UserPasswordSet user123 /PASSWORD:password321
-UserPasswordSet user456 /PASSWORD:password654 
-# VPN_Server_IP is 192.168.56.105, it could be FQDN 
-ServerCertRegenerate 192.168.56.105
-ServerCertGet \tmp\aliyun.cer
+UserPasswordSet user123 /PASSWORD:$passwd2
+UserPasswordSet user456 /PASSWORD:$passwd3
+ServerCertRegenerate $IP
+ServerCertGet \tmp\vpn123.cer
 SstpEnable yes
 EOF
 
-# Connect to vpnserver and configure it
-./vpncmd localhost:5555 /SERVER /IN:server123.cmd 
-```
-* Pay attention to the print which saying "All checks passed. It is most likely that SoftEther VPN Server / Bridge can operate normally on this system."
-* Prepare a zip file aliyun.zip (of vpn_add.bat, vpn_connect.bat and aliyun.cer) for Windows user 
-```
+# For Linux user: Configure the vpn connection
+cat << EOF > /tmp/client123.cmd
+NicCreate Adapter123 # Create a VPN interface for the Linux (why we need root privilege?)
+AccountCreate conn123 /SERVER:$IP:5555 /HUB:Hub123 /USERNAME:user123 /NICNAME:Adapter123
+AccountPasswordSet conn123 /PASSWORD:$passwd2 /TYPE:standard 
+CertAdd \tmp\vpn123.cer # Use backslash instead of slash
+AccountServerCertEnable conn123 
+AccountStartupSet conn123
+AccountConnect conn123
+EOF
+
+# For Windows user: Configure the vpn connection
 cat << EOF > /tmp/vpn_add.bat
 cd %~dp0
-powershell -Command "Import-Certificate -FilePath aliyun.cer -CertStoreLocation 'Cert:\LocalMachine\Root'"
-powershell -Command "Add-VpnConnection -Name 'aliyun' -TunnelType 'Sstp' -EncryptionLevel 'Required' -AuthenticationMethod MsChapv2 -RememberCredential -ServerAddress '192.168.56.105:5555'"
+#powershell -Command "Invoke-WebRequest -URI 'http://$IP/vpn123.cer' -OutFile vpn123.cer"
+powershell -Command "Import-Certificate -FilePath vpn123.cer -CertStoreLocation 'Cert:\LocalMachine\Root'"
+powershell -Command "Add-VpnConnection -Name 'conn123' -TunnelType 'Sstp' -EncryptionLevel 'Required' -AuthenticationMethod MsChapv2 -RememberCredential -ServerAddress '$IP:5555'"
 pause
 EOF
 
 cat << EOF > /tmp/vpn_connect.bat
-rasdial "aliyun" "user456@Hub123" "password654" 
+rasdial "conn123" "user456@Hub123" "$passwd3" 
 pause
 EOF
+```
+* Configure softether in user-mode (privileged port (443) will not be used) on VPN Server
+```
+# Start a server at localhost:5555 
+./vpnserver start
+# Connect to vpnserver and configure it
+./vpncmd localhost:5555 /SERVER /IN:server123.cmd
+# Pay attention to the print which saying "All checks passed. It is most likely that SoftEther VPN Server / Bridge can operate normally on this system."
 
-zip /var/www/html/aliyun.zip /tmp/aliyun.cer /tmp/vpn_add.bat /tmp/vpn_connect.bat
+# Prepare a zip file vpn123.zip (of vpn_add.bat, vpn_connect.bat, client123.cmd and vpn123.cer) for Windows user
+zip ~/vpn123.zip /tmp/vpn123.cer /tmp/client123.cmd /tmp/vpn_add.bat /tmp/vpn_connect.bat
 ```
 ## Client Side - Windows
 * Run vpn_add.bat with Admin privilege and run vpn_connect.bat without privilege
@@ -56,31 +75,20 @@ zip /var/www/html/aliyun.zip /tmp/aliyun.cer /tmp/vpn_add.bat /tmp/vpn_connect.b
 ```
 sudo su
 tar zxvf softether-vpnclient-v4.42-9798-rtm-2023.06.30-linux-x64-64bit.tar.gz
-unzip aliyun.zip -d /
+unzip vpn123.zip -d /
 ```
 * Configure the client as root
 ```
-./vpnclient start # Run the client 
-
-cat << EOF > client123.cmd
-# Create a VPN interface for the Linux (why we need root privilege?)
-NicCreate Adapter123
-AccountCreate aliyun /SERVER:192.168.56.105:5555 /HUB:Hub123 /USERNAME:user123 /NICNAME:Adapter123
-AccountPasswordSet aliyun /PASSWORD:password321 /TYPE:standard 
-CertAdd \tmp\aliyun.cer # Use backslash instead of slash
-AccountServerCertEnable aliyun 
-AccountStartupSet aliyun
-AccountConnect aliyun
-EOF
+ # Run the client 
+./vpnclient start
 
 # Configure the client via vpncmd
-./vpncmd localhost /CLIENT /IN:client123.cmd
-./vpncmd localhost /CLIENT /CMD AccountStatusGet aliyun
+./vpncmd localhost /CLIENT /IN:/tmp/client123.cmd
+./vpncmd localhost /CLIENT /CMD AccountStatusGet conn123
+ip addr add 192.168.30.33/24 dev vpn_adapter123
 ```
 * More things
 ``` 
-sudo ip addr add 192.168.30.33/24 dev vpn_adapter123
 sudo iptables -t nat -A POSTROUTING -s 192.168.30.0/24 -o enp0s8 -j MASQUERADE 
-echo "net.ipv4.ip_forward = 1" | sudo tee /etc/sysctl.d/forward123.conf
-sysctl --system
+echo "net.ipv4.ip_forward = 1" | sudo tee /etc/sysctl.d/forward123.conf && sysctl --system
 ```   
