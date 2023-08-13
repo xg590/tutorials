@@ -549,3 +549,19 @@ Post by agordon1050 » Fri Jan 08, 2021 2:01 am
 5. Click Continue for an Empty Password & Continue again when asked if you want to store passwords unencrypted.
 6. Right click on Default in the list (may have to mouse over to see choices), click Select as Default.   
 ```
+## Key Binding
+1. Know what we are typing verbatim. Press <kbd>Ctrl</kbd> + <kbd>v</kbd>. Then press left arrow <kbd>⇦</kbd>.
+```
+a@a:~$ ^[[D
+```
+2. See [this answer](https://unix.stackexchange.com/a/222903) to know what '^[[D' mean.
+3. Again, press <kbd>Ctrl</kbd> + <kbd>v</kbd>. Then press <kbd>Alt</kbd> + <kbd>b</kbd>. 
+
+```
+a@a:~$ ^[b
+```
+4. Bind key but replace <kbd>^[</kbd> with <kbd>\e</kbd>
+```
+a@a:~$ bind '"\e[D":"\eb"'
+```
+5. Now, the function of key <kbd>⇦</kbd> equals to <kbd>Alt</kbd> + <kbd>b</kbd>.
