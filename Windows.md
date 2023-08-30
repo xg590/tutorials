@@ -4,19 +4,11 @@
 $URL="http://yzlab3.chem.nyu.edu/software/LogTech_unifying250.exe"
 Invoke-WebRequest -URI $URL -OutFile unifying250.exe
 ```
-### Run GUI apps on WSL2 (GUI apps does not work with WSL 1)
-* Start Powershell with Admin privilege and Check the current WSL version
+### WSL port forwarding (permanent solution)
 ```
-PS C:\Windows\system32> wsl --list --verbose
-  NAME            STATE           VERSION
-* Ubuntu-22.04    Running         1
+powershell -Command "netsh interface portproxy add v4tov4 listenaddress=0.0.0.0 listenport=8888 connectport=8888 connectaddress=(wsl hostname -I) protocol=tcp"
 ```
-* I am running "Ubuntu-22.04" but it is version 1
-* Check to enable "Virtual Machine Platform" and "Windows Hypervisor Platform" Feature of Windows 10 in "Turn Windows feature on or off" 
-* Reboot then Convert WSL 1 to WSL 2
-```
-wsl --set-version Ubuntu-22.04 2
-```
+### Run GUI apps on WSL2 (GUI apps does not work with WSL 1) 
 * Try Google Chrome 
 ```
 sudo apt install x11-apps -y

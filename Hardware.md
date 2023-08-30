@@ -12,6 +12,24 @@
 ```
 cat /sys/class/power_supply/BAT0/capacity
 ```
+### Prepare WSL 2 for Pytorch on Windows 10
+0. Install the latest Nvidia Driver in Windows (Not in WSL)
+1. Turn on the "Windows Subsystem for Linux" and "Virtual Machine Platform" features of Windows 10
+2. Download [WSL2 Linux kernel update package for x64 machines](https://aka.ms/wsl2kernel) and install
+3. Install WSL 2 in CMD Prompt
+    ```
+    wsl --set-default-version 2
+    # Let's see the distribution name of Ubuntu 22.04
+    wsl --list --online
+    wsl --install -d Ubuntu-22.04
+    # Let's check the version of wsl and installed distro
+    wsl -l -v
+    # In China, ...
+    sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak_`date "+%y_%m_%d"`
+    sudo sed -i 's/http:\/\/.*.ubuntu.com/https:\/\/mirrors.aliyun.com/g' /etc/apt/sources.list
+    sudo apt update 
+    # sudo apt install build-essential # CUDA library installation needs gcc
+    ```
 ### Pytorch + Ubuntu 22.04
 1. Install the RTX2060 driver (I am going to use pytorch-cuda=11.8 and the corresponding version of gpu driver is 520)
     ```
@@ -36,86 +54,10 @@ cat /sys/class/power_supply/BAT0/capacity
 4. Test Pytorch
     ```
     python -c "import torch; print(torch.cuda.is_available())" 
+    python -m torch.utils.collect_env
     wget https://raw.githubusercontent.com/xg590/tutorials/master/ML/pytorch_gpu_test_cnn.py -O pytorch_gpu_test_cnn.py
     python pytorch_gpu_test_cnn.py
-    ``` 
-### Pytorch + CUDA on WSL 2
-0. Install the latest Nvidia Driver in Windows (Not in WSL)
-1. Turn on the "Windows Subsystem for Linux" and "Virtual Machine Platform" features of Windows 10
-2. Download [WSL2 Linux kernel update package for x64 machines](https://aka.ms/wsl2kernel) and install
-3. Install WSL 2 in CMD Prompt
     ```
-    wsl --set-default-version 2
-    # Let's see the distribution name of Ubuntu 22.04
-    wsl --list --online
-    wsl --install -d Ubuntu-22.04
-    # Let's check the version of wsl and installed distro
-    wsl -l -v
-    # In China, ...
-    sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak_`date "+%y_%m_%d"`
-    sudo sed -i 's/http:\/\/.*.ubuntu.com/https:\/\/mirrors.aliyun.com/g' /etc/apt/sources.list
-    sudo apt update 
-    sudo apt install build-essential # CUDA library installation needs gcc
-    ``` 
-4. Download the WSL-version of cuda_xxx.run [(CUDA Library)](https://developer.nvidia.com/cuda-toolkit) and sh it. 
-    ```
-    ls -l /usr/lib/wsl/lib/libcuda.so  
-    sudo sh ./cuda_11.8.0_520.61.05_linux.run --driver --toolkit --silent # Tested on WSL 2 
-    ```
-5. Check the cuda lib and make sure it works
-    ```
-    export            PATH=/usr/local/cuda-11.8/bin:$PATH
-    export LD_LIBRARY_PATH=/usr/local/cuda-11.8/lib64:$LD_LIBRARY_PATH
-    nvcc --version
-    ```
-6. Install PyTorch
-    ```
-    cat << EOF >> ~/.bashrc
-    export            PATH=\$PATH:/usr/local/cuda-11.8/bin
-    export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:/usr/local/cuda-11.8/lib64
-    EOF
-    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-    bash Miniconda3-latest-Linux-x86_64.sh -b -f -p $HOME/software/miniconda3/
-    $HOME/software/miniconda3/bin/conda create -y -c nvidia -c pytorch -n torch pytorch torchvision torchaudio pytorch-cuda=11.8
-    source $HOME/software/miniconda3/bin/activate torch  
-    ```
-7. Test Pytorch + CUDA
-    ```
-    python3 -m torch.utils.collect_env
-    python3 -c "import torch; print(torch.cuda.is_available())" 
-    ```
-### GPU accelerated Dockerized Pytorch on WSL 2 
-* Install Docker and Nvidia Docker 2 in Ubuntu 22.04 (WSL 2)
-```
-sudo apt install -y docker.io
-sudo dockerd # I use screen to keep dockerd running in the background
-distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
-wget -O - https://nvidia.github.io/nvidia-docker/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-docker-keyring.gpg
-wget -O - https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | \
-          sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-docker-keyring.gpg] https://#g' | \
-          sudo tee /etc/apt/sources.list.d/nvidia-docker.list
-sudo apt update 
-sudo apt install -y nvidia-docker2
-```
-* Update the Nvidia Driver to the latest on our host machine because we are pulling the latest pytorch from nvcr.io. 
-```
-mkdir test 
-wget https://raw.githubusercontent.com/xg590/tutorials/master/ML/pytorch_gpu_test_cnn.py -O test/pytorch_gpu_test_cnn.py
-nvidia-docker run -it                                    \
-                  --rm                                   \
-                  --gpus all                             \
-                  --shm-size=1g                          \
-                  --ulimit memlock=-1                    \
-                  --ulimit stack=$((64 * 1024 * 1024))   \
-                  -v ${PWD}/test:/workspace/test         \
-                  nvcr.io/nvidia/pytorch:23.03-py3
-python -c "import torch ; print(torch.cuda.is_available(), ' | ', torch.cuda.get_device_name(0))" 
-python test/pytorch_gpu_test_cnn.py
-```
-* Some useful links on this topics
-  * What is the latest pytorch? : https://catalog.ngc.nvidia.com/orgs/nvidia/containers/pytorch/tags
-  * https://docs.nvidia.com/deeplearning/frameworks/pytorch-release-notes/rel-23-03.html
-  * https://docs.nvidia.com/deeplearning/frameworks/user-guide/index.html
 ### Disk
 * sector (physical block): disk controller IO
 * sector is the minimum unit of GUID partition table. 

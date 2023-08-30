@@ -478,6 +478,16 @@ vboxmanage storageattach yyy --storagectl IDE  --port 0 --device 0 --type dvddri
 ```
 vboxmanage modifyvm yyy --nic1 nat --nictype1 82540EM --cableconnected1 on
 ```
+#### Warp Drive
+* Disabling the Guest Additions Time Synchronization
+```
+cd C:\Progra~1\Oracle\VirtualBox
+VBoxManage setextradata <VM-name> "VBoxInternal/Devices/VMMDev/0/Config/GetHostTimeDisabled" 1
+```
+* Accelerate the virtual guest clock 200%. 
+```
+VBoxManage setextradata <VM-name> "VBoxInternal/TM/WarpDrivePercentage" 200
+```
 #### Troubleshooting
 * In case of "No USB devices available" on linux host, set proper group id for current user (credit to [csorig](https://superuser.com/a/957636))
 ```
