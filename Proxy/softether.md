@@ -8,7 +8,7 @@
 sudo apt-get install -y build-essential libssl-dev
 tar zxvf softether-vpnserver-v4.42-9798-rtm-2023.06.30-linux-x64-64bit.tar.gz
 cd vpnserver 
-make 
+make # only [hamcore.se2, vpncmd, vpnserver] are necessary. 
 ```
 * Make Configuration Files
 ```
@@ -46,7 +46,7 @@ EOF
 # For Windows user: Configure the vpn connection
 cat << EOF > /tmp/vpn_add.bat
 cd %~dp0
-#powershell -Command "Invoke-WebRequest -URI 'http://$IP/vpn123.cer' -OutFile vpn123.cer"
+REM powershell -Command "Invoke-WebRequest -URI 'http://$IP/vpn123.cer' -OutFile vpn123.cer"
 powershell -Command "Import-Certificate -FilePath vpn123.cer -CertStoreLocation 'Cert:\LocalMachine\Root'"
 powershell -Command "Add-VpnConnection -Name 'conn123' -TunnelType 'Sstp' -EncryptionLevel 'Required' -AuthenticationMethod MsChapv2 -RememberCredential -ServerAddress '$IP:5555'"
 pause
@@ -70,6 +70,14 @@ zip ~/vpn123.zip /tmp/vpn123.cer /tmp/client123.cmd /tmp/vpn_add.bat /tmp/vpn_co
 ```
 ## Client Side - Windows
 * Run vpn_add.bat with Admin privilege and run vpn_connect.bat without privilege
+## Manage Server
+* New users
+```
+./vpncmd localhost:5555
+VPN Server>Hub Hub123
+UserCreate user789 /GROUP:none /REALNAME:none /NOTE:none 
+UserPasswordSet user789 /PASSWORD:123456 
+```
 ## VPN Client in Batch Mode
 * Compile
 ```
@@ -86,9 +94,15 @@ unzip vpn123.zip -d /
 ./vpncmd localhost /CLIENT /IN:/tmp/client123.cmd
 ./vpncmd localhost /CLIENT /CMD AccountStatusGet conn123
 ip addr add 192.168.30.33/24 dev vpn_adapter123
+# echo "net.ipv4.ip_forward = 1" | sudo tee /etc/sysctl.d/forward123.conf && sysctl --system
 ```
 * More things
 ``` 
-sudo iptables -t nat -A POSTROUTING -s 192.168.30.0/24 -o enp0s8 -j MASQUERADE 
-echo "net.ipv4.ip_forward = 1" | sudo tee /etc/sysctl.d/forward123.conf && sysctl --system
+sudo su
+/root/vpnclient/vpnclient start
+#/root/vpnclient/vpncmd localhost /CLIENT /CMD AccountStatusGet conn123 
+ip addr add 192.168.30.33/24 dev vpn_adapter123
+#/root/vpnclient/vpncmd localhost /CLIENT /CMD AccountConnect conn123 
+#/root/vpnclient/vpncmd localhost /CLIENT /CMD AccountDisconnect conn123 
+iptables -t nat -A POSTROUTING -s 192.168.30.0/24 -o enp0s3 -j MASQUERADE  
 ```   

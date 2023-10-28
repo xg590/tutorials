@@ -446,20 +446,21 @@ vboxmanage modifymedium --compact /path/to/the/disk.vdi
 #### Install a Ubuntu20.04.1 Guest OS
 1. Create a profile (yyy is virtual machine name, xxx is sub-folder)
 ```
-vboxmanage createvm --name yyy --basefolder ~/xxx --ostype Ubuntu_64 --register 
+yyy=ubuntu22.04.3
+vboxmanage createvm --name $yyy --basefolder ~/xxx --ostype Ubuntu_64 --register 
 ```
 2. RAM
 ```
-vboxmanage modifyvm yyy --memory 8000 
+vboxmanage modifyvm $yyy --memory 8000 
 ```
 3. Set video card ram 256MB, turn on remote desktop env.
 ```
-vboxmanage modifyvm yyy --accelerate3d on --vram 256 --audio alsa --audiocontroller ac97 --vrde on
+vboxmanage modifyvm $yyy --accelerate3d on --vram 256 --audio alsa --audiocontroller ac97 --vrde on
 ```
 4. Set up two controllers (IDE and SATA)
 ```
-vboxmanage storagectl yyy --name SATA --add sata --controller IntelAhci --bootable on
-vboxmanage storagectl yyy --name IDE  --add ide  --controller PIIX4     --bootable on
+vboxmanage storagectl $yyy --name SATA --add sata --controller IntelAhci --bootable on
+vboxmanage storagectl $yyy --name IDE  --add ide  --controller PIIX4     --bootable on
 ```
 5. Create a virtual disk 
 ```
@@ -467,16 +468,16 @@ vboxmanage createmedium disk --filename ~/xxx/yyy/yyy.vdi --format VDI --size 10
 ```
 6. Attache virtual disk and Ubuntu Installation CD
 ```
-vboxmanage storageattach yyy --storagectl SATA --port 0 --device 0 --type hdd      --medium ~/xxx/yyy/yyy.vdi 
-vboxmanage storageattach yyy --storagectl IDE  --port 0 --device 0 --type dvddrive --medium ~/ubuntu-20.04.1-desktop-amd64.iso 
+vboxmanage storageattach $yyy --storagectl SATA --port 0 --device 0 --type hdd      --medium ~/xxx/yyy/yyy.vdi 
+vboxmanage storageattach $yyy --storagectl IDE  --port 0 --device 0 --type dvddrive --medium ~/ubuntu-20.04.1-desktop-amd64.iso 
 ```
 If you need eject dvd 
 ```
-vboxmanage storageattach yyy --storagectl IDE  --port 0 --device 0 --type dvddrive --medium emptydrive
+vboxmanage storageattach $yyy --storagectl IDE  --port 0 --device 0 --type dvddrive --medium emptydrive
 ```
 7. Configure Networking
 ```
-vboxmanage modifyvm yyy --nic1 nat --nictype1 82540EM --cableconnected1 on
+vboxmanage modifyvm $yyy --nic1 nat --nictype1 82540EM --cableconnected1 on
 ```
 #### Warp Drive
 * Disabling the Guest Additions Time Synchronization

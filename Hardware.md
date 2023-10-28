@@ -37,6 +37,11 @@ cat /sys/class/power_supply/BAT0/capacity
     apt install -y nvidia-driver-520
     reboot
     ```
+    or 
+    ```
+    apt install pkg-config libglvnd-dev
+    bash NVIDIA-Linux-x86_64-535.113.01.run
+    ```
 2. We are going to create a single file and mount it as a new filesystem so everything is in one place
     ```
     dd if=/dev/zero of=/var/www/html/pytorch.ext3 bs=1M count=15000 status=progress

@@ -90,6 +90,7 @@ sudo systemctl restart isc-dhcp-server.service
 * Allow forward and routing packet from clients to the internet. [Here is wlan0 instead of wlan1]
 ```
 echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward >/dev/null
+# echo "net.ipv4.ip_forward = 1" > /etc/sysctl.d/forward123.conf 
 sudo iptables -t nat -A POSTROUTING -s 192.168.3.0/24 -o wlan0 -j MASQUERADE
 ```
 ### After Reboot

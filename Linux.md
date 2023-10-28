@@ -7,9 +7,12 @@
 * [ip](#ip)
 * [FTP](#ftp)
 * [Samba](#samba)
-* [screen](#screen) 
+* [screen](#screen)
+* [Assign IP address in Ubuntu, permanently](#ubuntu-static-ip)
+* [Assign IP address in Ubuntu, temporarily](#ip-addr-ubuntu-temp)
+* [Assign IP address in Raspbian, permanently](#raspbian-static-ip)
 # Networking
-## Static IP addr (Raspbian)
+## Static IP addr <a name="raspbian-static-ip"></a>
 ```
 cat << EOF >> /etc/dhcpcd.conf # This is config file for dhcp client 
 interface eth0
@@ -259,6 +262,11 @@ xhost +
     ```
     scp -i .ssh/targetHostIdentityFileOnMiddleHost -oProxyCommand="ssh -i .ssh/middleHostIdentityFileOnLocalHost -W %h:%p middleHost" targetHost:/some/path/to/file ./
     ```
+  * SSH config
+    ```
+        ProxyJump host123
+        RemoteForward  8080 127.0.0.1:22
+    ```
 ## aria2c
 ```
 aria2c -j5 --header="User-Agent: Mozilla/5.0 (Windows NT 6.1; ) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36"  
@@ -394,7 +402,7 @@ On Ubuntu 20.04, the network is managed by Network Manager ([CLI](https://develo
 ```
   nmcli con up/down "ALIAS"
 ```
-* Modify a connection (permanently)
+* Modify a connection <a name="ubuntu-static-ip"></a>
 ```
   sudo nmcli conn edit "Wired connection 1" 
   nmcli> set ipv4.method manual
@@ -425,7 +433,7 @@ ip route del 0.0.0.0/0 via 192.168.1.1 metric 9999
 * I want all traffics from 192.168.30.200 route through ppp0
 * Create a custom policy routing table.
 ```
-echo -e "200 src123" > /etc/iproute2/rt_tables.d/new123.conf 
+echo -e "200 src123" > /etc/iproute2/rt_tables.d/new123.conf # routing table identifier and table name
 ```
 * Create policy routing rules.
 ```
@@ -496,7 +504,7 @@ screen -d -m -S autossh
 ```
 Send a command into the session to run [Autossh](https://www.harding.motd.ca/autossh/autossh-1.4g.tgz) 
 ```
-screen -S autossh -X stuff 'autossh -M 12345 hostname ^M'
+screen -S autossh -X stuff 'autossh -M 12345 -fN hostname ^M'
 ```
 * Split screen vertically  : <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>Shift</kbd>+<kbd>\ </kbd>
 * Split screen horizentally: <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>Shift</kbd>+<kbd>s</kbd> 

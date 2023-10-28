@@ -64,6 +64,10 @@ cat /proc/sys/net/ipv4/ip_forward
 iptables -t nat -A POSTROUTING -s $VPN_SUBNET -o ppp0 -j MASQUERADE 
 ls /etc/ipsec.d/cacerts/ca-cert.pem
 ```
+#### Stop the service
+```
+ipsec stop # Stopping strongSwan IPsec...
+```
 #### DigitalOcean Tutorial has instructions for client setup.
 * MacOS
   * Download /etc/ipsec.d/cacerts/ca-cert.pem

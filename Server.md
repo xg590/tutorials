@@ -6,6 +6,7 @@ sudo smbpasswd -a $USER
 ```
 #### Config
 ```
+cat << EOF > /etc/samba/smb.conf 
 [global]
    workgroup = WORKGROUP
    server string = %h server (Samba, Ubuntu)
@@ -32,6 +33,7 @@ sudo smbpasswd -a $USER
     directory mask = 0755
     public = yes
     force user = [YOUR_USERNAME]
+EOF
 ```
 #### Smbclient
 ```

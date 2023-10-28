@@ -1,7 +1,7 @@
 ## Point to Point Tunneling Protocol 
 ### Simple PPTP Server
 ```
-apt-get install pptpd 
+  apt-get install pptpd 
 sudo tee /etc/pptpd.conf << EOF > /dev/null   
 localip 20.0.0.1
 remoteip 20.0.0.100-200
@@ -61,7 +61,7 @@ iptables -t nat -A POSTROUTING -s 10.0.0.0/24 -o eth0 -j MASQUERADE
 sudo su
 host myProxyServer123.com # Get ip (4.5.6.7) of openssh server
 openssh_server_ip=4.5.6.7
-gateway_ip=192.168.1.1 
+gateway_ip=192.168.1.1 # local gateway machine.
 mkdir /root/.ssh
 cat << EOF >> /root/.ssh/config
 
@@ -76,11 +76,10 @@ Host proxy
 EOF
 
 cat << EOF > /root/proxy.sh
-rfkill block wifi
-echo "nameserver 8.8.8.8" > /etc/resolv.conf
+#echo "nameserver 8.8.8.8" > /etc/resolv.conf
 ip route add $openssh_server_ip/32 via $gateway_ip
 pppd updetach noauth silent nodeflate defaultroute replacedefaultroute pty "/usr/bin/ssh proxy /usr/sbin/pppd nodetach notty noauth" ipparam vpn 10.0.0.1:10.0.0.2
-iptables -t nat -A POSTROUTING -s 40.0.0.0/24 -o ppp0 -j MASQUERAD 
+iptables -t nat -A POSTROUTING -s 40.0.0.0/24 -o ppp0 -j MASQUERADE
 iptables -A INPUT -i ppp0 -m state --state ESTABLISHED,RELATED -j ACCEPT
 iptables -A INPUT -i ppp0 -j DROP
 EOF
@@ -91,7 +90,7 @@ ip link del ppp0 # Simply delete one ppp0 of either side
 ```
 #### Raspbian OS as an internal server
 ```
-openssh_server_ip=
+openssh_server_ip=`host myProxyServer123.com | cut -f 4 -d\ `
 gateway_ip="$(ip route | grep -P -o '(?<=default via )[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}(?= dev)')" 
 cat << EOF >> /home/pi/proxy.sh
 ip route add $openssh_server_ip/32 via $gateway_ip
