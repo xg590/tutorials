@@ -320,7 +320,7 @@ iptables -t nat -A POSTROUTING -s 192.168.3.0/24 -o wlan0 -j MASQUERADE
 ```shell
 # As root
 apt install -y apache2 python3 python3-pip
-a2enmod cgid # vim /etc/apache2/conf-available/serve-cgi-bin.conf
+a2enmod cgid 
 systemctl restart apache2
 pip3 install --target /var/www/additional_module boto3
 cat << EOF > /usr/lib/cgi-bin/test.py
@@ -347,6 +347,49 @@ chmod o+x /usr/lib/cgi-bin/test.py
 ```
 The ScriptAlias directive tells Apache that a particular directory is set aside for CGI programs
 ``` 
+* Upload
+```
+sed -i 's/\/usr\/lib/\/var\/www/g' /etc/apache2/conf-available/serve-cgi-bin.conf
+
+cat << EOF > /var/www/cgi-bin/save_file.py
+#!/usr/bin/python3
+import cgi, os
+import cgitb; cgitb.enable()
+form = cgi.FieldStorage()
+# Get filename here.
+fileitem = form['filename']
+# Test if the file was uploaded
+if fileitem.filename:
+   # strip leading path from file name to avoid
+   # directory traversal attacks
+   fn = os.path.basename(fileitem.filename)
+   open(f'/var/www/archive/{fn}', 'wb').write(fileitem.file.read())
+   message = 'The file "' + fn + '" was uploaded successfully'
+ 
+else:
+   message = 'No file was uploaded'
+ 
+print(f"""\
+Content-Type: text/html\n
+<html>
+<body>
+   <p>{message}</p>
+</body>
+</html>
+""")
+EOF
+
+cat << EOF > /var/www/html/upload.html
+<html>
+<body>
+    <form enctype = "multipart/form-data" action = "/cgi-bin/save_file.py" method = "post">
+        <p>File: <input type = "file" name = "filename" /></p>
+        <p><input type = "submit" value = "Upload" /></p>
+    </form>
+</body>
+</html>
+EOF
+```
 ### Jupyter-notebook
 ```
 mkdir ~/.jupyter

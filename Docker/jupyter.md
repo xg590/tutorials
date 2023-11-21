@@ -12,7 +12,7 @@ WORKDIR /home/$NEWUSER
 ENV PATH="/home/$NEWUSER/.local/bin:\$PATH"
 RUN pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 RUN pip3 install --upgrade pip
-RUN pip3 install jupyter notebook=="6.4.11" jupyter_contrib_nbextensions wheel
+RUN pip3 install jupyter notebook==6.4.11 traitlets==5.9.0 jupyter_contrib_nbextensions wheel
 RUN            mkdir -p /home/$NEWUSER/dev/cfg
 ENV JUPYTER_CONFIG_DIR="/home/$NEWUSER/dev/cfg"
 RUN /home/$NEWUSER/.local/bin/jupyter contrib nbextension install --user

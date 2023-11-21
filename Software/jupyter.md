@@ -1,0 +1,68 @@
+### Embedded Dev On Ubuntu
+* Install Jupyter in venv
+```
+sudo apt update && sudo apt install python3-pip python3-venv
+
+dd if=/dev/zero of=/var/www/html/jupyter123.ext3 bs=1M count=2000 status=progress
+mkfs.ext3 /var/www/html/jupyter123.ext3
+mkdir -p /tmp/jupyter123
+sudo mount -o loop /var/www/html/jupyter123.ext3 /tmp/jupyter123
+sudo chown $USER /tmp/jupyter123 
+
+python3 -m venv /tmp/jupyter123
+source /tmp/jupyter123/bin/activate
+pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+pip3 install --upgrade pip
+pip3 install jupyter jupyter_contrib_nbextensions wheel notebook==6.4.12 traitlets==5.9.0
+jupyter contrib nbextension install --user
+
+pip3 install jupyter_micropython_kernel
+python3 -m jupyter_micropython_kernel.install
+
+sudo umount /tmp/jupyter123
+```
+* Run
+```
+mkdir -p /tmp/jupyter123
+sudo mount -o loop /var/www/html/jupyter123.ext3 /tmp/jupyter123
+screen -S benchmark -d -m
+screen -S benchmark -X stuff "source /tmp/jupyter123/bin/activate ^M"
+screen -S benchmark -X stuff "jupyter-notebook ^M"
+```
+* [Example](https://github.com/xg590/IoT/blob/master/MicroPython/MicroPython_ESP8266_Jupyter.ipynb)
+* Work remotely
+```
+mkdir -p ~/.jupyter
+cat << EOF > ~/.jupyter/jupyter_notebook_config.py 
+c.NotebookApp.ip = '*'
+c.NotebookApp.port = 8888 
+c.NotebookApp.open_browser = False
+c.NotebookApp.password = u'sha1:ffed18eb1683:ee67a85ceb6baa34b3283f8f8735af6e2e2f9b55' 
+c.ServerApp.ip = '*'
+c.ServerApp.port = 8888 
+c.ServerApp.open_browser = False
+c.ServerApp.password = u'sha1:ffed18eb1683:ee67a85ceb6baa34b3283f8f8735af6e2e2f9b55' 
+#c.ServerApp.keyfile = u'/absolute/path/to/your/certificate/privkey.pem' 
+#c.ServerApp.certfile = u'/absolute/path/to/your/certificate/fullchain.pem'
+EOF
+```
+### Tricks
+* Run a jupyter notebook in command line [Credit](https://discourse.jupyter.org/t/jupyter-run-requires-notebook-to-be-previously-run/12250/2)
+```
+jupyter-execute xg590.ipynb
+```
+* Prepare a hashed password of notebook server 
+```
+from notebook.auth import passwd
+passwd()
+```
+* Install more python backend for jupyter 
+```
+python3 -m pip install ipykernel
+python3 -m ipykernel install --user --name myenv --display-name "Python (myenv)"
+```
+* Uninstall backend/kernel
+```
+jupyter kernelspec list  
+jupyter kernelspec uninstall unwanted-kernel
+```  

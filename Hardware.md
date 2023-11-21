@@ -39,7 +39,8 @@ cat /sys/class/power_supply/BAT0/capacity
     ```
     or 
     ```
-    apt install pkg-config libglvnd-dev
+    apt install pkg-config libglvnd-dev build-essentials
+    systemctl set-default multi-user.target && reboot
     bash NVIDIA-Linux-x86_64-535.113.01.run
     ```
 2. We are going to create a single file and mount it as a new filesystem so everything is in one place
