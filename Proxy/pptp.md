@@ -99,3 +99,11 @@ iptables -t nat -A POSTROUTING -s 10.0.0.0/24 -o wlan0 -j MASQUERADE
 EOF
 (crontab -l 2>/dev/null; echo "@reboot sleep 60 && sudo bash /home/pi/proxy.sh") | crontab -
 ```
+### Policy Routing and SNAT
+* We need to both route and masquerade the packet so it will be forward to the destion with the src_ip  
+``` 
+pppd updetach noauth unit 654 silent nodeflate pty "/usr/bin/ssh proxy /usr/sbin/pppd nodetach notty noauth unit 456" ipparam vpn 10.0.0.5:10.0.0.6 
+ip rule add from 192.168.xxx.128/25 lookup src123
+ip route add default via 10.0.0.5 dev ppp654 table src123
+iptables -t nat -A POSTROUTING -s 192.168.xxx.128/25 -o ppp654 -j MASQUERADE
+```

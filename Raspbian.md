@@ -140,11 +140,9 @@
 ### WiFi to Ethernet
 * DHCP
   ```
-  sudo ip addr add 192.168.3.3/24 dev eth0 
-  cat << EOF >> /etc/dhcpcd.conf # This is config file for dhcp client 
-  interface eth0
-  static ip_address=192.168.3.3/24 
-  EOF
+  sudo su
+  nmcli con add type ethernet con-name connectionName123 ifname eth0 ip4 192.168.3.3/24 # gw4 192.168.3.1
+  nmcli conn down "connectionName123" && nmcli c up "connectionName123"
 
   sudo apt install -y isc-dhcp-server
   sudo tee /etc/dhcp/dhcpd.conf << EOF > /dev/null  
@@ -158,7 +156,7 @@
   }
   EOF
 
-  sudo tee /etc/default/isc-dhcp-server << EOF > /dev/null # specify the interfaces   dhcpd should listen to.
+  sudo tee /etc/default/isc-dhcp-server << EOF > /dev/null # specify the interfaces that dhcpd should listen to.
   INTERFACESv4="eth0"
   EOF
 
@@ -191,4 +189,25 @@
   sudo apt install -y matchbox-keyboard
   sudo reboot
   DISPLAY=:0 matchbox-keyboard &
+  ```
+### nmcli
+  ```
+  cat << EOF > /etc/NetworkManager/system-connections/connectionName123.nmconnection
+  [connection]
+  id=connectionName123 
+  type=ethernet
+  interface-name=eth0
+  
+  [ethernet]
+  
+  [ipv4]
+  address1=192.168.3.3/24
+  method=manual
+  
+  [ipv6]
+  addr-gen-mode=default
+  method=auto
+  
+  [proxy]
+  EOF
   ```

@@ -349,6 +349,7 @@ The ScriptAlias directive tells Apache that a particular directory is set aside 
 ``` 
 * Upload
 ```
+mkdir -p /var/www/cgi-bin /var/www/upload
 sed -i 's/\/usr\/lib/\/var\/www/g' /etc/apache2/conf-available/serve-cgi-bin.conf
 
 cat << EOF > /var/www/cgi-bin/save_file.py
@@ -363,7 +364,7 @@ if fileitem.filename:
    # strip leading path from file name to avoid
    # directory traversal attacks
    fn = os.path.basename(fileitem.filename)
-   open(f'/var/www/archive/{fn}', 'wb').write(fileitem.file.read())
+   open(f'/var/www/upload/{fn}', 'wb').write(fileitem.file.read())
    message = 'The file "' + fn + '" was uploaded successfully'
  
 else:
@@ -389,6 +390,9 @@ cat << EOF > /var/www/html/upload.html
 </body>
 </html>
 EOF
+chmod u+x /var/www/cgi-bin/save_file.py
+chown -R www-data:www-data /var/www/cgi-bin/ /var/www/upload/
+systemctl restart apache2
 ```
 ### Jupyter-notebook
 ```
@@ -427,44 +431,6 @@ sudo apt-offline install --skip-changelog bundle.zip
 sudo apt-get install tightvncserver
 vncserver -localhost -nolisten tcp
 ```
-### Network Manager <a name="nmcli"></a>
-On Ubuntu 20.04, the network is managed by Network Manager ([CLI](https://developer.gnome.org/NetworkManager/stable/nmcli.html)) by default. <b>IT SUCKS!!!</b>. 
-* Show current connection
-```
-  nmcli connection show
-```
-* Show available SSID
-```
-  nmcli dev wifi
-```
-* Add a connection
-```
-  nmcli dev wifi con "SSID" password "PASSWORD" name "ALIAS"
-```
-* Connect/disconnect
-```
-  nmcli con up/down "ALIAS"
-```
-* Modify a connection <a name="ubuntu-static-ip"></a>
-```
-  sudo nmcli conn edit "Wired connection 1" 
-  nmcli> set ipv4.method manual
-  nmcli> set ipv4.addresses 192.168.0.123/24
-  nmcli> set ipv4.gateway 192.168.0.1
-  nmcli> set ipv4.dns 8.8.8.8 8.8.4.4
-  nmcli> save persistent
-  nmcli> quit
-```
-* Disable WIFI
-```
-nmcli radio wifi off
-nmcli r     all  off # turn on airplane mode
-```
-* Change DNS 
-```
-nmcli conn mod <connectionName> ipv4.dns "8.8.8.8 8.8.4.4"   # Permanent
-resolvectl dns interface_name 8.8.8.8 8.8.4.4                # Temporary 
-``` 
 ### ip <a name="ip"></a>
 * Delete wrong route (common for multi NICs)
 ```

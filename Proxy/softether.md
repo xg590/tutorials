@@ -73,10 +73,13 @@ zip ~/vpn123.zip /tmp/vpn123.cer /tmp/client123.cmd /tmp/vpn_add.bat /tmp/vpn_co
 ## Manage Server
 * New users
 ```
-./vpncmd localhost:5555
-VPN Server>Hub Hub123
-UserCreate user789 /GROUP:none /REALNAME:none /NOTE:none 
-UserPasswordSet user789 /PASSWORD:123456 
+./vpncmd localhost:5555 /SERVER /PASSWORD:$passwd1 /Hub:Hub123 /CMD UserCreate      user123 /GROUP:none /REALNAME:none /NOTE:none 
+./vpncmd localhost:5555 /SERVER /PASSWORD:$passwd1 /Hub:Hub123 /CMD UserPasswordSet user123 /PASSWORD:$passwd2 
+```
+* Enable/Disable L2TP (Expose UDP 500 and 4500)
+```
+./vpncmd localhost:5555 /SERVER /PASSWORD:$passwd1 /Hub:Hub123 /CMD IPsecEnable /L2TP:yes /L2TPRAW:no /ETHERIP:no /DEFAULTHUB:Hub123 /PSK:12345678 # Pre-Shared Key is equal to or less than 8 letters 
+./vpncmd localhost:5555 /SERVER /PASSWORD:$passwd1 /Hub:Hub123 /CMD IPsecEnable /L2TP:no  /L2TPRAW:no /ETHERIP:no /DEFAULTHUB:Hub123 /PSK:12345678
 ```
 ## VPN Client in Batch Mode
 * Compile

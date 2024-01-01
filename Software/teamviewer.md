@@ -2,6 +2,9 @@
 * Sign up Teamviewer and get an account.
 * Installed the Downloaded debian package of TeamViewer Host remotely
 ```
+wget https://download.teamviewer.com/download/TeamViewer_Host_Setup_x64.exe
+wget https://download.teamviewer.com/download/linux/teamviewer-host_arm64.deb 
+wget https://download.teamviewer.com/download/linux/teamviewer-host_amd64.deb
 sudo apt --fix-broken install teamviewer-host_xxx_amd64.deb
 ```
 * Configure Teamviewer and assign an account to the Host

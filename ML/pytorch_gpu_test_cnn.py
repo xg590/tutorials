@@ -51,8 +51,7 @@ net = Net().to(device)
 criterion = nn.CrossEntropyLoss()                                                                                                                        
 optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)   
 
-print('Begin Training')  
-print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%M"))
+print('Begin Training @', datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 for epoch in range(2):  																																 
     running_loss = 0.0                                                                                                                                   
     for i, (inputs, labels) in enumerate(trainloader, start=0):                                                                                          
@@ -67,8 +66,7 @@ for epoch in range(2):
             print(f'[{epoch + 1}, {i + 1:5d}] loss: {running_loss / 2000:.3f}')                                                                          
             running_loss = 0.0          
 
-print('Finished Training')  
-print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%M"))
+print('Finished Training @', datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
                                                                                                                              
 correct = 0                                                                                                                                              
 total = 0                                                                                                                                                
@@ -80,5 +78,4 @@ with torch.no_grad():
         total += labels.size(0)                                                                                                                          
         correct += (predicted == labels).sum().item()             
         
-print(f'Accuracy of the network on the 10000 test images: {100 * correct // total} %')
-print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%M"))
+print(f'Accuracy of the network on the 10000 test images: {100 * correct // total} % @ ', datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
