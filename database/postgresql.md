@@ -44,6 +44,14 @@ pg_dump dbname > db.bak
 ```
 
 ### Topics 
+#### Meta-Command
+```sql
+postgres=# \list              list database
+postgres=# \connect           change database
+postgres=# \dn                list schemas
+postgres=# \dt                list table \dt schemas.*
+postgres=# \d                 list column
+```
 #### Run PostgreSQL on a new directory.
 ```shell
 ps aux|grep postgres\ -D                                                                       # We need the argument after -D 

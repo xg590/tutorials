@@ -43,7 +43,7 @@ EOF
 * Run in an interactive style
 ```
 export NEWUSER="newuser" 
-docker run --name flask123 -itp 8888:8888 -p 8080:8080                \
+docker run --name jupyter123 -itp 8888:8888 -p 8080:8080                \
            -v $PWD/dev:/home/$NEWUSER/dev                             \
            -v $PWD/new_site_packages:/home/$NEWUSER/new_site_packages \
            jupyter bash
