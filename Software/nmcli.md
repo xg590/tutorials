@@ -9,7 +9,7 @@ On Ubuntu 20.04, the network is managed by Network Manager ([CLI](https://develo
 ```
   nmcli dev wifi
 ```
-* Add a connection
+* Add a connection (Quotation mark is required)
 ```
   nmcli dev wifi con "SSID" password "PASSWORD" name "ALIAS"
 ```

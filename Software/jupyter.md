@@ -14,7 +14,8 @@ source /tmp/jupyter123/bin/activate
 pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 pip3 install --upgrade pip
 pip3 install jupyter jupyter_contrib_nbextensions wheel notebook==6.4.12 traitlets==5.9.0
-jupyter contrib nbextension install --user
+jupyter contrib nbextension install --sys-prefix
+jupyter nbextension enable codefolding/main
 
 pip3 install jupyter_micropython_kernel
 python3 -m jupyter_micropython_kernel.install
@@ -30,6 +31,7 @@ screen -S benchmark -X stuff "source /tmp/jupyter123/bin/activate ^M"
 screen -S benchmark -X stuff "jupyter-notebook ^M"
 ```
 * [Example](https://github.com/xg590/IoT/blob/master/MicroPython/MicroPython_ESP8266_Jupyter.ipynb)
+### Tricks
 * Work remotely
 ```
 mkdir -p ~/.jupyter
@@ -37,16 +39,11 @@ cat << EOF > ~/.jupyter/jupyter_notebook_config.py
 c.NotebookApp.ip = '*'
 c.NotebookApp.port = 8888 
 c.NotebookApp.open_browser = False
-c.NotebookApp.password = u'sha1:ffed18eb1683:ee67a85ceb6baa34b3283f8f8735af6e2e2f9b55' 
-c.ServerApp.ip = '*'
-c.ServerApp.port = 8888 
-c.ServerApp.open_browser = False
-c.ServerApp.password = u'sha1:ffed18eb1683:ee67a85ceb6baa34b3283f8f8735af6e2e2f9b55' 
-#c.ServerApp.keyfile = u'/absolute/path/to/your/certificate/privkey.pem' 
-#c.ServerApp.certfile = u'/absolute/path/to/your/certificate/fullchain.pem'
+c.NotebookApp.password = u'sha1:ffed18eb1683:ee67a85ceb6baa34b3283f8f8735af6e2e2f9b55'  
+#c.NotebookApp.keyfile = u'/absolute/path/to/your/certificate/privkey.pem' 
+#c.NotebookApp.certfile = u'/absolute/path/to/your/certificate/fullchain.pem'
 EOF
 ```
-### Tricks
 * Run a jupyter notebook in command line [Credit](https://discourse.jupyter.org/t/jupyter-run-requires-notebook-to-be-previously-run/12250/2)
 ```
 jupyter-execute xg590.ipynb
@@ -56,13 +53,11 @@ jupyter-execute xg590.ipynb
 from notebook.auth import passwd
 passwd()
 ```
-* Install more python backend for jupyter 
+* Install/Uninstall more python backend/kernel for jupyter 
 ```
 python3 -m pip install ipykernel
 python3 -m ipykernel install --user --name myenv --display-name "Python (myenv)"
-```
-* Uninstall backend/kernel
-```
+
 jupyter kernelspec list  
 jupyter kernelspec uninstall unwanted-kernel
 ```  

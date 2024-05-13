@@ -1,4 +1,3 @@
-
 ### Pytorch + Ubuntu 22.04 desktop
 1. Install the RTX2060 driver
     ```
@@ -37,18 +36,13 @@
     screen -S pytorch -X stuff "python -c 'import torch; print(torch.cuda.is_available())' ^M"
     ```
 
-
-
-
 ### Pytorch + CentOS 7 
 1. or 
     ```
     apt install pkg-config libglvnd-dev build-essentials
     systemctl set-default multi-user.target && reboot
     bash NVIDIA-Linux-x86_64-535.113.01.run
-    ```
-1. d    
-    ```
+    
     yum install vulkan
     yum install libglvnd*
     ```

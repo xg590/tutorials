@@ -13,7 +13,8 @@ gcloud init
 gcloud compute ssh xxx@yyy --tunnel-through-iap
 ``` 
 ### Google Cloud Persistent SSH key
-* Use [VM metadata](https://cloud.google.com/compute/docs/metadata/overview) 
+* Use [VM metadata](https://cloud.google.com/compute/docs/metadata/overview)
+* SSH Key Format: [public_key username]
 ### Google Cloud Storage: Alternative to AWS S3
 * [Signed URL](CloudStorage_SignedURL.ipynb)
   * Generate a signed url so anyone can a download file in bucket 

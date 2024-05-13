@@ -1,7 +1,7 @@
 ## Point to Point Tunneling Protocol 
 ### Simple PPTP Server
 ```
-  apt-get install pptpd 
+apt-get install -y pptpd 
 sudo tee /etc/pptpd.conf << EOF > /dev/null   
 localip 20.0.0.1
 remoteip 20.0.0.100-200
@@ -49,7 +49,7 @@ pon pptp123
 #### Remote Machine (proxy server)
 ```
 sudo su
-echo -e "#Proxy Server\n\nPermitRootLogin yes\nPermitTunnel yes" >> /etc/ssh/sshd_config
+echo -e "#Proxy Server\nPermitRootLogin yes\nPermitTunnel yes" > /etc/ssh/sshd_config.d/proxy.conf
 systemctl restart sshd
 echo "net.ipv4.ip_forward = 1" > /etc/sysctl.d/forward123.conf
 sysctl --system
@@ -106,4 +106,12 @@ pppd updetach noauth unit 654 silent nodeflate pty "/usr/bin/ssh proxy /usr/sbin
 ip rule add from 192.168.xxx.128/25 lookup src123
 ip route add default via 10.0.0.5 dev ppp654 table src123
 iptables -t nat -A POSTROUTING -s 192.168.xxx.128/25 -o ppp654 -j MASQUERADE
+```
+### Temporary forwarding or not forwarding all traffic from Local Machine to proxy server
+* If we were not using "defaultroute replacedefaultroute" then our default gateway stays the same.
+* We can configure the routing table mannully for a small period of time to forward all traffic from Local Machine to proxy server.
+```
+ip route add $openssh_server_ip/32 via $gateway_ip
+ip route add default via 10.0.0.5 dev ppp654 
+ip route del default via 10.0.0.5 dev ppp654 
 ```
