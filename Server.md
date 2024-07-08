@@ -116,6 +116,10 @@ rsync -azP /local_dir/ rsync://host:port/my_remote_dir/
 ```
 rsync -azv --delete /mnt/e/ /mnt/h/
 ```
+* Folder exclusion (you cannot exclude '/var/www/html/software/docker' because there is no '/var/www/html/software/docker' under '/var/www')
+```
+rsync -rtP --exclude 'www/html/software/docker'   /var/www   /media/gxk/AutoChem_Backup/
+```
 ## Email Server (Not working for AWS Host. Additional configuration is needed for AWS)
 0. Add a MX record to DNS registrar
 ```

@@ -42,7 +42,32 @@ sudo -u postgres /usr/lib/postgresql/12/bin/pg_ctl -D /var/lib/postgresql/12/mai
 sudo -u postgres /usr/lib/postgresql/12/bin/pg_ctl -D /home/xxx/postgresql/       start
 pg_dump dbname > db.bak
 ```
+### Pandas + Postgresql
+* Python libraries
+```
+pip install pandas psycopg2 sqlalchemy 
+```
+* Set a password for the user
+```shell
+psql database_name << EOF 
+ALTER USER user_name WITH PASSWORD 'new_password'; 
+> EOF
+```
+* Python
+```python
+import pandas as pd 
+import psycopg2 
+from sqlalchemy import create_engine 
+  
+# establish connection with the database 
+conn = create_engine(  
+#   "dialect+driver//username:password@hostname:portnumber/databasename"
+    "postgresql+psycopg2://user_name:new_password@localhost:5432/database_name"
+)
 
+# read table data using sql query 
+pd.read_sql( "SELECT * FROM person", con=conn)   
+```
 ### Topics 
 #### Meta-Command
 ```sql

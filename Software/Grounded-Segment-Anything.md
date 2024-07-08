@@ -98,6 +98,10 @@ curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dear
 sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit
 sudo systemctl restart docker.service
 ```
+#### Nvidia driver and cuda-toolkit compatibility 
+* cuda-repo-ubuntu2204-12-0-local_<span style="color:red"><i>12.0.0</i></span>-<span style="color:green"><i>525.60.13</i></span>-1_amd64.deb
+* cuda-repo-ubuntu2204-11-8-local_<span style="color:red"><i>11.8.0</i></span>-<span style="color:green"><i>520.61.05</i></span>-1_amd64.deb
+* cuda-repo-ubuntu2204-11-7-local_<span style="color:red"><i>11.7.1</i></span>-<span style="color:green"><i>515.65.01</i></span>-1_amd64.deb
 #### GPU kernel-client confict
 * If a newer Nvidia driver was installed before, running nvidia-smi may land you in a kernel-client confict with the warning:
 ```

@@ -144,3 +144,7 @@ systemctl restart docker
 docker inspect -f "{{json .HostConfig}}" <container_name> # new settings
 docker inspect -f "{{json .HostConfig.PortBindings}}" <container_name>
 ```
+* Tag an image
+```
+docker image tag container-id gsa:v0
+```

@@ -18,9 +18,10 @@ echo -e "200 src123" > /etc/iproute2/rt_tables.d/new123.conf # routing table ide
 * Create policy routing rules.
 ```
 ip rule add from 192.168.30.200 lookup src123 
-ip rule list
+ip rule list                    lookup src123
 ``` 
 * Add routes
 ```
 ip route add default via 10.0.0.2 dev ppp0 table src123 
+ip route show                              table src123
 ```
