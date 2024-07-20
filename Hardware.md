@@ -12,6 +12,10 @@
 ```
 cat /sys/class/power_supply/BAT0/capacity
 ```
+### 
+```
+sudo apt remove brltty 
+```
 ### Prepare WSL 2 for Pytorch on Windows 10
 0. Install the latest Nvidia Driver in Windows (Not in WSL)
 1. Turn on the "Windows Subsystem for Linux" and "Virtual Machine Platform" features of Windows 10

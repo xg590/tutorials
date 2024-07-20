@@ -1,6 +1,5 @@
 # Content 
 * [CLI and GUI](#cliandgui)
-* [systemctl](#systemctl)
 * [iptables](#iptables)
 * [DHCP](#dhcp)
 * [nmcli](#nmcli)
@@ -24,16 +23,7 @@ EOF
 ``` 
 sudo ip link set wlan0 down
 sudo ip link set wlan0 up
-```  
-## DNS
-```
-cat << EOF > /etc/systemd/network/dns123.conf
-nameserver 8.8.8.8
-nameserver 8.8.4.4
-EOF
-
-systemctl restart resolv
-```
+``` 
 ## iptables <a name="iptables"></a>
 #### Example
 ```shell
@@ -88,38 +78,6 @@ deb https://mirrors.aliyun.com/debian bullseye main contrib non-free
 ```
 pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 ```
-## Switching between CLI and GUI
-#### Boot Sequence
-```
-Boot (Ubuntu 20.04)
-  \_systemD (another init system than system V)
-     |\
-     | \_multi-user.target
-     |        \
-     |         \_startx (X session)  
-     |
-      \__graphical.target
-             \
-              \_Display Manager / graphical login manager (Xorg / Wayland)
-                    \
-                     \_Window Manager (X session)
-```
-### Boot into text mode: 
-```
-sudo systemctl set-default multi-user.target 
-```
-### Boot into graphical mode: 
-```
-sudo systemctl set-default graphical.target 
-```
-### Switch to text mode from graphical mode without reboot: 
-```
-sudo systemctl start multi-user.target 
-```
-### Oppositely, do: 
-```
-sudo systemctl start graphical.target
-``` 
 ## Virtual Terminal
 ### Change VT (equals to press Crtl+Alt+Fx)
 ```
@@ -128,29 +86,6 @@ sudo chvt N
 ### Current N
 ```
 sudo fgconsole
-``` 
-### systemctl <a name="systemctl"></a>
-#### Remove Services, which will not start after reboot
-```
-systemctl disable apache2 
-systemctl disable cups cups-browsed nmbd apache2 smbd
-```
-#### Check if disabling works. Equvialent to CentOS's "chkconfig --list"
-```
-systemctl list-unit-files --state=enabled 
-```
-#### Apache2 will stop instantly
-```
-systemctl stop apache2    
-```
-#### Check if stopping works
-```
-systemctl status apache2    
-```
-#### List running service
-```
-systemctl list-units --type=service --state=running
-systemctl list-units --type=service --all
 ```
 ### Repair grub after MS Windows installation. 
 * Use USB installation stick to try Ubuntu and run following code 
@@ -455,15 +390,6 @@ wget http://mirrors.kernel.org/ubuntu/pool/main/libf/libffi/libffi6_3.2.1-8_amd6
 ar x libffi6_3.2.1-8_amd64.deb
 tar Jxf data.tar.xz 
 export LD_LIBRARY_PATH=$PWD/usr/lib/x86_64-linux-gnu/
-```
-### Power behavior
-* Not suspended after close the lid
-```
-sudo tee -a /etc/systemd/logind.conf << EOF >> /dev/null
-HandleLidSwitch=suspend
-HandleLidSwitchExternalPower=ignore
-EOF
-sudo systemctl restart systemd-logind
 ```
 ## Fresh Installation
 ```
