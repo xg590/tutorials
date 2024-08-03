@@ -40,3 +40,11 @@ nmcli r     all  off # turn on airplane mode
 nmcli conn mod <connectionName> ipv4.dns "8.8.8.8 8.8.4.4"   # Permanent
 resolvectl dns interface_name 8.8.8.8 8.8.4.4                # Temporary 
 ``` 
+* Bring down NIC
+```
+nmcli device disconnect $IFNAME2; wait ; nmcli device connect $IFNAME2
+```
+* 
+```
+nmcli conn delete '有线连接 3'
+```

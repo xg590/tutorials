@@ -15,6 +15,19 @@
   systemctl disable dnsmasq apache2
   systemctl stop NetworkManager
   ip addr add 192.168.123.1/24 dev enp0s3 # Give the NIC an ephemeral IP so dhcpd can listen on it. Otherwise dhcpd will exit abnormally.
+  
+  # We better provide the installing machine internet otherwise autoinstallation can crash.
+  echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward >/dev/null 
+  iptables -P FORWARD ACCEPT
+  iptables -t nat -A POSTROUTING -s 192.168.123.0/24 -o enp0s8 -j MASQUERADE  
+
+  DATE=`date|sed 's/ /_/g'`
+  ssh-keygen -q -t ed25519 -C "ubuntu_install@$DATE" -N '' -f ~/.ssh/installation
+  cp ~/.ssh/installation.pub ~/.ssh/authorized_keys
+  USER_SSH_KEY=`cat ~/.ssh/installation.pub`
+  USER_PASSWD=`mkpasswd --method=sha-512 123456`
+  TFTP_ROOT=/srv/tftp
+  
   cat << EOF > /etc/dnsmasq.conf
   interface=enp0s3
   bind-interfaces
@@ -24,21 +37,20 @@
   dhcp-match=set:x86_64-uefi,option:client-arch,9
   # dhcp-boot=[tag:<tag>,]<filename>,[<servername>[,<server address>|<tftp_servername>]]
   dhcp-boot=tag:x86-legacy,pxelinux.0,,192.168.123.1
+  # bootx64.efi and grubx64.efi do not work 
   dhcp-boot=tag:x86_64-uefi,grubnetx64.efi.signed,,192.168.123.1
   enable-tftp
-  tftp-root=/srv/tftp/
+  tftp-root=$TFTP_ROOT
   EOF
+  mkdir -p $TFTP_ROOT/casper
   systemctl restart dnsmasq apache2
   sleep 5
   systemctl status  dnsmasq apache2
   ```
   ```shell
   mount /var/www/html/ubuntu-24.04-live-server-amd64.iso /mnt
-  TFTP_ROOT=/srv/tftp
-  mkdir                  $TFTP_ROOT/casper
   cp /mnt/casper/initrd  $TFTP_ROOT/casper/ # initial_ramdisk
   cp /mnt/casper/vmlinuz $TFTP_ROOT/casper/ # kernel
-  USER_PASSWD=`mkpasswd --method=sha-512 123456`
   ```
 * #BIOS (Legacy)
   ``` shell
@@ -87,6 +99,7 @@
       - { type: mount    , device: fs_root   , path: /                   , id: mount_root                                                       }
       - { type: mount    , device: fs_ext    , path: /ext                , id: mount_ext                                                        } 
     user-data:
+      disable_root: false
       package_upgrade: false
       timezone: America/New_York
       users:
@@ -98,10 +111,12 @@
     ssh:
       allow-pw: true
       install-server: true
+      # These public keys will be included in /root/.ssh/authorized_keys
+      authorized-keys: [ $USER_SSH_KEY ]
     shutdown: poweroff
     late-commands:
-    - 'echo "ubuntu ALL=(ALL) NOPASSWD:ALL" > /target/etc/sudoers.d/nopw'
-    - chmod 440 /target/etc/sudoers.d/nopw
+      - 'echo "ubuntu ALL=(ALL) NOPASSWD:ALL" > /target/etc/sudoers.d/nopw'
+      - chmod 440 /target/etc/sudoers.d/nopw
   EOF
   ```
 * #UEFI (Logical Volume)
@@ -153,6 +168,8 @@
       - { type: mount        , device  : fs_root   , path: /        , id: mount_root                                                        }
       - { type: mount        , device  : fs_ext    , path: /ext     , id: mount_ext                                                         } 
     user-data:
+      # enable_root so that authorized_keys works 
+      disable_root: false
       package_upgrade: false
       timezone: America/New_York
       users:
@@ -164,10 +181,12 @@
     ssh:
       allow-pw: true
       install-server: true
+      # These public keys will be included in /root/.ssh/authorized_keys
+      authorized-keys: [ $USER_SSH_KEY ]
     shutdown: poweroff
     late-commands:
-    - 'echo "ubuntu ALL=(ALL) NOPASSWD:ALL" > /target/etc/sudoers.d/nopw'
-    - chmod 440 /target/etc/sudoers.d/nopw
+      - 'echo "ubuntu ALL=(ALL) NOPASSWD:ALL" > /target/etc/sudoers.d/nopw'
+      - chmod 440 /target/etc/sudoers.d/nopw
   EOF
   ```
 ### Misc
@@ -202,4 +221,13 @@
   tee /etc/default/isc-dhcp-server << EOF > /dev/null # specify the interfaces dhcpd should listen to.
   INTERFACESv4="enp0s3"
   EOF
+  ```
+* sth else
+  ```
+  #- sed -i 's|^root:.:|root:$USER_PASSWD:|' /target/etc/shadow
+  ```
+* check
+  ```
+  systemctl restart dnsmasq
+  journalctl -u dnsmasq -f
   ```

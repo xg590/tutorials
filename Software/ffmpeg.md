@@ -6,3 +6,8 @@ ffmpeg -i input.mkv -r 16 -filter:v "setpts=0.25*PTS" output.mkv
 ```
 ffmpeg -i INPUT.MOV -qscale 0 output.mp4
 ```
+* Reboxing webm
+  ```
+  ffmpeg -ss 00:02:07 -to 00:04:33 -i a.webm -c copy a_clip.mp4
+  ffmpeg -i a.webm -c copy a.mp4
+  ```
