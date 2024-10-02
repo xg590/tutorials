@@ -53,6 +53,11 @@ chmod u+x /var/www/cgi-bin/save_file.py
 chown -R www-data:www-data /var/www/cgi-bin/ /var/www/upload/
 systemctl restart apache2
 ```
+* Client side
+```
+echo 'curl -F "filename=@$2" https://$1/cgi-bin/save_file.py' > /usr/local/bin/upload.py
+chmod 755  /usr/local/bin/upload.py
+```
 * [ScriptAlias](https://httpd.apache.org/docs/2.4/howto/cgi.html) 
   * Revise <i>/etc/apache2/conf-available/serve-cgi-bin.conf</i> after <i>a2enmod cgid</i>
 ```
@@ -81,3 +86,10 @@ EOF
 chmod o+x /usr/lib/cgi-bin/test.py
 ```
 * Visit http://your_domain/cgi-bin/test.py  
+
+
+cat << EOF > /usr/local/bin/upload.py
+#!/bin/bash
+curl -F "filename=@\$PWD/\$2" https://\$1/cgi-bin/save_file.py
+EOF
+chmod 755  /usr/local/bin/upload.py 

@@ -16,10 +16,7 @@ pip3 install --upgrade pip
 pip3 install jupyter jupyter_contrib_nbextensions wheel notebook==6.4.12 traitlets==5.9.0
 jupyter contrib nbextension install --sys-prefix
 jupyter nbextension enable codefolding/main
-
-pip3 install jupyter_micropython_kernel
-python3 -m jupyter_micropython_kernel.install
-
+jupyter nbextension enable execute_time/ExecuteTime
 sudo umount /tmp/jupyter123
 ```
 * Run
@@ -28,6 +25,8 @@ mkdir -p /tmp/jupyter123
 sudo mount -o loop /var/www/html/jupyter123.ext3 /tmp/jupyter123
 screen -S benchmark -d -m
 screen -S benchmark -X stuff "source /tmp/jupyter123/bin/activate ^M"
+screen -S benchmark -X stuff "export PYTHONPATH=/home/pi/new_site_packages ^M"
+screen -S benchmark -X stuff "export PIP_TARGET=/home/pi/new_site_packages ^M"
 screen -S benchmark -X stuff "jupyter-notebook ^M"
 ```
 * [Example](https://github.com/xg590/IoT/blob/master/MicroPython/MicroPython_ESP8266_Jupyter.ipynb)
@@ -57,7 +56,13 @@ passwd()
 ```
 python3 -m pip install ipykernel
 python3 -m ipykernel install --user --name myenv --display-name "Python (myenv)"
+python3 -m jupyter_micropython_kernel.install
+pip3 install jupyter_micropython_kernel
 
 jupyter kernelspec list  
 jupyter kernelspec uninstall unwanted-kernel
-```  
+``` 
+* ImportError: libcblas.so.3: cannot open shared object file: No such file or directory when numpy==1.24 
+```
+sudo apt-get install libatlas-base-dev libopenblas-dev
+```

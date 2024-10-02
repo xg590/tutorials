@@ -53,54 +53,6 @@ qft receiver <helper-address>:<helper-port> <phrase> <filename> [bitrate] [skip]
 qrencode -t ASCII 'Hello World!'
 echo "Hello World" | qrencode -t ASCII
 ```
-### Wireshark
-* Drirver of BCM4345/6 (Raspberry Pi's on-board WiFI chip) does not support "Monitor Mode". 
-* A third-party WiFi Dangle RT5370 is needed. 
-* Put the network interface in "Monitor Mode"
-```
-# On Raspberry Pi
-sudo apt-get update && sudo apt-get install iw tcpdump
-iw dev 
-nic=wlan1 # RT5370
-sudo ip link set $nic down
-sudo iw $nic set type monitor
-sudo ip link set $nic up 
-iw dev
-```
-* Run [tcpdump](https://www.tcpdump.org/manpages/tcpdump.1.html) to capture wireless packets and forward it via [netcat](https://linuxcommandlibrary.com/man/netcat) on Raspberry Pi 
-```shell
-# tcpdump 
-#   -n     Don’t convert host addresses to names.  This can be used to avoid DNS lookups. 
-#   -nn    Don’t convert protocol and port numbers etc. to names either.  
-#   -U     No buffer mode for the real-time analysis. Output message immediately.  
-#   -w     Set the default capture file name, or '-' for standard output. 
-#   port   A filter
-sudo tcpdump -i $nic -nn -U -w - | nc -l 0.0.0.0 45454
-```
-* On a Linux PC  
-```
-sudo apt install wireshark ### Allow non-root user to capture packet.
-sudo usermod -a -G wireshark $USER 
-newgrp wireshark
-wireshark -k -i TCP@192.168.x.x:45454
-```
-* On a Windows PC 
-```
-CMD F:\>            Programs\WiresharkPortable64\WiresharkPortable64.exe -k -i TCP@192.168.x.x:45454
-ShortCut Target: F:\Programs\WiresharkPortable64\WiresharkPortable64.exe -k -i TCP@192.168.x.x:45454
-```
-* Wireshark filter
-```
-ip.dst_host == 192.168.x.123 && tcp.port == 8266 && websocket
-wlan.fc.type_subtype == 0x0008 # beacon frame
-```
-* Restore
-```
-nic=wlan1 # RT5370
-sudo ip link set $nic down 
-sudo iw $nic set type managed
-sudo ip link set $nic up 
-```
 ### curl
 ```
 curl -x "socks5://user:pwd@127.0.0.1:1234" "http://ipinfo.io/ip"
@@ -167,58 +119,6 @@ dd if=2021-05-07-raspios-buster-armhf-lite.img | pv | dd of=/dev/sdb
 1. [Anything to QRcode](https://chrome.google.com/webstore/detail/anything-to-qrcode/calkaljlpglgogjfcidhlmmlgjnpmnmf)
 2. [HTTP Trace](https://chrome.google.com/webstore/detail/http-trace/idladlllljmbcnfninpljlkaoklggknp)
 3. [Google Input](https://chrome.google.com/webstore/detail/google-input-tools/mclkkofklkfljcocdinagocijmpgbhab)
-
-### SLURM
-* Job detail
-  ```
-  [x@log-1 dir]$ scontrol show jobid 21919507
-  JobId=21919507 JobName=log-1.hpc.nyu.edu-data
-     UserId=x(x) GroupId=x(x) MCS_label=N/A
-     Priority=14817 Nice=0 Account=users QOS=interact 
-     RunTime=00:13:57 TimeLimit=00:30:00 TimeMin=N/A 
-     TresPerNode=gres:gpu:rtx8000:1
-  ```
-* Task: For the following two jobs, [Credit](https://stackoverflow.com/a/53759961) 
-  ```
-  sbatch << EOF
-  #!/bin/bash
-  
-  #SBATCH --ntasks=1
-  
-  srun --ntasks=1 sleep 11 & 
-  srun --ntasks=1 sleep 12 &
-  wait
-  EOF
-  
-  sbatch << EOF
-  #!/bin/bash
-  
-  #SBATCH --ntasks=2
-  
-  srun --ntasks=1 sleep 11 & 
-  srun --ntasks=1 sleep 12 &
-  wait
-  EOF
-  ```
-  one job will be finish in 23 second because only one task could be run at the same time while another job finish in 12 second because two tasks could be run at the same time.
-  ```
-  [xg590@log-3 ~]$ sacct --format=JobID,Start,End,Elapsed,NCPUS -j 31502997 && \
-                   sacct --format=JobID,Start,End,Elapsed,NCPUS -j 31502998
-  JobID                      Start                 End    Elapsed      NCPUS
-  ------------ ------------------- ------------------- ---------- ----------
-  31502997     2023-03-31T16:15:11 2023-03-31T16:15:35   00:00:24          1
-  31502997.ba+ 2023-03-31T16:15:11 2023-03-31T16:15:35   00:00:24          1
-  31502997.ex+ 2023-03-31T16:15:11 2023-03-31T16:15:35   00:00:24          1
-  31502997.0   2023-03-31T16:15:12 2023-03-31T16:15:23   00:00:11          1
-  31502997.1   2023-03-31T16:15:23 2023-03-31T16:15:35   00:00:12          1
-  JobID                      Start                 End    Elapsed      NCPUS
-  ------------ ------------------- ------------------- ---------- ----------
-  31502998     2023-03-31T16:15:11 2023-03-31T16:15:24   00:00:13          2
-  31502998.ba+ 2023-03-31T16:15:11 2023-03-31T16:15:24   00:00:13          1
-  31502998.ex+ 2023-03-31T16:15:11 2023-03-31T16:15:24   00:00:13          2
-  31502998.0   2023-03-31T16:15:12 2023-03-31T16:15:23   00:00:11          1 # 
-  31502998.1   2023-03-31T16:15:12 2023-03-31T16:15:24   00:00:12          1 #
-  ``` 
 ### Win32-OpenSSH
 ##### # Download OpenSSH-Win32 and plink (Win7_x86)
 ```shell

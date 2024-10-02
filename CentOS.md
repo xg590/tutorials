@@ -10,6 +10,11 @@ NM_CONTROLLED=no
 BOOTPROTO=static
 IPADDR=192.168.56.100
 NETMASK=255.255.255.0
+DNS1=8.8.8.8
+DNS2=8.8.4.4
+GATEWAY=$GW
+IPV6INIT=no  
+```
 ```
 ### DNS
 vim /etc/resolv.conf 
@@ -98,4 +103,61 @@ dnf install epel-release -y
 Install screen
 ```
 dnf install screen
+```
+
+* Repo
+```shell
+cat << EOF > CentOS-Base.repo 
+[base]
+name=CentOS-\$releasever - Base - 163.com
+baseurl=http://mirrors.163.com/centos-vault/centos/\$releasever/os/\$basearch/
+gpgcheck=1
+gpgkey=http://mirrors.163.com/centos-vault/centos/7/os/x86_64/RPM-GPG-KEY-CentOS-7
+
+[updates]
+name=CentOS-\$releasever - Updates - 163.com
+baseurl=http://mirrors.163.com/centos-vault/centos/\$releasever/updates/\$basearch/
+gpgcheck=1
+gpgkey=http://mirrors.163.com/centos-vault/centos/7/os/x86_64/RPM-GPG-KEY-CentOS-7
+
+[extras]
+name=CentOS-\$releasever - Extras - 163.com
+baseurl=http://mirrors.163.com/centos-vault/centos/\$releasever/extras/\$basearch/
+gpgcheck=1
+gpgkey=http://mirrors.163.com/centos-vault/centos/7/os/x86_64/RPM-GPG-KEY-CentOS-7
+
+[centosplus]
+name=CentOS-\$releasever - Plus - 163.com
+baseurl=http://mirrors.163.com/centos-vault/centos/\$releasever/centosplus/\$basearch/
+gpgcheck=1
+enabled=0
+gpgkey=http://mirrors.163.com/centos-vault/centos/7/os/x86_64/RPM-GPG-KEY-CentOS-7
+EOF
+scp CentOS-Base.repo root@$IP:/etc/yum.repos.d/CentOS-Base.repo 
+```
+* NFS
+```shell
+ 
+for IP in `cat /var/lib/misc/dnsmasq.leases | cut -d ' ' -f 3`; 
+do  
+    dist=`ssh root@$IP lsb_release -is 2> /dev/null` 
+    if [ "$dist" != "Ubuntu" ] ;
+    then 
+        echo $IP $dist
+        ssh root@$IP pkill yum
+        echo "nameserver 222.88.88.88" | ssh root@$IP tee /etc/resolv.conf
+        ssh root@$IP yum clean all
+        ssh root@$IP cat /etc/yum.repos.d/CentOS-Base.repo
+        ssh root@$IP yum makecache
+        ssh root@$IP yum install -y nfs-utils ;
+    fi
+done
+
+
+
+* Repair the delay bug
+```shell
+apt install -y sshpass
+echo "UseDNS no" | sshpass -p $ROOT_PASSWD ssh -o "StrictHostKeyChecking no" root@$IP tee -a /etc/ssh/sshd_config; 
+sshpass -p $ROOT_PASSWD ssh -o "StrictHostKeyChecking no" root@$IP systemctl restart sshd
 ```

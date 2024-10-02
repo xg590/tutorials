@@ -126,6 +126,13 @@ docker load --input nextcloud.tar
 docker-compose.yml
    image: nextcloud
 ```
+* ENTRYPOINT vs CMD
+  * The ENTRYPOINT specifies a command that will always be executed when the container starts. The CMD specifies arguments that will be fed to the ENTRYPOINT.
+```yaml
+FROM debian:wheezy
+ENTRYPOINT ["/bin/ping"]
+CMD ["localhost"]
+```
 * Change settings
 ```
 vim /lib/systemd/system/docker.service

@@ -1,27 +1,5 @@
-### Install on Ubuntu 22.04 (8GB VRAM is not enough for some diffusion model)
+ (8GB VRAM is not enough for some diffusion model)
 * I am [Apr 7, 2024] setting up <b>Grounded Segment Anything</b> test env on Google Cloud Platform VM with a Nvidia Tesla P4 GPU. 
-* I am installing the following prerequsited software to run G_SAM:
-    * Nvidia GPU Driver
-    * Nvidia CUDA Toolkit (not a requisite for pytorch but a necessary component during G_SAM installation)
-    * Conda / Torch 
-* There are compatibility issues so I need to be careful to choose each software.
-    * The GPU driver should be compatible with CUDA toolkit (driver 515.105.01 is good with toolkit 11.7). 
-        * Go to [NVIDIA Driver Downloads webpage](https://www.nvidia.com/Download/index.aspx?lang=en-us) and choose the [driver](https://www.nvidia.com/Download/driverResults.aspx/200630/en-us/) for Tesla P4.
-        * Download and install driver 515.105.01
-          ```
-          wget https://us.download.nvidia.com/tesla/515.105.01/NVIDIA-Linux-x86_64-515.105.01.run
-          # apt install nvidia-driver-515 is OK as well
-          nvidia-smi # check if the GPU is supported by the driver
-          ```
-    * Torch needs the support of CUDA toolkit. (toolkit 11.7 supports pytorch 2.0.1 and torchvision 0.15.2).
-        * Go to [CUDA Toolkit Archive](https://developer.nvidia.com/cuda-toolkit-archive) and choose the [toolkit](https://developer.nvidia.com/cuda-11-7-1-download-archive?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=22.04&target_type=deb_local) 11.7.1
-          ```
-          wget https://developer.download.nvidia.com/compute/cuda/11.7.1/local_installers/cuda-repo-ubuntu2204-11-7-local_11.7.1-515.65.01-1_amd64.deb
-          ```
-    * G_SAM requires python>=3.8, as well as pytorch>=1.7 and torchvision>=0.8.
-      ```
-      conda create pytorch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2 pytorch-cuda=11.7 -c pytorch -c nvidia -n torch
-      ```
 * Following the [instruction](https://github.com/IDEA-Research/Grounded-Segment-Anything?tab=readme-ov-file#install-without-docker)
 ### Full-course installation procedure for Geforce RTX3080 
   ```shell
@@ -102,41 +80,6 @@ screen -S gsam -X stuff "docker run --interactive --tty --rm -p 8889:8888 --gpus
 screen -S gsam -X stuff "jupyter-notebook ^M"
 ```
 ### Troubleshooting
-#### docker: Error response from daemon: could not select device driver "" with capabilities: [[gpu]].
-* [Ref](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html#installing-with-apt)
-```
-curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
-  && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
-    sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
-    sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
-sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit
-sudo systemctl restart docker.service
-```
-#### Nvidia driver and cuda-toolkit compatibility 
-* cuda-repo-ubuntu2204-12-0-local_<span style="color:red"><i>12.0.0</i></span>-<span style="color:green"><i>525.60.13</i></span>-1_amd64.deb
-* cuda-repo-ubuntu2204-11-8-local_<span style="color:red"><i>11.8.0</i></span>-<span style="color:green"><i>520.61.05</i></span>-1_amd64.deb
-* cuda-repo-ubuntu2204-11-7-local_<span style="color:red"><i>11.7.1</i></span>-<span style="color:green"><i>515.65.01</i></span>-1_amd64.deb
-#### GPU kernel-client confict
-* If a newer Nvidia driver was installed before, running nvidia-smi may land you in a kernel-client confict with the warning:
-```
-$ nvidia-smi 
-Failed to initialize NVML: Driver/library version mismatch
-NVML library version: 545.29
-```
-* Even if I uninstalled nvidia-driver-550 and installed nvidia-driver-545, the linux still load module belonging to 550 driver.
-```
-$ sudo  dmesg | grep NVRM
-[    9.854868] NVRM: loading NVIDIA UNIX x86_64 Kernel Module  550.54.14  Thu Feb 22 01:44:30 UTC 2024 
-[ 5080.898738] NVRM: API mismatch: the client has the version 545.29.06, but
-               NVRM: this kernel module has the version 550.54.14.  Please
-               NVRM: make sure that this kernel module and all NVIDIA driver
-               NVRM: components have the same version.
-```
-* Basically, it means our nvidia-smi is using API from Nvidia driver 545.29.06 but our Linux loaded the kernel from the Nvidia driver 550.54.14. 
-* So we will reconfigure the Linux kernel and the a 545 driver/module will be loaded into Linux kernel instead.
-```shell
-sudo dpkg-reconfigure nvidia-dkms-515
-```
 #### Failed to install pycocotools
 ```
 cc1: fatal error: pycocotools/_mask.c: No such file or directory

@@ -129,6 +129,10 @@
       git remote add origin git@remote_ip:abc.git
       git push origin master
       ```
+  3. Another Machine
+      ```
+      git clone -b main git@remote_ip:abc.git
+      ```
 * Proxy
   ```
   git config --global http.proxy 'socks5h://192.168.x.xx:1080' 
@@ -138,4 +142,18 @@
   ```
   git branch -l                        # what is current branch name
   git remote -v                        # what is remote (what does origin stand for)
+  git show-ref                         # 
   ```
+* Change remote repo
+  ```
+  git remote set-url origin git@github.com:OWNER/REPOSITORY.git 
+  ```
+* Troubleshooting
+  * ```error: src refspec master does not match any.```
+  * refs/heads/master vs refs/heads/main
+  ```
+  git@remote_ip:~$ cat ~/abc.git/HEAD
+  ref: refs/heads/master
+  a@local_ip:abc$ git show-ref
+  debaa913d7a8524c61ee96f59661345dc84f6dd2 refs/heads/main
+  ```  

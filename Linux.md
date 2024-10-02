@@ -340,24 +340,6 @@ cd autossh-1.4g
 ./configure
 make
 ```
-### Screen <a name="screen"></a>
-Start a screen session in the backgroup
-```
-screen -d -m -S autossh
-```
-Send a command into the session to run [Autossh](https://www.harding.motd.ca/autossh/autossh-1.4g.tgz) 
-```
-screen -S autossh -X stuff 'autossh -M 12345 -fN hostname ^M'
-```
-* Split screen vertically  : <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>Shift</kbd>+<kbd>\ </kbd>
-* Split screen horizentally: <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>Shift</kbd>+<kbd>s</kbd> 
-* Switch region            : <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>Tab</kbd>
-* Close region             : <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>Shift</kbd>+<kbd>x</kbd> 
-* New window               : <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>c</kbd>
-* Next window              : <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>n</kbd>
-* List windows             : <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>w</kbd> 
-* Switch window            : <kbd>CTRL</kbd>+<kbd>a</kbd> Then window_number
-* Kill window              : <kbd>CTRL</kbd>+<kbd>a</kbd> Then <kbd>k</kbd>  
 ### Parallelism
 ```
 ls | head | xargs -n 1 -P 3 program_X 
