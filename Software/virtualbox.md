@@ -57,11 +57,13 @@ vboxmanage startvm $vmname --type headless
 ### Snapshot
 * Take
 ```
-vboxmanage snapshot <vmname> take    fresh --description="upgraded,openssh,2Kres"
+vboxmanage snapshot $vmname take    fresh --description="upgraded,openssh,2Kres"
 ```
 * Restore
 ```
-vboxmanage snapshot <vmname> restore fresh
+vboxmanage list vms
+vboxmanage snapshot $vmname list
+vboxmanage snapshot $vmname restore fresh
 ```
 ### Tricks
 * [Manual](https://www.virtualbox.org/manual/ch08.html)
@@ -75,12 +77,12 @@ vboxmanage list hdds
 ```
 * Show the current configuration
 ```
-vboxmanage showvminfo <vmname>
+vboxmanage showvminfo $vmname
 ```
 * RDP configuration
 ```
-vboxmanage modifyvm <vmname> --vrde on
-vboxmanage modifyvm <vmname> --vrdeaddress 127.0.0.1 --vrdeport 12345
+vboxmanage modifyvm $vmname --vrde on
+vboxmanage modifyvm $vmname --vrdeaddress 127.0.0.1 --vrdeport 12345
 ```
 * List running machines
 ```

@@ -1,0 +1,1 @@
+docker pull --platform linux/aarch64 python:3.12.6-slim-bookworm

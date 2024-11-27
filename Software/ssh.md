@@ -24,3 +24,4 @@ ssh-keygen -f /etc/ssh/ssh_host_ed25519_key.pub -l
 ```shell
 ssh -o "UserKnownHostsFile ~/.ssh/abc123" example.org
 ```
+ssh -o KexAlgorithms=+diffie-hellman-group1-sha1 username@123.123.123.123 

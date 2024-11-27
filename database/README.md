@@ -20,7 +20,11 @@ df = pd.DataFrame([{'col1':1,'col2':2},{'col1':3,'col2':4}])
 cursor.execute('CREATE TABLE table1(col1 INTEGER, col2 INTEGER)')
 df.to_sql('table1', sqlEngine, index=False, if_exists='append') 
 pd.read_sql('SELECT * FROM table1', sqlEngine)
-``` 
+```
+* phpmyadmin
+```
+apt -y update && apt install -y mariadb-server phpmyadmin # configure apache2 automatically
+```
 ### SQLite
 * Delete duplicated rows
 ```sql 

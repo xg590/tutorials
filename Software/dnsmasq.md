@@ -30,15 +30,4 @@ log-facility=/root/dnsmasq.log
 EOF
 
 systemctl restart dnsmasq
-``` 
-### Enable DHCP
 ```
-cat << EOF > /etc/dnsmasq.d/dhcp.conf
-dhcp-authoritative
-dhcp-range=192.168.0.50,192.168.0.150,12h
-dhcp-leasefile=/var/lib/dnsmasq/dnsmasq.leases
-#dhcp-host=11:22:33:44:55:66,192.168.0.60 # MAC binding
-log-dhcp
-EOF
-```
-### Enable PXE (TFTP)

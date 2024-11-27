@@ -3,7 +3,7 @@
 ```
 sudo apt update && sudo apt install python3-pip python3-venv
 
-dd if=/dev/zero of=/var/www/html/jupyter123.ext3 bs=1M count=2000 status=progress
+dd if=/dev/zero of=/var/www/html/jupyter123.ext3 bs=1M status=progress count=1000
 mkfs.ext3 /var/www/html/jupyter123.ext3
 mkdir -p /tmp/jupyter123
 sudo mount -o loop /var/www/html/jupyter123.ext3 /tmp/jupyter123
@@ -65,4 +65,27 @@ jupyter kernelspec uninstall unwanted-kernel
 * ImportError: libcblas.so.3: cannot open shared object file: No such file or directory when numpy==1.24 
 ```
 sudo apt-get install libatlas-base-dev libopenblas-dev
+```
+### New
+```
+pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+pip install notebook==7.2.2 wheel
+
+cat << EOF >> $HOME/.bashrc
+export PIP_ROOT=$HOME
+export PIP_PREFIX=".abc123"
+export PYTHONPATH="$HOME/.abc123/lib/python3.12/site-packages"
+export JUPYTER_CONFIG_DIR="$HOME/.abc123/cfg" 
+export PATH="$HOME/.abc123/bin:\$PYTHONPATH/bin:\$PATH"
+EOF
+
+mkdir -p   $HOME/.abc123/cfg  
+cat << EOF >  $HOME/.abc123/cfg/jupyter_notebook_config.py
+c.ServerApp.ip = '0.0.0.0'
+c.ServerApp.token = ''
+c.ServerApp.password = ''
+c.ServerApp.allow_root = True
+c.ServerApp.open_browser = False
+c.ServerApp.root_dir = '$HOME'
+EOF
 ```

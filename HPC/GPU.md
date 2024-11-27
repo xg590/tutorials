@@ -12,31 +12,21 @@ sudo systemctl restart docker.service
 * cuda-repo-ubuntu2204-12-0-local_<span style="color:red"><i>12.0.0</i></span>-<span style="color:green"><i>525.60.13</i></span>-1_amd64.deb
 * cuda-repo-ubuntu2204-11-8-local_<span style="color:red"><i>11.8.0</i></span>-<span style="color:green"><i>520.61.05</i></span>-1_amd64.deb
 * cuda-repo-ubuntu2204-11-7-local_<span style="color:red"><i>11.7.1</i></span>-<span style="color:green"><i>515.65.01</i></span>-1_amd64.deb
-#### GPU kernel-client confict
-* If a Nvidia driver was installed before, running nvidia-smi may land you in a kernel-client confict with the warning:
-```
-$ nvidia-smi 
-Failed to initialize NVML: Driver/library version mismatch
-NVML library version: 545.29
-```
-* Because the nvidia-smi is using APIs belongs to 545 but the driver is not.
-* Even if I uninstalled nvidia-driver-550 and installed nvidia-driver-545, the linux still load kernel module belonging to 550 driver.
-```
-$ sudo  dmesg | grep NVRM
-[    9.854868] NVRM: loading NVIDIA UNIX x86_64 Kernel Module  550.54.14  Thu Feb 22 01:44:30 UTC 2024 
-[ 5080.898738] NVRM: API mismatch: the client has the version 545.29.06, but
-               NVRM: this kernel module has the version 550.54.14.  Please
-               NVRM: make sure that this kernel module and all NVIDIA driver
-               NVRM: components have the same version.
-```
-* or if the driver is updated (so the software uses 550.107.02 APIs) but the linux kernel still load old module (550.90.07).
-```
-[ xxxxx.017504] NVRM: API mismatch: the client has the version 550.107.02, but
-                NVRM: this kernel module has the version 550.90.07.  Please
-                NVRM: make sure that this kernel module and all NVIDIA driver
-                NVRM: components have the same version.
-``` 
-* So we will reconfigure the Linux kernel to load the right driver module. 
-```shell
-sudo dpkg-reconfigure nvidia-dkms-550
-```
+#### [Bug] Failed to initialize NVML: Driver/library version mismatch
+* Error
+  ```
+  $ nvidia-smi 
+  Failed to initialize NVML: Driver/library version mismatch
+  NVML library version: 550.120
+  ```
+* Installed Kernel (550.120)
+  ```
+  $ apt list --installed | grep nvidia-kernel
+  nvidia-kernel-common-550/jammy-updates,jammy-security,now 550.120-0ubuntu0.22.04.1
+  ```
+* Running Kernel (550.107.02) 
+  ```
+  $ cat /proc/driver/nvidia/version
+  NVRM version: NVIDIA UNIX x86_64 Kernel Module  550.107.02  Wed Jul 24 23:53:00 UTC 2024
+  ```
+* Solution: Reboot the computer

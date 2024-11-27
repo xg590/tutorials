@@ -44,7 +44,11 @@ resolvectl dns interface_name 8.8.8.8 8.8.4.4                # Temporary
 ```
 nmcli device disconnect $IFNAME2; wait ; nmcli device connect $IFNAME2
 ```
-* 
+* Delete
 ```
 nmcli conn delete '有线连接 3'
+```
+* Reload 
+```
+nmcli conn reload
 ```

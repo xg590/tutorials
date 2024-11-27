@@ -36,7 +36,7 @@
     echo "net.ipv4.ip_forward = 1" > /etc/sysctl.d/forward123.conf
     iptables -P FORWARD ACCEPT
     # provide internet for subnet via the internet-connected NIC $IFNAME0
-    iptables -t nat -A POSTROUTING -s 192.168.0.0/16 -o $IFNAME0 -j MASQUERADE 
+    iptables -t nat -A POSTROUTING -s 192.168.11.0/24 -o $IFNAME0 -j MASQUERADE 
     ```
   * Provide a ephemeral IP for each compute node
     ```shell 

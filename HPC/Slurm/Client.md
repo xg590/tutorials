@@ -4,18 +4,19 @@
     ip route add 192.168.11.0/24 via 192.168.11.1 
     iptables -P FORWARD ACCEPT
     # provide internet for subnet via the internet-connected NIC $IFNAME0
-    iptables -t nat -A POSTROUTING -s 192.168.0.0/16 -o $IFNAME0 -j MASQUERADE 
+    iptables -t nat -A POSTROUTING -s 192.168.11.0/24 -o $IFNAME0 -j MASQUERADE 
+    # DNS 210.42.249.132
     ``` 
   * Assign IP addresses for compute nodes 
     ```shell
     cp /var/lib/misc/dnsmasq.leases /root/sys_conf/dnsmasq.leases
     cat /root/sys_conf/dnsmasq.leases | awk '{print $3}' | xargs -I % ping -c 1 -t 1 % 2> /dev/null && echo %
 
-    rm /root/sys_conf/pssh_new_host_file /root/sys_conf/pssh_old_host_file /root/.ssh/known_hosts 
+    rm /root/sys_conf/pssh_* /root/.ssh/known_hosts 
     cat /root/sys_conf/dnsmasq.leases | awk '{print $3}' >> /root/sys_conf/pssh_old_host_file
     cat /root/sys_conf/dnsmasq.leases | awk '{print $3}' | xargs -I % ssh-keyscan % >> /root/.ssh/known_hosts
 
-    CNT_BGN=2
+    CNT_BGN=
     cat << EOF > /root/sys_conf/assignIP.awk
     BEGIN { cnt = $CNT_BGN; }
     {   
@@ -39,6 +40,7 @@
     let CNT_END=$CNT_BGN+`awk 'END { print NR }' /root/sys_conf/dnsmasq.leases`-1 # do not forget minus one
     echo $CNT_BGN $CNT_END
     seq $CNT_BGN $CNT_END | xargs -I % ping -c 1 -t 1 192.168.11.%
+    seq $CNT_BGN $CNT_END | xargs -I % scp id_ed25519 192.168.11.%:/root/.ssh/
 
     rm ~/.ssh/known_hosts
     cat << EOF > /etc/hosts
@@ -74,7 +76,7 @@
     seq $CNT_BGN $CNT_END | xargs -I % ssh node-% ypwhich # test the NIS
     seq $CNT_BGN $CNT_END | xargs -I % ssh node-% ypcat passwd # test again and see the populated identity
 
-    seq $CNT_BGN $CNT_END | xargs -I % ssh node-% systemctl enable rpcbind nscd ypbind 
+    parallel-ssh -i -h /root/sys_conf/pssh_new_host_file 'systemctl enable rpcbind nscd ypbind'
     ```
   * Munge Client
     ```shell
@@ -146,10 +148,15 @@
     seq 2 $CNT_END | xargs -I % scp /etc/slurm/{slurm.conf,cgroup.conf} node-%:/etc/slurm/
 
     systemctl stop  slurmctld slurmd 
-    seq 2 $CNT_END | xargs -I % ssh node-% systemctl restart slurmd 
+    echo > /root/sys_conf/pssh_every_host_file
+    seq 2 $CNT_END | xargs -I % echo "192.168.11.%" >> /root/sys_conf/pssh_every_host_file
+    parallel-ssh -i -h /root/sys_conf/pssh_every_host_file 'systemctl restart slurmd' 
     systemctl start slurmctld slurmd 
-
+    
     srun --nodelist=node-$CNT_END --chdir /tmp --pty /bin/bash
 
-    parallel-ssh -i -h /root/sys_conf/pssh_new_host_file 'systemctl enable slurmd'
+    scontrol update nodename=node-[2-9],login3 state=idle
+    parallel-ssh -i -h /root/sys_conf/pssh_every_host_file 'systemctl enable slurmd'
+
+    parallel-ssh -i -h /root/sys_conf/pssh_every_host_file 'mkdir /s1; chmod 777 /s1'
     ```

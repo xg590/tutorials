@@ -135,11 +135,14 @@ CMD ["localhost"]
 ```
 * Change settings
 ```
-vim /lib/systemd/system/docker.service
-# /usr/bin/dockerd --data-root /home/a/docker_volumes -H fd:// ...
-sudo systemctl daemon-reload
-sudo systemctl restart docker
-docker info
+mkdir /mnt/docker_root123
+cat << EOF > /etc/docker/daemon.json
+{
+  "data-root": "/mnt/docker_root123"
+}
+EOF
+systemctl daemon-reload && systemctl restart docker
+docker info -f '{{ .DockerRootDir}}'
 ```
 * Change container's setting
 ```

@@ -4,8 +4,11 @@
 ```
 sudo apt install -y strongswan strongswan-pki libcharon-extra-plugins libcharon-extauth-plugins libstrongswan-extra-plugins libtss2-tcti-tabrmd0 
 
-VPN_SERVER_IP=192.168.56.102
+VPN_NAME=GW@HOME
 VPN_SUBNET=40.0.0.0/24
+VPN_SERVER_IP=192.168.56.102
+
+echo $VPN_NAME $VPN_SUBNET $VPN_SERVER_IP
 
 cat << EOF > /etc/ipsec.secrets
 : RSA "server-key.pem"
@@ -17,7 +20,7 @@ EOF
 * The DigitalOcean Tutorial gives a ipsec.conf that does not work well with MacOS Ventura so I replaced both ike and esp cipher suites with what I found somewhere else.
 ```
 pki --gen --type rsa --size 4096 --outform pem > /etc/ipsec.d/private/ca-key.pem 
-pki --self --ca --lifetime 3650 --type rsa --in  /etc/ipsec.d/private/ca-key.pem --dn "CN=strongSwan root CA" --outform pem > /etc/ipsec.d/cacerts/ca-cert.pem
+pki --self --ca --lifetime 3650 --type rsa --in  /etc/ipsec.d/private/ca-key.pem --dn "CN=$VPN_NAME" --outform pem > /etc/ipsec.d/cacerts/ca-cert.pem
 
 pki --gen --type rsa --size 4096 --outform pem > /etc/ipsec.d/private/server-key.pem 
 pki --pub --type rsa --in                        /etc/ipsec.d/private/server-key.pem | pki --issue --outform pem --lifetime 1825 \

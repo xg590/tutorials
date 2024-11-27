@@ -24,12 +24,12 @@
   mv Dockerfile .abc123/cfg
 
   cat << EOF >  .abc123/cfg/jupyter_notebook_config.py
-  c.ServerApp.ip = '*'
+  c.ServerApp.ip = '0.0.0.0'
   c.ServerApp.token = ''
   c.ServerApp.password = ''
   c.ServerApp.allow_root = True
   c.ServerApp.open_browser = False
-  c.ServerApp.notebook_dir = '/workspace'
+  c.ServerApp.root_dir = '/workspace'
   EOF
   ```
 * \# Run container (must rename the notebook directory)
