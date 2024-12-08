@@ -52,3 +52,7 @@ nmcli conn delete '有线连接 3'
 ```
 nmcli conn reload
 ```
+* Mess with metric
+```
+nmcli conn mod <connectionName> ipv4.route-metric 50
+```

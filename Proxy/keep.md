@@ -1,26 +1,34 @@
 * Scripts to run proxy server
 ```
 mkdir /root/proxy
-PROXY_IP=xxx.xxx.xxx.xx 
+SSH_SERVER_IP=x.x.x.x 
 
 cat << EOF > /root/proxy/setup.sh
-echo "nameserver 8.8.8.8" > /etc/resolv.conf
-ip route add $PROXY_IP/32 via 192.168.3.1
-ip rule add from 40.0.0.0/24 lookup KR
-iptables -A INPUT -i ppp987 -m state --state ESTABLISHED,RELATED -j ACCEPT
-iptables -A INPUT -i ppp987 -j DROP
-iptables -t nat -A POSTROUTING -s 40.0.0.0/24 -o ppp987 -j MASQUERADE
+#!/bin/bash
+iptables -A INPUT -i ppp789 -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
+iptables -A INPUT -i ppp789 -j DROP 
+iptables -t nat -A POSTROUTING -s 40.0.0.0/24 -o ppp789 -j MASQUERADE # MASQUERADE the network traffic from 40.0.0.0/24.
+
+ip route add $SSH_SERVER_IP/32 via 192.168.3.1
+pppd unit 789 updetach noauth silent nodeflate pty "/usr/bin/ssh proxy /usr/sbin/pppd unit 987 nodetach notty noauth" ipparam vpn 10.0.0.7:10.0.0.9
+
+# We do not use "defaultroute replacedefaultroute" in the last command so our default routing table is intact.
+# Let 40.0.0.0/24 follow the new routing table src123 
+ip rule  add from     40.0.0.0/24       lookup src123
+# A new default gateway will be set
+ip route add default via 10.0.0.7 dev ppp789 table src123
 EOF
 
 cat << EOF > /root/proxy/keep.sh
 while true
 do
-    myIP=\$(curl --interface ppp987 ipinfo.io/ip 2>/dev/null)
-    if [ "\$myIP" != "$PROXY_IP" ]; then 
+    myIP=\$(curl --interface ppp789 ipinfo.io/ip 2>/dev/null)
+    if [ "\$myIP" != "$SSH_SERVER_IP" ]; then 
         echo "[\$myIP] New Tunnel"
-	    pppd updetach noauth unit 987 silent nodeflate pty "/usr/bin/ssh proxy /usr/sbin/pppd nodetach notty noauth unit 789" ipparam vpn 10.0.0.7:10.0.0.9
-	    # ip route add default dev ppp987 metric 99 / ip route del default dev ppp987 
-        ip route add default dev ppp987 table KR
+        pppd updetach noauth unit 789 silent nodeflate pty "/usr/bin/ssh proxy /usr/sbin/pppd nodetach notty noauth unit 987" ipparam vpn 10.0.0.7:10.0.0.9
+        # ip route add default dev ppp789 metric 99 / ip route del default dev ppp789 
+        ip route add default dev ppp789 table src123
     else
         echo "[\$myIP] Old Tunnel"
     fi
