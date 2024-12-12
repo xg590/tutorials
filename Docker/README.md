@@ -158,3 +158,7 @@ docker inspect -f "{{json .HostConfig.PortBindings}}" <container_name>
 ```
 docker image tag container-id gsa:v0
 ```
+* Remove <none> images
+```
+docker image prune -f
+```

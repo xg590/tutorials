@@ -4,7 +4,7 @@ cat << EOF > /etc/l2tp.conf
 export CONNECTION_NAME=l2tp_123
 export VPN_SERVER_IP=x.x.x.x
 export YOUR_PSK=ustc # Pre-shared key
-export YOUR_USERNAME=xx
+export YOUR_USERNAME=xxx
 export YOUR_PASSWORD=xxx
 EOF
 chmod 600 /etc/l2tp.conf
@@ -25,7 +25,8 @@ nmcli connection add type vpn vpn-type l2tp  \
  +vpn.data    "lcp-echo-interval=30"         \
  +vpn.data    "machine-auth-type=psk"        \
  +vpn.data    "password-flags=0"             \
- +vpn.data    "user-auth-type=password" 
+ +vpn.data    "user-auth-type=password"      \
+  vpn.service-type "org.freedesktop.NetworkManager.l2tp"
 
 nmcli connection up ${CONNECTION_NAME}
 

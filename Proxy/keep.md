@@ -23,9 +23,16 @@ EOF
 cat << EOF > /root/proxy/keep.sh
 while true
 do
+    table_src123_GW=$(ip route show table src123 | wc -l)
+    if [ $table_src123_GW == 0 ]; then 
+	echo "Add default GW for Route Table src123"
+        ip route add default via 10.0.0.7 dev ppp789 table src123
+    fi
+
     myIP=\$(curl --interface ppp789 ipinfo.io/ip 2>/dev/null)
     if [ "\$myIP" != "$SSH_SERVER_IP" ]; then 
         echo "[\$myIP] New Tunnel"
+	    ip link del ppp789 
         pppd updetach noauth unit 789 silent nodeflate pty "/usr/bin/ssh proxy /usr/sbin/pppd nodetach notty noauth unit 987" ipparam vpn 10.0.0.7:10.0.0.9
         # ip route add default dev ppp789 metric 99 / ip route del default dev ppp789 
         ip route add default dev ppp789 table src123

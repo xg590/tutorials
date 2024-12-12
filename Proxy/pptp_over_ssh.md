@@ -27,6 +27,7 @@ sysctl --system
 ```
 #### Configure the local machine 
 ```
+mkdir /root/.ssh/
 cat << EOF > /root/.ssh/config
 Host proxy
   Hostname $SSH_SERVER_IP
