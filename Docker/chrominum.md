@@ -10,10 +10,10 @@ docker run -d                                               \
   -e INSTALL_PACKAGES=fonts-noto-cjk                        \
   -e LC_ALL=zh_CN.UTF-8                                     \
   -p 0.0.0.0:9000:3000                                      \
-  -v $PWD/config                                            \
+  -v $PWD:/config                                            \
   --shm-size="2gb"                                          \
   --restart unless-stopped                                  \
-  linuxserver/chromium:latest
+  lscr.io/linuxserver/chromium:latest
 ```
 * Do not care i18n
 ```shell
@@ -27,7 +27,7 @@ docker run -d                                \
   -v $PWD:/config                            \
   --shm-size="2gb"                           \
   --restart unless-stopped                   \
-  linuxserver/chromium:latest
+  lscr.io/linuxserver/chromium:latest
 ```
 * Stop and rerun
 ```shell

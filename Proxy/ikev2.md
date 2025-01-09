@@ -76,13 +76,20 @@ ipsec stop # Stopping strongSwan IPsec...
   * Trust it for IP Security in Keychain Access (Default Keychain -> Login)
   * Settings -> VPN -> IKEv2 -> Server Address : 192.168.3.3, Remote ID : 192.168.3.3, Local ID : \<NULL\> , Username / Password
 * Windows
-  ``` 
-  powershell -Command "Invoke-WebRequest  -URI 'http://192.168.3.3/ca.cer' -OutFile ca.cer "
-  powershell -Command "Import-Certificate -FilePath ca.cer -CertStoreLocation 'Cert:\LocalMachine\Root' "
-  powershell -Command "Add-VpnConnection  -Name 'IKEv2_123' -ServerAddress '192.168.3.3' -TunnelType IKEv2 -EncryptionLevel Maximum -RememberCredential "
-  
-  rasdial "IKEv2_123" "username123" "password321"
-  ```
+  * OK for Win10 and Win11.
+    ``` 
+    powershell -Command "Invoke-WebRequest  -OutFile  ca.cer -URI 'http://192.168.3.3/ca.cer' "
+    powershell -Command "Import-Certificate -FilePath ca.cer -CertStoreLocation 'Cert:\LocalMachine\Root' "
+    powershell -Command "Add-VpnConnection  -Name 'IKEv2_123' -ServerAddress '192.168.3.3' -TunnelType IKEv2 -EncryptionLevel Maximum -RememberCredential "
+    ```
+  * Only works for Win10. Got "Remote Access error 703" on Win11.
+    ```
+    rasdial "IKEv2_123" "username123" "password321"
+    ```
+  * On Win11. You can setup the connect via Powershell but you must enter username and password manually through GUI. However, you can dial the VPN connection if password is remembered.
+    ```
+    rasdial "IKEv2_123"
+    ```
 * Ubuntu
   ```
   wget http://192.168.3.3/ca.cer -O ${HOME}/.config/ca.cer
@@ -95,8 +102,8 @@ ipsec stop # Stopping strongSwan IPsec...
   export YOUR_PASSWORD=password321
   export CA_CERT_PATH=${HOME}/.config/ca.cer
   EOF
+  
   sudo su
-
   source /etc/IKEv2.conf
   nmcli connection add type vpn vpn-type IKEv2 \
     connection.autoconnect false               \

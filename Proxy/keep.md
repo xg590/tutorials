@@ -29,7 +29,8 @@ do
         ip route add default via 10.0.0.7 dev ppp789 table src123
     fi
 
-    myIP=\$(curl --interface ppp789 ipinfo.io/ip 2>/dev/null)
+    myIP1=\$(curl --interface       ppp789         ipinfo.io/ip 2>/dev/null)
+    myIP2=\$(curl --socks5-hostname 127.0.0.1:1080 ipinfo.io/ip 2>/dev/null)
     if [ "\$myIP" != "$SSH_SERVER_IP" ]; then 
         echo "[\$myIP] New Tunnel"
 	    ip link del ppp789 

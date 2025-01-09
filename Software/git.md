@@ -39,8 +39,8 @@
       ```
   6. Configure your local git
       ```shell
-      git config --global user.name  "your_name"   # This info is nothing to do with GitHub
-      git config --global user.email "your_email"  # This info is nothing to do with GitHub
+      git config --global user.name  "Xiaokang Guo"   # This info is nothing to do with GitHub
+      git config --global user.email "43154552+xg590@users.noreply.github.com"  # This info is nothing to do with GitHub
       ```
   7. Initialize the directory containing to-be-uploaded files
       ```shell

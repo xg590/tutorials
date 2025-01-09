@@ -24,6 +24,7 @@ iptables -t nat -A POSTROUTING -s 10.0.0.0/24 -o eth0 -j MASQUERADE
 
 systemctl restart sshd
 sysctl --system
+apt-get install -y pptpd
 ```
 #### Configure the local machine 
 ```

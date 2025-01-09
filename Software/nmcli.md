@@ -35,6 +35,10 @@ On Ubuntu 20.04, the network is managed by Network Manager ([CLI](https://develo
 nmcli radio wifi off
 nmcli r     all  off # turn on airplane mode
 ```
+* Add Route 
+```
+nmcli connection modify enp1s0 +ipv4.routes "192.168.122.0/24 10.10.10.1"
+```
 * Change DNS 
 ```
 nmcli conn mod <connectionName> ipv4.dns "8.8.8.8 8.8.4.4"   # Permanent

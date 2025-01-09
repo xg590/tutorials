@@ -26,7 +26,7 @@
     EOF
     source ~/.bashrc
     echo $IFNAME0 $IFNAME1
-    nmcli connection add type ethernet con-name cn_hpc1 ifname $IFNAME1 ip4 192.168.11.1/24 gw4 192.168.11.1
+    nmcli connection add type ethernet con-name cn_hpc1 ip4 192.168.11.1/24 gw4 192.168.11.1 ifname $IFNAME1 
     #nmcli conn del cn_hpc1
     sleep 5
     ```

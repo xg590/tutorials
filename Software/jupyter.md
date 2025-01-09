@@ -21,13 +21,20 @@ sudo umount /tmp/jupyter123
 ```
 * Run
 ```
+cat << EOF > jupyter.sh
 mkdir -p /tmp/jupyter123
 sudo mount -o loop /var/www/html/jupyter123.ext3 /tmp/jupyter123
 screen -S benchmark -d -m
 screen -S benchmark -X stuff "source /tmp/jupyter123/bin/activate ^M"
-screen -S benchmark -X stuff "export PYTHONPATH=/home/pi/new_site_packages ^M"
-screen -S benchmark -X stuff "export PIP_TARGET=/home/pi/new_site_packages ^M"
+screen -S benchmark -X stuff "export PIP_ROOT='/tmp' ^M"
+screen -S benchmark -X stuff "export PIP_PREFIX='jupyter123' ^M"
+screen -S benchmark -X stuff "export PYTHONPATH='/tmp/jupyter123/lib/python3.10/site-packages' ^M"
+screen -S benchmark -X stuff "export PATH='/tmp/jupyter123/bin:\$PYTHONPATH/bin:\$PATH' ^M"
+screen -S benchmark -X stuff "export JUPYTER_CONFIG_DIR='/tmp/jupyter123/cfg' ^M"
 screen -S benchmark -X stuff "jupyter-notebook ^M"
+EOF
+
+chmod o+x jupyter.sh
 ```
 * [Example](https://github.com/xg590/IoT/blob/master/MicroPython/MicroPython_ESP8266_Jupyter.ipynb)
 ### Tricks

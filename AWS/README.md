@@ -12,3 +12,6 @@ Price is cheap. 0.023USD/GB/month!
 Make AWS responsible for the domain name resolution. <br>
 $0.50 per hosted zone / month for the first 25 hosted zones <br>
 $0.40 per million queries – first 1 Billion queries / month <br>
+### Troubleshooting
+* Please login as the user "???" rather than the user "root".
+  * You should not use the default private key provided by AWS. Create one for yourself and put it in /root/.ssh/authorized_keys

@@ -1,7 +1,4 @@
 ```shell
-
-
-
 echo "export PATH=\$PATH:/home/share/script:/home/share/bin" > /etc/profile.d/newPATH.sh
 sbatch --nodelist=node-31 test.sh
   
