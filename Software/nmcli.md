@@ -28,7 +28,7 @@ On Ubuntu 20.04, the network is managed by Network Manager ([CLI](https://develo
   nmcli> save persistent
   nmcli> quit
   
-  sudo nmcli conn mod  "Wired connection 1" ipv4.method manual ipv4.addr "192.168.0.123/24" ipv4.dns 8.8.8.8
+  sudo nmcli conn mod  "Wired connection 1" ipv4.method manual ipv4.addr "192.168.0.123/24" ipv4.gateway 192.168.0.1 ipv4.dns 8.8.8.8
 ```
 * Disable WIFI
 ```

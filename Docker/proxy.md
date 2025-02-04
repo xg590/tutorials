@@ -80,6 +80,6 @@ docker run -it --rm --name test ubuntu:22.04 bash
 apt update
 apt install -y ca-certificates 
 apt install -y iputils-ping wget curl iproute2
-docker container commit --pause 7e35a20a9b05 ubuntu:test
-docker run -it --rm --network kr-net --dns=8.8.8.8 --name test ubuntu:22.04 bash
+docker container commit --pause 7e35a20a9b05                   ubuntu:test
+docker run -it --rm --network kr-net --dns=8.8.8.8 --name test ubuntu:test  bash
 ```

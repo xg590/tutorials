@@ -11,3 +11,13 @@ ffmpeg -i INPUT.MOV -qscale 0 output.mp4
   ffmpeg -ss 00:02:07 -to 00:04:33 -i a.webm -c copy a_clip.mp4
   ffmpeg -i a.webm -c copy a.mp4
   ```
+* Docker
+  ```
+  alias ffmpeg='docker run --rm -v ~/software/ffmpeg_linuxarm64_gpl/bin/ffmpeg:/workspace/ffmpeg -v $PWD:/workspace -w /workspace ubuntu:22.04 /workspace/ffmpeg'
+  ffmpeg -err_detect ingnore_err -i 996_backup.mp4 -c copy  996_backup_fixed.mp4
+  ```
+* Cut
+  ```
+  ffmpeg -i filename -ss start_timestamp -t duratio        -codec copy
+  ffmpeg -i filename -ss start_timestamp -tt end_timestamp -codec copy
+  ```

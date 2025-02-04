@@ -12,6 +12,11 @@ sudo mv mitmproxy-ca-cert.pem /usr/local/share/ca-certificates/mitmproxy.cert
 sudo update-ca-certificates
 ``` 
 5. If you need Chrome or Firefox, You have to trust the cert in these browsers. Trust Settings: Trust this certificate for identifying websites.
+### Proxy Chain
+* If we have to chain two mitmproxy (one for mitm attack and one for IP proxy), the downstream mitmproxy verify the upstream mitmproxy by default and throw out 502 Bad Gateway warning. Turn off the verification.
+```
+mitmproxy --listen-host 0.0.0.0 --listen-port 12345 --mode upstream:https://10.0.0.10:12345 --ssl-insecure --set console_mouse=false
+```
 ### Handle request in mitmproxy
 ```shell
 ? help

@@ -34,3 +34,6 @@ docker run -d                                \
 docker stop  chromium
 docker start chromium
 ```
+```
+alias chromium='cd ~/Documents/docker_run ; rm -rf chromium ; tar xf chromium.tar ; docker run -d --rm --name=chromium --security-opt seccomp=unconfined -e PUID=1000 -e PGID=1000 -e TZ=Etc/UTC -e DOCKER_MODS=linuxserver/mods:universal-package-install -e INSTALL_PACKAGES=fonts-noto-cjk -e LC_ALL=zh_CN.UTF-8 -p 0.0.0.0:9000:3000 -v $PWD/chromium:/config --shm-size="2gb" chromium:i18n'
+```

@@ -2,11 +2,21 @@
 * Add a samba user if the same unix user exists
 ```
 sudo apt install -y apache2 samba
-sudo bash -c "echo -e '123456\n123456\n' | smbpasswd -a $USER"
+sudo bash -c "echo -e 'a\na\n' | smbpasswd -a $USER"
 ```
 * Config
 ```
 cat << EOF | sudo tee /etc/samba/smb.conf 
+[$HOSTNAME]
+    comment = Samba on Ubuntu
+    path = /var/www/html
+    read only = no
+    guest ok  = yes
+    browsable = yes
+    create mask = 0644
+    directory mask = 0755
+    public = yes
+    force user = ${USER}
 [global]
    workgroup = WORKGROUP
    server string = %h server (Samba, Ubuntu)
@@ -23,16 +33,6 @@ cat << EOF | sudo tee /etc/samba/smb.conf
    map to guest = bad user
    #bind interfaces only = yes
    #interfaces = lo enp3s0
-[samba]
-    comment = Samba on Ubuntu
-    path = /var/www/html
-    read only = no
-    guest ok  = yes
-    browsable = yes
-    create mask = 0644
-    directory mask = 0755
-    public = yes
-    force user = ${USER}
 EOF
 sudo systemctl restart smbd
 ```
