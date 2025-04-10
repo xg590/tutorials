@@ -8,31 +8,19 @@ sudo bash -c "echo -e 'a\na\n' | smbpasswd -a $USER"
 ```
 cat << EOF | sudo tee /etc/samba/smb.conf 
 [$HOSTNAME]
-    comment = Samba on Ubuntu
-    path = /var/www/html
-    read only = no
-    guest ok  = yes
-    browsable = yes
-    create mask = 0644
-    directory mask = 0755
-    public = yes
-    force user = ${USER}
+   path = /var/www/html
+   writable = yes
+   printable = no
+   public = yes
 [global]
-   workgroup = WORKGROUP
-   server string = %h server (Samba, Ubuntu)
-   log file = /var/log/samba/log.%m
-   max log size = 1000
-   logging = file
-   panic action = /usr/share/samba/panic-action %d
-   server role = standalone server
-   obey pam restrictions = yes
-   unix password sync = yes
-   passwd program = /usr/bin/passwd %u
-   passwd chat = *Enter\snew\s*\spassword:* %n\n *Retype\snew\s*\spassword:* %n\n *password\supdated\ssuccessfully* .
-   pam password change = yes
-   map to guest = bad user
-   #bind interfaces only = yes
-   #interfaces = lo enp3s0
+  workgroup = WORKGROUP
+  server string = %h server (Samba, Ubuntu)
+  security = user
+  guest account = a
+  passdb backend = tdbsam
+  bind interfaces only = yes
+  interfaces = enx0826ae3c0b6e
+
 EOF
 sudo systemctl restart smbd
 ```

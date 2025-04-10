@@ -21,3 +21,7 @@ ffmpeg -i INPUT.MOV -qscale 0 output.mp4
   ffmpeg -i filename -ss start_timestamp -t duratio        -codec copy
   ffmpeg -i filename -ss start_timestamp -tt end_timestamp -codec copy
   ```
+* transcoding
+  ```
+  ffmpeg -i filename -c:v libx264 -c:a aac output.mp4
+  ```

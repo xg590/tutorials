@@ -3,7 +3,7 @@
 * apt src
   ```
   sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak_`date "+%y_%m_%d"`
-  sudo sed -i 's/raspbian.raspberrypi.org/mirrors.aliyun.com\/raspbian/g' /etc/apt/sources.list
+  sudo sed -i 's/raspbian.raspberrypi.com/mirrors.aliyun.com\/raspbian/g' /etc/apt/sources.list
   sudo apt update
   ```
 * pip src

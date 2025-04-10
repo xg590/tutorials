@@ -1,4 +1,10 @@
-
+### Git 
+```
+git switch --create new_branch_name --merge # 
+git branch --all
+git checkout existing_branch_name 
+git branch --delete existing_branch_name
+``` 
 ### GitHub
 * Push a new local repo to GitHub (Short ver.)
   ```shell
