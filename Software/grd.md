@@ -80,3 +80,4 @@
         ```
         sudo loginctl unlock-sessions
         ```
+  2. "May 24 11:18:12 office gnome-remote-de[269597]: [RDP] Username is not set, denying client"

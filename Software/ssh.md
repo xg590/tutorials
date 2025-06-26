@@ -31,3 +31,9 @@ ssh -o KexAlgorithms=+diffie-hellman-group1-sha1 username@123.123.123.123
 ip route add 101.35.xxx.xxx/32 via 192.168.123.1 metric 10
 ping 101.35.xxx.xxx 
 ```
+* Ingore StrictHostKeyChecking for private network
+```
+Host 192.168.*.* 10.0.*.*
+    StrictHostKeyChecking no
+    UserKnownHostsFile /dev/null
+```

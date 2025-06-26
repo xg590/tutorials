@@ -1,3 +1,18 @@
+### cheatsheet
+```
+resolvectl status
+```
+### Persistent Nameserver
+```
+mkdir /etc/systemd/resolved.conf.d
+cat << EOF > /etc/systemd/resolved.conf.d/dns_servers.conf
+[Resolve]
+DNS=8.8.8.8
+# see https://man.archlinux.org/man/resolved.conf.5
+Domains=~.
+EOF
+systemctl restart systemd-resolved
+```
 ### Enable DNS cache 
 * Stop systemd-resolv and enable dnsmasq
 ```shell

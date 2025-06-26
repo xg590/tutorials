@@ -1,4 +1,5 @@
-### Conda 
+### Conda
+* Download [repo](https://repo.anaconda.com/miniconda/)
 #### Migration
 * Sometime we may works with multiple conda installations. For example, I manage three different conda, on NYU HPC, my Windows laptop, and a online Linux webserver.
 * When the development period is long, the new installation on webserver would be set up with the latest version of everything and it created a compatible problem.

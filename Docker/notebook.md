@@ -5,6 +5,11 @@
   cat << EOF > Dockerfile
   FROM python:3.12.6-slim-bookworm
   WORKDIR /workspace
+  RUN sed -i 's/deb.debian.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list.d/debian.sources 
+  RUN apt update
+  RUN apt install -y libgl1 libglib2.0-0 libxrender1
+  RUN apt autoremove 
+  RUN apt clean
   RUN pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
   RUN pip install --upgrade pip
   RUN pip install notebook==7.2.2 wheel
@@ -54,4 +59,9 @@
   docker run -it --rm -p 8999:8888 -v $PWD:/workspace --name nb notebook:7.2.2 jupyter-notebook
 
   echo $PIP_ROOT $PIP_PREFIX $PATH $PYTHONPATH $JUPYTER_CONFIG_DIR 
+  ```
+
+
+  ```
+  sed -i 's/deb.debian.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list.d/debian.sources 
   ```

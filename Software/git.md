@@ -144,6 +144,10 @@ git branch --delete existing_branch_name
   git config --global http.proxy 'socks5h://192.168.x.xx:1080' 
   git config --global --unset http.proxy
   ```
+* Clone
+  ```sh
+  git clone https://github.com/xg590/Learn_ZDT
+  ```
 * Other 
   ```
   git branch -l                        # what is current branch name
