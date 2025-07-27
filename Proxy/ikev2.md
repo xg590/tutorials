@@ -90,6 +90,10 @@ ipsec stop # Stopping strongSwan IPsec...
     ```
     rasdial "IKEv2_123"
     ```
+* Android 
+  ```
+  
+  ```
 * Ubuntu
   ```
   wget http://192.168.3.3/ca.cer -O ${HOME}/.config/ca.cer

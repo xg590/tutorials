@@ -9,3 +9,5 @@ PasswordAuthentication no
 PubkeyAuthentication yes
 PermitRootLogin prohibit-password
 EOF
+
+hostnamectl set-hostname $hostname

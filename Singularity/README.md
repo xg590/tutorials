@@ -32,3 +32,11 @@ singularity shell ubuntu.sif                       # test
   2. Second, I can put a separate overlay image (img file) that caught the writing data.
   3. If I need deploy the notebook server to another machine, I only need to transfer the sif and img files. Then I run them instantly.
   4. See the Procedure [here](Overlay_Jupyter.md).
+
+
+### 1
+```
+singularity shell --nv --env PATH=~/bin:$PATH --overlay pytorch.ex3 /scratch/work/public/singularity/cuda11.8.86-cudnn8.7-devel-ubuntu22.04.2.sif
+/ext3/miniconda3/bin/conda create -c pytorch -c nvidia -n pytorch pytorch torchvision torchaudio pytorch-cuda=11.8
+source /ext3/miniconda3/bin/activate pytorch
+```

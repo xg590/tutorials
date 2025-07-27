@@ -56,7 +56,7 @@
     
     # The next command takes lots of time to finish. Be patient. 
     parallel-ssh -i -t 0 -h /root/sys_conf/pssh_new_host_file 'systemctl stop unattended-upgrades'
-    parallel-ssh -i -t 0 -h /root/sys_conf/pssh_new_host_file 'apt purge unattended-upgrades'
+    parallel-ssh -i -t 0 -h /root/sys_conf/pssh_new_host_file 'apt purge -y unattended-upgrades'
     parallel-ssh -i -t 0 -h /root/sys_conf/pssh_new_host_file 'apt update -y'
     parallel-ssh -i -t 0 -h /root/sys_conf/pssh_new_host_file 'apt install -y munge libmunge2 libmunge-dev slurmd nfs-common nis'
  
@@ -67,7 +67,7 @@
   * NFS Client
     ```shell
     parallel-ssh -i -t 0 -h /root/sys_conf/pssh_new_host_file 'mount -t nfs login:/home /home'
-    #seq $CNT_BGN $CNT_END| xargs -I % ssh node-% 'echo "login:/home /home nfs defaults 0 0" >> /tmp/etc_fstab'
+    # seq $CNT_BGN $CNT_END| xargs -I % ssh node-% 'echo "login:/home /home nfs defaults 0 0" >> /etc/fstab'
     ```
   * NIS client
     ```shell 
@@ -145,6 +145,7 @@
       * Restart all slurmd processes  
       * Start slurmctld
     ```
+
     seq 2 $CNT_END | xargs -I % scp /etc/slurm/{slurm.conf,cgroup.conf} node-%:/etc/slurm/
 
     systemctl stop  slurmctld slurmd 
@@ -152,10 +153,11 @@
     seq 2 $CNT_END | xargs -I % echo "192.168.11.%" >> /root/sys_conf/pssh_every_host_file
     parallel-ssh -i -h /root/sys_conf/pssh_every_host_file 'systemctl restart slurmd' 
     systemctl start slurmctld slurmd 
+    scontrol update nodename=node-[2-$CNT_END] state=idle
     
-    srun --nodelist=node-$CNT_END --chdir /tmp --pty /bin/bash
+    srun --nodelist=node-3 --chdir /tmp --pty /bin/bash
 
-    scontrol update nodename=node-[2-9],login3 state=idle
+    export CNT_END=56
     parallel-ssh -i -h /root/sys_conf/pssh_every_host_file 'systemctl enable slurmd'
 
     parallel-ssh -i -h /root/sys_conf/pssh_every_host_file 'mkdir /s1; chmod 777 /s1'

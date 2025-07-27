@@ -2,8 +2,9 @@
 ```
 mkdir /root/proxy
 SSH_SERVER_IP=x.x.x.x 
+echo $SSH_SERVER_IP
 
-cat << EOF > /root/proxy/setup.sh
+vim /root/proxy/setup.sh
 #!/bin/bash
 echo "nameserver 8.8.8.8" > /etc/resolv.conf
 #ip route add 144.34.187.127/32 via 192.168.1.1
@@ -22,9 +23,8 @@ ip rule add from 40.0.0.0/24 lookup KR
 ip rule add from 192.168.3.30/32 lookup KR # ASUS Router
 ip rule add from 192.168.3.40/32 lookup KR
 #ipsec start
-EOF
 
-cat << EOF > /root/proxy/keep.sh
+vim /root/proxy/keep.sh
 #!/bin/bash
 newConn() {
   echo "[$myIP] New Tunnel"
@@ -53,5 +53,4 @@ do
     fi
     sleep 180
 done
-EOF
 ```

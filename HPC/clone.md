@@ -20,5 +20,5 @@ resize2fs /dev/\${SDX}3
 EOF
 
 chmod 700 clone.sh
-for i in b c d e f ; do ./clone.sh ubuntu.img sd$i ; done
+for i in b c d e f g h; do ./clone.sh ubuntu.img sd$i ; done
 ```

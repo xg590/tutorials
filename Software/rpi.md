@@ -20,7 +20,7 @@
   <summary> Modify Raspbian image on Ubuntu </summary>
 
   * Unzip a Raspbian OS image
-    ```
+    ```sh
     sudo su
     IMG=2025-05-13-raspios-bookworm-arm64-lite.img
 
@@ -29,6 +29,7 @@
     export YOUR_SSID=
     export YOUR_WIFI_PASSWORD=
     export AUTHORIZED_KEYS="ssh-ed25519 xxx xxx"
+    echo \$IMG \$YOUR_SSID \$YOUR_WIFI_PASSWORD \$AUTHORIZED_KEYS
     EOF
     
     source raspios.env
@@ -37,7 +38,7 @@
   * Get offset 
     * startsector of boot partition begins at 8192
     * offset is 8192 * 512 byte/sector
-    ```
+    ```sh
     $ fdisk -l $IMG
     Disk 2025-05-13-raspios-bookworm-arm64-lite.img: 2.57 GiB, 2759852032 bytes, 5390336 sectors
     Units: sectors of 1 * 512 = 512 bytes
@@ -51,7 +52,7 @@
     2025-05-13-raspios-bookworm-arm64-lite.img2      1064960 5390335 4325376  2.1G 83 Linux
     ```
   * Mount system partition (Second partition is EXT4 format)
-    ```
+    ```sh
     mkdir                                            /tmp/raspbian_img
     mount -o offset=$((1064960*512)) $IMG            /tmp/raspbian_img
     mkdir -p                                         /tmp/raspbian_img/home/pi/.ssh
@@ -71,7 +72,7 @@
     umount /tmp/raspbian_img/
     ```
   * Mount boot partition (First partition is FAT32 and it support uid when mount)
-    ```
+    ```sh
     mount -o offset=$((16384*512)) $IMG /tmp/raspbian_img
 
     cat << EOF > /tmp/raspbian_img/custom.toml
@@ -110,6 +111,13 @@
     # grep XKBLAYOUT /etc/default/keyboard
     keymap = "us"
     timezone = "US/Eastern"
+    EOF
+    ```
+  * Enable nvme
+    ```sh
+    cat << EOF >> /tmp/raspbian_img/config.txt 
+    dtparam=nvme
+    dtparam=pciex1_gen=3
     EOF
     ```
     ```

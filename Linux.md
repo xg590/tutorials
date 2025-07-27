@@ -405,3 +405,13 @@ a@a:~$ ^[b
 a@a:~$ bind '"\e[D":"\eb"'
 ```
 5. Now, the function of key <kbd>⇦</kbd> equals to <kbd>Alt</kbd> + <kbd>b</kbd>.
+## Default Application
+* When I removed firefox from my Ubuntu_aarch64, my apps in it cannot get a default web browser to login when it is needed. 
+* How can I install a web browser manually and make it the default in my Ubuntu?
+  * Get firefox in all versions [here](https://www.firefox.com/en-US/download/all/desktop-nightly/linux64-aarch64/en-US/)
+  * Configure Env Var PATH so you can run firefox in CLI.
+  * Copy a /usr/share/applications/firefox.desktop from any other Ubuntu machine and place it in the same spot. Voila~
+## Default editor
+```
+sudo update-alternatives --config editor
+```

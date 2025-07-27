@@ -2,10 +2,17 @@
 * The SSH server (1.2.3.4) can be accessed with authorized_keys on the local machine (192.168.1.2). 
 * 192.168.1.1 is the ip of local network.
 ```
-export SSH_SERVER_IP=1.2.3.4
-export GATEWAY_IP=192.168.3.1 
+sudo su
+vim /root/.bashrc
 
-echo $SSH_SERVER_IP $GATEWAY_IP
+export SSH_SERVER_IP=1.2.3.4
+export GATEWAY_IP=192.168.3.1
+export IKEv2_SERVER_IP=192.168.3.3
+export IKEv2_SERVER_NAME=IKEv2@${HOSTNAME}
+export IKEv2_SUBNET=40.0.0.0/24
+
+source ~/.bashrc
+echo $SSH_SERVER_IP $GATEWAY_IP ${IKEv2_SERVER_IP} $IKEv2_SERVER_NAME $IKEv2_SUBNET
 ```
 #### Login the remote SSH server and configure it for proxy purpose.
 * Root privilege on both machines and public key authentication (SSH) are required

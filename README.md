@@ -34,3 +34,5 @@
     * A rover that is controlled over the internet.
   * [remoteKM](https://github.com/xg590/remoteKM)
     * A gadget that emulates keyboard/mouse and is controlled over the internet to install Operating System for my parents' computer.
+### 个人技能
+安装，调试，维护分布式高性能计算集群（~300台）

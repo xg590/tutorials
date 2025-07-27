@@ -51,3 +51,12 @@ nmcli connection add type vpn vpn-type l2tp con-name ${CONNECTION_NAME} connecti
 ```
 sudo apt install -y network-manager-l2tp-gnome
 ```
+#### USTC
+* Windows 10/11的配置IPsec/L2TP步骤:依次右键电脑桌面右下角有线网络图标（或无线网络图标），点击“网络和Internet设置”，找到“网络和共享中心”（或在控制面板进入“网络和共享中心”），点击“网络和Internet—VPN—添加、连接、管理”，配置VPN参数，如下：       
+  1. VPN提供商：默认选择Windows（内置）
+  2. 连接名称：随意填写，如USTC
+  3. 服务器名称或地址：218.22.21.11
+  4. VPN类型：使用预共享密钥的L2TP/IPsec
+  5. 预共享密钥：ustc
+  6. 账户：网络通账号（需要有VPN权限）
+  7. 密码：网络通账号密码

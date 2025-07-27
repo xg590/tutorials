@@ -1,5 +1,15 @@
 ### myRouter
 * I have a Linux machine (Raspberry Pi) and an AP so I can make a transparent proxy router for my other devices (like Oculus 2 VR goggle)
+* Env variables
+  ```
+  sudo su
+  cat << EOF >> /root/.bashrc 
+  export IFNAME0=wlan0 # connect to existing network
+  export IFNAME1=eth0  # connect to AP. 
+  EOF
+  source ~/.bashrc
+  echo [existed] $IFNAME0 [AP] $IFNAME1
+  ```
 * Every setting is ephemeral except this. Delete /etc/systemd/network/disable-dhcp-for-IFNAME1.network if you want DHCP back
   ```
   cat << EOF > /etc/systemd/network/disable-dhcp-for-IFNAME1.network
@@ -7,21 +17,11 @@
   Name=$IFNAME1
 
   [Network]
-  DHCP=no"
+  DHCP=no
   EOF
   sudo systemctl restart systemd-networkd
   ```
 #### Router First
-* Env variables
-    ```
-    sudo su
-    cat << EOF >> ~/.bashrc 
-    export IFNAME0=wlan0 # connect to existing network
-    export IFNAME1=eth0  # connect to AP. 
-    EOF
-    source ~/.bashrc
-    echo $IFNAME0 $IFNAME1
-    ```
 * Configure an ephemeral IP for eth0
   ```
   ip addr add 192.168.3.1/24 dev $IFNAME1 
@@ -32,6 +32,7 @@
   ```
 * Configure an firewall rule for packet forward 
   ``` 
+  sudo apt-get install -y iptables
   iptables -t nat -A POSTROUTING -s 192.168.3.0/24 -o $IFNAME0 -j MASQUERADE     # iptables -P FORWARD ACCEPT
   ```
 * Configure DHCP service
@@ -109,4 +110,13 @@
 
   # journalctl -u dnsmasq -f 
   cat /var/lib/misc/dnsmasq.leases
+  ```
+#### Use 192.168.1.0/24 Subnet
+  ```sh
+  echo $IFNAME0 $IFNAME1
+  ip addr add 192.168.1.1/24 dev $IFNAME1
+  sed -i 's/192.168.3/192.168.1/g' /etc/dnsmasq.conf
+  systemctl restart dnsmasq
+
+  iptables -t nat -A POSTROUTING -s 192.168.1.0/24 -o $IFNAME0 -j MASQUERADE
   ```

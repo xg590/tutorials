@@ -12,11 +12,6 @@ sudo mv mitmproxy-ca-cert.pem /usr/local/share/ca-certificates/mitmproxy.cert
 sudo update-ca-certificates
 ``` 
 5. If you need Chrome or Firefox, You have to trust the cert in these browsers. Trust Settings: Trust this certificate for identifying websites.
-### Proxy Chain
-* If we have to chain two mitmproxy (one for mitm attack and one for IP proxy), the downstream mitmproxy verify the upstream mitmproxy by default and throw out 502 Bad Gateway warning. Turn off the verification.
-```
-mitmproxy --listen-host 0.0.0.0 --listen-port 12345 --mode upstream:https://10.0.0.10:12345 --ssl-insecure --set console_mouse=false
-```
 ### Handle request in mitmproxy
 ```shell
 ? help
@@ -24,6 +19,21 @@ z clear screen
 f filter         # !(~t image/jpeg) & (~u /homepage)
 w save flow      # /path/of/saved/flows
 ```
+### Write addon.py to modify response header
+* The way to program mitmproxy is writing an [addon](https://docs.mitmproxy.org/stable/addons-overview/) script. 
+```
+$ cat addon.py
+class ModifyResponseHeader:  
+    def response(self, flow): 
+        flow.response.headers["foo"] = "bar" 
+
+addons = [ ModifyResponseHeader() ] 
+```
+* Run it then check the result
+```
+mitmproxy -s addon.py
+```
+* More example @ https://docs.mitmproxy.org/stable/addons-examples/
 ### Parse saved flows in Python
 ```
 from mitmproxy import io, http
@@ -42,17 +52,8 @@ with open("/path/of/saved/flows", "rb") as logfile:
     except FlowReadException as e:
         print(f"Flow file corrupted: {e}")
 ```
-### Write addon.py to modify response header
-* The way to program mitmproxy is writing an [addon](https://docs.mitmproxy.org/stable/addons-overview/) script. 
+### Proxy Chain
+* If we have to chain two mitmproxy (one for mitm attack and one for IP proxy), the downstream mitmproxy verify the upstream mitmproxy by default and throw out 502 Bad Gateway warning. Turn off the verification.
 ```
-class ModifyResponseHeader:  
-    def response(self, flow): 
-        flow.response.headers["foo"] = "bar" 
-
-addons = [ ModifyResponseHeader() ] 
+mitmproxy --listen-host 0.0.0.0 --listen-port 12345 --mode upstream:https://10.0.0.10:12345 --ssl-insecure --set console_mouse=false
 ```
-* Run it then check the result
-```
-mitmproxy -s addon.py
-```
-* More example @ https://docs.mitmproxy.org/stable/addons-examples/

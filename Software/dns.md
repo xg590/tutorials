@@ -46,3 +46,20 @@ EOF
 
 systemctl restart dnsmasq
 ```
+### Dependency
+* Edit systemctl
+```
+sudo update-alternatives --config editor
+sudo systemctl edit dnsmasq
+```
+* Insert new content
+```
+[Unit]
+After=network-online.target
+Requires=network-online.target 
+```
+* Make it happen
+```
+sudo systemctl daemon-reexec
+sudo systemctl restart dnsmasq
+```

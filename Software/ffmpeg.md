@@ -36,5 +36,5 @@ for i in `ls *.mp4` ; do dd if=$i of=fixed/$i ibs=8 skip=1 obs=4M status=progres
 ```
 #### Convert MPEG-TS to MP4
 ```
-for i in `ls *.mp4` ; do ffmpeg -i $i -c copy -bsf:a aac_adtstoasc fixed/$i; done
+for i in `ls *.mp4` ; do ffmpeg -i $i -c copy -bsf:a aac_adtstoasc ../$i; done
 ```
