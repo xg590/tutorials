@@ -1,0 +1,67 @@
+### cheatsheet
+```
+resolvectl status
+nmcli device show <interfacename> | grep IP4.DNS
+nmcli con mod "IKEv2_123" ipv4.dns "8.8.8.8 8.8.4.4"
+```
+### Persistent Nameserver
+```
+mkdir /etc/systemd/resolved.conf.d
+cat << EOF > /etc/systemd/resolved.conf.d/dns_servers.conf
+[Resolve]
+DNS=8.8.8.8
+# see https://man.archlinux.org/man/resolved.conf.5
+Domains=~.
+EOF
+systemctl restart systemd-resolved
+```
+### Enable DNS cache 
+* Stop systemd-resolv and enable dnsmasq
+```shell
+sudo su
+apt-get install -y dnsmasq
+systemctl disable systemd-resolved
+systemctl stop    systemd-resolved
+systemctl enable  dnsmasq
+```
+* New resolv.conf so everyone know the new DNS server (127.0.0.1)
+```shell
+unlink /etc/resolv.conf
+cat << EOF >  /etc/resolv.conf
+nameserver 127.0.0.1
+nameserver ::1
+options trust-ad
+EOF
+```
+* Configuration [Ref [1](https://www.tecmint.com/setup-a-dns-dhcp-server-using-dnsmasq-on-centos-rhel/) and [2](https://github.com/imp/dnsmasq/blob/master/dnsmasq.conf.example)]
+```
+cat << EOF > /etc/dnsmasq.d/dns.conf 
+interface=lo                        # either use interfaces or listen-address
+#listen-address=192.168.1.33        # bind to interface or its ip addr
+bind-interfaces                     # not listening on 0.0.0.0 
+no-resolv                           # do not import /etc/resolv.conf into dnsmasq
+server=8.8.8.8                      # upstream DNS (up to 3)
+address=/example123.lan/127.0.0.1   # local resolution
+log-queries
+log-facility=/root/dnsmasq.log
+EOF
+
+systemctl restart dnsmasq
+```
+### Dependency
+* Edit systemctl
+```
+sudo update-alternatives --config editor
+sudo systemctl edit dnsmasq
+```
+* Insert new content
+```
+[Unit]
+After=network-online.target
+Requires=network-online.target 
+```
+* Make it happen
+```
+sudo systemctl daemon-reexec
+sudo systemctl restart dnsmasq
+```

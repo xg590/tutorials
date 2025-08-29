@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+  <title>Update existing elements</title>
+</head>
+<style> 
+div div{
+	display: inline-block;
+	margin: 10px;
+	background-color: orange;
+	color: white; 
+	width: 60px;
+	height: 60px;
+	text-align: center;
+}
+</style>
+<script src="https://d3js.org/d3.v4.js"></script>
+<body> 
+  <div>What if we want update 2 divs with 3 data points</div>
+  <div id="update2with3">
+    <div>old</div>
+    <div>old</div> 
+  </div> 
+  <button onClick="update2with3();">Test update selection</button> 
+  <script> 
+	function update2with3() {
+	    var myData = [1,2,3];
+		var update_sel = d3.select('#update2with3')
+						.selectAll('div')
+						.data(myData);
+		update_sel.text('update'); 
+	}
+  </script>  
+  <div id="enter2with3">
+    <div>old</div>
+    <div>old</div> 
+  </div> 
+  <button onClick="enter2with3();">Test enter selection</button>
+  <script> 
+	function enter2with3() {
+	    var myData = [1,2,3];
+		var enter_sel = d3.select('#enter2with3')
+						.selectAll('div')
+						.data(myData)
+					    .enter(); 
+		enter_sel.text('enter'); 
+	}
+  </script> 
+  <div id="enter2with3afterappend">
+    <div>old</div>
+    <div>old</div> 
+  </div> 
+  <button onClick="enter2with3afterappend();">Test enter selection and append</button>
+  <script> 
+	function enter2with3afterappend() {
+	    var myData = [1,2,3];
+		var enter_sel = d3.select('#enter2with3afterappend')
+						.selectAll('div')
+						.data(myData)
+					    .enter(); 
+		enter_sel.append('div').text('enter'); 
+	}
+  </script> <br><br>
+  <div id="exit2with3">
+    <div>old</div>
+    <div>old</div>  
+  </div> 
+  <button onClick="exit2with3();">Test exit selection</button> 
+  <script> 
+	function exit2with3() {
+	    var myData = [1,2,3];
+		var exit_sel = d3.select('#exit2with3')
+						.selectAll('div')
+						.data(myData)  
+						.exit();  
+		exit_sel.text('exit'); 
+	}
+  </script>  
+  <div>Conclusion: Less target and more data, update will select current, enter will select addition</div>
+  <br><br> <br><br>
+  <div>What if we want update 2 divs with 1 data point</div> 
+  <div id="update2with1">
+    <div>old</div>
+    <div>old</div> 
+  </div> 
+  <button onClick="update2with1();">Test update selection</button> 
+  <script> 
+	function update2with1() {
+	    var myData = [1];
+		var update_sel = d3.select('#update2with1')
+						.selectAll('div')
+						.data(myData);
+		update_sel.text('update'); 
+	}
+  </script>  
+  <div id="enter2with1">
+    <div>old</div>
+    <div>old</div> 
+  </div> 
+  <button onClick="enter2with1();">Test enter selection</button>
+  <script> 
+	function enter2with1() {
+	    var myData = [1];
+		var enter_sel = d3.select('#enter2with1')
+						.selectAll('div')
+						.data(myData)
+					    .enter(); 
+		enter_sel.text('enter'); 
+	}
+  </script>  
+  <div id="exit2with1">
+    <div>old</div>
+    <div>old</div>  
+  </div> 
+  <button onClick="exit2with1();">Test exit selection</button> 
+  <script> 
+	function exit2with1() {
+	    var myData = [1];
+		var exit_sel = d3.select('#exit2with1')
+						.selectAll('div')
+						.data(myData)  
+						.exit();  
+		exit_sel.text('exit'); 
+	}
+  </script>  
+</html>

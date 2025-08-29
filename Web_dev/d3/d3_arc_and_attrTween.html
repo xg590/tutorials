@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!-- saved from http://bl.ocks.org/mbostock/raw/5100636/ -->
+<html>
+<script src="https://d3js.org/d3.v4.js"></script>
+<body>
+<svg width="600" height="600"></svg>
+<script>
+var svg      = d3.select("svg"),
+    g        = svg.append("g").attr("transform", "translate(300,300)"),
+    func_arc = d3.arc().innerRadius(180).outerRadius(240).startAngle(0),
+    func_foo = function(bar) { console.log('[function_foo]', bar); return 'nonsense' };
+
+console.log('[function_arc]:', func_arc({ "endAngle": 1}))  // how function_arc works
+
+g.append("path")
+ .datum({endAngle: 1})
+ .style("fill", "red")
+ .attr("d", func_arc)
+ .attr("tom", func_foo)
+ /* if the second argument of .attr() is an another function,
+    the data {endAngle: 1} becomes the argument of the another function */
+ .transition()
+ .duration(1000)
+ .attrTween("d", function(obj) {
+     console.log('[1]', obj)   // obj is data {endAngle: 1}
+     var func = function (t) { // 
+        console.log('[3]',t)
+        obj.endAngle = d3.interpolate(obj.endAngle, 5)(t);
+        var d_value = func_arc(obj)
+        return d_value
+     };
+     console.log('[2]',typeof(func))
+     return func
+  })
+
+</script>
+</body>
+</html>

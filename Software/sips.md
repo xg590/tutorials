@@ -1,0 +1,1 @@
+for i in `ls`; do sips -s format jpeg -s formatOptions normal $i --out ${i%HEIC}jpg;done 
