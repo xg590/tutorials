@@ -4,7 +4,7 @@ sudo systemctl stop    cups cups-browsed
 sudo systemctl disable cups cups-browsed
 sudo apt remove -y brltty
 cat << EOF | sudo tee /etc/ssh/sshd_config.d/allow_root.conf
-PasswordAuthentication yes
+PasswordAuthentication no
 PubkeyAuthentication yes
 PermitRootLogin prohibit-password
 EOF
