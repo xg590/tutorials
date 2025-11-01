@@ -5,6 +5,7 @@ sudo vboxmanage extpack install xxx.vbox-extpack
 ```
 1. Create a profile (vmname is virtual machine name, xxx is sub-folder)
 ```
+vboxmanage list ostypes
 vmname=ubuntu22.04.3
 vboxmanage createvm --name $vmname --ostype Ubuntu_64 --register --basefolder ~/xxx 
 ```
@@ -14,7 +15,7 @@ vboxmanage modifyvm $vmname --memory 8000
 ```
 3. Set video card ram 256MB, turn on remote desktop env.
 ```
-vboxmanage modifyvm $vmname --accelerate3d on --vram 256 --audio-driver alsa --audiocontroller ac97 --vrde on
+vboxmanage modifyvm $vmname --vram 256 --audio-driver alsa --audiocontroller ac97 --vrde on
 vboxmanage modifyvm $vmname --vrdeaddress 127.0.0.1 --vrdeport 12345
 ```
 4. Set up two controllers (IDE and SATA)
@@ -28,8 +29,10 @@ vboxmanage createmedium disk --format VDI --size 20000 --filename ~/xxx/vmname/v
 ```
 6. Attache virtual disk and Ubuntu Installation CD
 ```
-vboxmanage storageattach $vmname --storagectl SATA --port 0 --device 0 --type hdd      --medium ~/xxx/vmname/vmname.vdi 
-vboxmanage storageattach $vmname --storagectl IDE  --port 0 --device 0 --type dvddrive --medium ~/ubuntu-20.04.1-desktop-amd64.iso 
+vboxmanage storageattach $vmname --storagectl SATA --port 0 --device 0 --type dvddrive --medium ~/ubuntu-20.04.1-desktop-amd64.iso
+vboxmanage storageattach $vmname --storagectl SATA --port 1 --device 0 --type hdd      --medium ~/xxx/vmname/vmname.vdi 
+vboxmanage storageattach $vmname --storagectl IDE  --port 0 --device 0 --type dvddrive --medium ~/ubuntu-20.04.1-desktop-amd64.iso
+
 ```
 If you need eject dvd 
 ```
@@ -102,15 +105,15 @@ vboxmanage guestcontrol <vmname> copyto --username ??? --password=??? --target-d
 ```
 * Add more cpu cores
 ```
-vboxmanage modifyvm <vmname> --cpuhotplug on # 
-vboxmanage modifyvm <vmname> --cpus 3        # 3 cpu cores at most
-vboxmanage modifyvm <vmname> --plugcpu 1     # Add core 1. Core 0 is the default one.
-vboxmanage modifyvm <vmname> --plugcpu 2     # Add core 2
+vboxmanage modifyvm $vmname --cpuhotplug on # 
+vboxmanage modifyvm $vmname --cpus 3        # 3 cpu cores at most
+vboxmanage modifyvm $vmname --plugcpu 1     # Add core 1. Core 0 is the default one.
+vboxmanage modifyvm $vmname --plugcpu 2     # Add core 2
 ```
 * Add VBoxGuestAdditions.iso
 ```
-vboxmanage storageattach <vmname> --storagectl SATA --port 1 --device 0 --type dvddrive --medium /usr/share/virtualbox/VBoxGuestAdditions.iso
-vboxmanage storageattach <vmname> --storagectl SATA --port 1 --device 0 --type dvddrive --medium emptydrive
+vboxmanage storageattach $vmname --storagectl SATA --port 1 --device 0 --type dvddrive --medium /usr/share/virtualbox/VBoxGuestAdditions.iso
+vboxmanage storageattach $vmname --storagectl SATA --port 1 --device 0 --type dvddrive --medium emptydrive
 ```
 * Register an old VM
 ```

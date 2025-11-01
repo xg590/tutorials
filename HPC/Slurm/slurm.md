@@ -80,3 +80,35 @@
   ``` 
   scontrol update nodename=node-[2-57],$HOSTNAME state=idle
   ```
+* Play with sinfo
+```sh
+for host in $(scontrol show hostnames "$HOSTLIST"); do
+  scp /path/to/file "$USER@$host:/target/path"
+done
+
+for host in $(sinfo -p cmpt -t idle -N -h -o "%N"); do 
+  echo $host ;
+  scp /etc/{passwd,group,shadow,gshadow} $host:/etc/
+done
+
+for host in $(sinfo -p cmpt -t idle -N -h -o "%N"); do 
+  echo $host ;
+  ssh $host mount -t nfs login:/home /home 
+done
+
+for host in $(sinfo -p cmpt -t idle -N -h -o "%N"); do 
+  echo $host ;
+  ssh $host mkdir /s1
+  ssh $host chmod 777 /s1
+done
+
+for host in $(sinfo -p cmpt -t idle -N -h -o "%N"); do 
+  echo $host ;
+  ssh $host reboot
+done
+
+for host in $(sinfo -p cmpt -t down -N -h -o "%N"); do 
+  echo $host ;
+  ssh $host df
+done
+```

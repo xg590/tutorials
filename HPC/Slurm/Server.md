@@ -93,6 +93,7 @@
     ```
     * NIS Server
     ```shell
+
     sed -i 's/NISSERVER=false/NISSERVER=master/g' /etc/default/nis
     cat << EOF > /etc/ypserv.securenets 
     255.0.0.0       127.0.0.0
@@ -141,7 +142,7 @@
     chown slurm:slurm /var/spool/slurmctld /var/spool/slurmd 
     chmod 755         /var/spool/slurmctld /var/spool/slurmd 
     touch /var/log/slurm/slurmctld.log /var/log/slurm/slurm_jobacct.log /var/log/slurm/slurm_jobcomp.log
-    systemctl restart slurmctld slurmd 
+ip add
     sinfo
 
     systemctl enable  slurmctld slurmd      

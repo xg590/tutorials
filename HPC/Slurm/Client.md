@@ -40,7 +40,8 @@
     let CNT_END=$CNT_BGN+`awk 'END { print NR }' /root/sys_conf/dnsmasq.leases`-1 # do not forget minus one
     echo $CNT_BGN $CNT_END
     seq $CNT_BGN $CNT_END | xargs -I % ping -c 1 -t 1 192.168.11.%
-    seq $CNT_BGN $CNT_END | xargs -I % scp id_ed25519 192.168.11.%:/root/.ssh/
+    seq 2 $CNT_END | xargs -I % ssh-keyscan 192.168.11.%   >> /root/.ssh/known_hosts  
+    seq $CNT_BGN $CNT_END | xargs -I % scp ~/.ssh/id_ed25519 192.168.11.%:/root/.ssh/
 
     rm ~/.ssh/known_hosts
     cat << EOF > /etc/hosts
@@ -50,7 +51,6 @@
     192.168.11.1            login
     EOF
     seq 2 $CNT_END | xargs -I % echo "192.168.11.% node-%" >> /etc/hosts
-    seq 2 $CNT_END | xargs -I % ssh-keyscan 192.168.11.%   >> /root/.ssh/known_hosts  
     seq 2 $CNT_END | xargs -I % ssh-keyscan        node-%  >> /root/.ssh/known_hosts  
     seq 2 $CNT_END | xargs -I % ssh                node-%     hostname 
     
@@ -67,10 +67,12 @@
   * NFS Client
     ```shell
     parallel-ssh -i -t 0 -h /root/sys_conf/pssh_new_host_file 'mount -t nfs login:/home /home'
-    # seq $CNT_BGN $CNT_END| xargs -I % ssh node-% 'echo "login:/home /home nfs defaults 0 0" >> /etc/fstab'
+    # seq $CNT_BGN $CNT_END| xargs -I % ssh node-% 'echo "login:/home /home nfs noauto,x-systemd.automount,_netdev,nofail 0 0" >> /etc/fstab'
     ```
   * NIS client
     ```shell 
+    seq $CNT_BGN $CNT_END | xargs -I % scp /etc/{passwd,group,shadow,gshadow} node-%:/etc/ 
+    
     seq $CNT_BGN $CNT_END | xargs -I % scp /etc/{defaultdomain,yp.conf,nsswitch.conf} node-%:/etc/ 
     seq $CNT_BGN $CNT_END | xargs -I % ssh node-% systemctl restart rpcbind nscd ypbind  
     seq $CNT_BGN $CNT_END | xargs -I % ssh node-% ypwhich # test the NIS

@@ -31,7 +31,8 @@ export PATH=$PATH:
 conda install -c conda-forge conda-pack
 conda pack -n my_env -o out_name.tar.gz 
 ```
-#### New Schinanigen
+#### New Shenanigan
+* In China
 ```sh
 wget https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/Miniconda3-latest-Linux-x86_64.sh
 bash Miniconda3-latest-Linux-x86_64.sh -b -f -p ~/software/miniconda3
@@ -42,6 +43,18 @@ conda config --remove channels defaults # it would fail if defaults is not in ${
 conda config --add channels               https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
 conda config --set custom_channels.Paddle https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/
 conda config --set channel_priority strict # This ensures conda only pulls packages from conda-forge.
+conda config --show-sources
+conda create -y -n pio
+source activate pio
+```
+* Free World
+```sh
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh -b -f -p ~/software/miniconda3
+export PATH=$PATH:~/software/miniconda3/bin
+rm ~/software/miniconda3/.condarc
+conda config --show-sources 
+conda config --add channels               https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main 
 conda config --show-sources
 conda create -y -n pio
 source activate pio

@@ -11,7 +11,6 @@ docker load < node24.9.0-trixie-slim.amd64.tgz
 ```sh
 docker run --rm -it node:24.9.0-trixie-slim bash
 
-echo "umask 0000" > /root/.bashrc
 cat << EOF > /etc/apt/sources.list.d/debian.sources
 Types: deb
 URIs: http://mirrors.tuna.tsinghua.edu.cn/debian
@@ -27,9 +26,11 @@ Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
 EOF
 
 apt update
-apt install -y curl jq openssh-server locales sudo
+apt install -y curl jq openssh-server locales sudo git
 apt clean
 rm -rf /var/lib/apt/lists/*
+git config --global user.name  "Xiaokang Guo"   # This info is nothing to do with GitHub
+git config --global user.email "43154552+xg590@users.noreply.github.com"  # This info is nothing to do with GitHub
 echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 locale-gen
 update-locale LANG=en_US.UTF-8
@@ -38,7 +39,7 @@ curl -fsSL https://download.aicodemirror.com/env_deploy/env-install.sh | bash
 npm install -g @anthropic-ai/claude-code
 curl -s https://co.yes.vg/setup-claude-code.sh | bash -s -- --url https://co.yes.vg --key cr_920xxxx
 ssh-keygen -t ed25519 -C 'claude_in_container' -N '' -f /root/.ssh/id_ed25519
-cp /root/.ssh/id_ed25519 /root/.ssh/authorized_keys
+cp /root/.ssh/id_ed25519.pub /root/.ssh/authorized_keys
 service ssh start
 ssh localhost
 
@@ -49,10 +50,13 @@ docker image prune -f
 ## Run
 * Start 
 ```sh
-docker run --rm -d -v $PWD:$PWD --name claude -p 127.0.0.1:2222:22 claude:sshd
-docker run --rm -d -v $PWD:$PWD --name claude -p           2222:22 claude:sshd
+cat << EOF > .bashrc
+umask 0000
+cd ${PWD}
+EOF
+docker run --rm -d -v $PWD:$PWD --name claude -p 127.0.0.1:2222:22 -v $PWD/.bashrc:/root/.bashrc claude:sshd
 ```
 * Login
 ```sh
-ssh -i claude_container -p 2222 localhost -l root
+ssh -p 2222 root@localhost
 ```

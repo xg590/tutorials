@@ -7,7 +7,6 @@ export PATH=$PATH:~/software/miniconda3/bin
 conda config --show-sources
 conda config --remove channels defaults # it would fail if defaults is not in ${HOME}/.condarc
 conda config --add channels               https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
-conda config --set custom_channels.Paddle https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/
 conda config --set channel_priority strict # This ensures conda only pulls packages from conda-forge.
 conda config --show-sources
 conda create -y -n pio
@@ -15,7 +14,9 @@ source activate pio
 pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 pip install -U platformio
 pip cache purge
-
+```
+* Start the service
+```sh
 mkdir test
 cd test
 cat << EOF > .bashrc
@@ -25,6 +26,8 @@ export PATH=$PATH:${HOME}/software/miniconda3/bin
 source activate pio
 cd ${PWD}
 EOF
+
+docker container commit --pause --author xg590@nyu.edu --change='CMD ["/usr/sbin/sshd", "-D"]'  be0fabca2152 claude:sshd
 
 docker run --rm -d --name claude -p 127.0.0.1:2222:22 \
     -v ${HOME}/software/platformio:${HOME}/software/platformio \

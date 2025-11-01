@@ -6,9 +6,6 @@
 mkdir /root/proxy
 echo $SSH_SERVER_IP
 
-
-mkdir /root/proxy/
-
 cat << EOF > /root/proxy/setup.sh
 echo "nameserver 8.8.8.8" > /etc/resolv.conf
 

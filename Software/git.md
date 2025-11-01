@@ -158,6 +158,13 @@ git branch --delete existing_branch_name
   ```
   git remote set-url origin git@github.com:OWNER/REPOSITORY.git 
   ```
+* New Branch
+  ```
+  git branch -M xg590
+  git remote add origin git@github.com:xg590/literatureDownloader.git
+  git push -u origin xg590 
+  
+  ```
 * Troubleshooting
   * ```error: src refspec master does not match any.```
   * refs/heads/master vs refs/heads/main

@@ -1,0 +1,64 @@
+#!/bin/bash
+
+#Assign the Env_var
+FILE=$1
+FILENAME=${FILE%.*}
+GAUSSFILE=.$FILENAME.xg590
+BATCHFILE=$PWD/$FILENAME.script
+SCRATCH_DIR=/s1/${USER}
+CHK=.void
+
+# BUILD THE GAUSSFILE
+CHKLINEOLD=`grep -i .chk $FILE`
+COLON=`grep : $FILE`
+if [ -z $CHKLINEOLD ]; then                     #blank / NO CHK is specified by user
+        echo "%chk=$FILENAME.chk" > $GAUSSFILE
+        cat $PWD/$FILE >> $GAUSSFILE
+elif [ -z $COLON ] ; then                       #right syntax
+        cat $PWD/$FILE > $GAUSSFILE
+        CHK=`grep chk $GAUSSFILE | cut -d= -f2`
+else                                            #colon
+	# example "%chk=C:\Users\TITONS~1\AppD\gv4_5\Preview_r1cql.chk"
+        echo "%chk=${CHKLINEOLD##%*\\}" > $GAUSSFILE
+        grep -iv .chk $PWD/$FILE>> $GAUSSFILE
+fi
+
+# BUILD THE BATCHFILE
+cat << EOF > $BATCHFILE
+#!/bin/bash
+#SBATCH --job-name=$FILENAME          # Job name
+##SBATCH --output=output.txt           # Standard output file
+##SBATCH --error=error.txt             # Standard error file
+#SBATCH --partition=cmpt              # Partition or queue name
+#SBATCH --mem=0                       # Unlimited memory allocation
+#SBATCH --nodes=1                     # Number of nodes
+#SBATCH --ntasks-per-node=1           # Number of tasks per node
+#SBATCH --cpus-per-task=28            # Number of CPU cores per task
+rm -f $PWD/slurm-*.out 2>/dev/null
+if [ ! -d ${SCRATCH_DIR} ]; then
+        mkdir -p ${SCRATCH_DIR}
+fi 
+
+cd $PWD
+mv $GAUSSFILE ${SCRATCH_DIR}
+
+if [ -s $PWD/$CHK ]; then
+        cp --update $PWD/$CHK ${SCRATCH_DIR} 
+fi
+export g16root=/home/share/app/g16c01
+source \$g16root/g16/bsd/g16.profile
+export GAUSS_SCRDIR=${SCRATCH_DIR}
+export GAUSS_EXEDIR=\$g16root/g16 
+ulimit -S -c 0
+cd ${SCRATCH_DIR}
+rm -f Gau-* 2>/dev/null 
+#/home/share/app/bin/ncpu $GAUSSFILE
+echo " This job is assigned to \`hostname\`" > ${PWD}/$FILENAME.log
+g16 < $GAUSSFILE >> ${PWD}/$FILENAME.log
+exit
+EOF
+
+#Sub
+sbatch $BATCHFILE
+rm -f $BATCHFILE
+exit
