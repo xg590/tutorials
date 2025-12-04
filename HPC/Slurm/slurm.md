@@ -86,7 +86,7 @@ for host in $(scontrol show hostnames "$HOSTLIST"); do
   scp /path/to/file "$USER@$host:/target/path"
 done
 
-for host in $(sinfo -p cmpt -t idle -N -h -o "%N"); do 
+for host in $(sinfo -p cmpt -N -h -o "%N"); do 
   echo $host ;
   scp /etc/{passwd,group,shadow,gshadow} $host:/etc/
 done
@@ -94,9 +94,10 @@ done
 for host in $(sinfo -p cmpt -t idle -N -h -o "%N"); do 
   echo $host ;
   ssh $host mount -t nfs login:/home /home 
+  ssh $host df
 done
 
-for host in $(sinfo -p cmpt -t idle -N -h -o "%N"); do 
+for host in $(sinfo -p cmpt -N -h -o "%N"); do 
   echo $host ;
   ssh $host mkdir /s1
   ssh $host chmod 777 /s1
@@ -105,10 +106,11 @@ done
 for host in $(sinfo -p cmpt -t idle -N -h -o "%N"); do 
   echo $host ;
   ssh $host reboot
-done
+done 
 
-for host in $(sinfo -p cmpt -t down -N -h -o "%N"); do 
+for host in $(sinfo -p cmpt -t idle -N -h -o "%N"); do 
   echo $host ;
-  ssh $host df
-done
+  subg09_test $host.gjf
+  sbatch --nodelist=$host $host.script 
+done   
 ```

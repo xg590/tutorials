@@ -44,6 +44,11 @@
   ```
 
 ---
+* Disable ipv4
+
+```sh
+sudo echo "blacklist ipv6" >> /etc/modprobe.d/blacklist.conf
+```
 
 ## other
 
@@ -61,4 +66,10 @@ sudo apt install zlib1g-dev libjpeg-dev python3-dev
 ```
 ```
 wpa_passphrase <SSID> <KEY>
+```
+
+* error “Verifying shim SBAT data failed: Security Policy Violation” 
+```
+mokutil --set-sbat-policy delete
+apt update -y && apt upgrade -y shim-signed
 ```

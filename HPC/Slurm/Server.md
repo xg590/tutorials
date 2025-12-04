@@ -75,7 +75,6 @@
     * slurm-client contains commands like sinfo and sbatch 
     ```shell
     apt install -y nfs-kernel-server nfs-common     \
-                   nis                              \
                    munge libmunge2 libmunge-dev     \
                    slurmctld slurmd slurm-client    \
                    pssh 

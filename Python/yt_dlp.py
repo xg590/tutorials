@@ -1,4 +1,4 @@
-#!/home/ubuntu/software/yt-dlp/bin/python3
+#!/home/ubuntu/software/miniconda3/bin/python
 import argparse, yt_dlp, os, io, pandas as pd, time
 parser = argparse.ArgumentParser(description='Rewrite cookies in Netscape format')
 parser.add_argument(
@@ -27,13 +27,23 @@ parser.add_argument(
     type=str,
     help=""
 )
+parser.add_argument(
+    "-A",
+    "--audio-only",
+    default=False, 
+    action=argparse.BooleanOptionalAction,
+    help=""
+)
 #
-args     = parser.parse_args()
-json_fn  = args.json_filename
-m3u8_url = args.m3u8_url
-mp4_url  = args.mp4_url
-output_fn= args.output
-
+args       = parser.parse_args()
+json_fn    = args.json_filename
+m3u8_url   = args.m3u8_url
+mp4_url    = args.mp4_url
+output_fn  = args.output
+audio_only = args.audio_only
+if output_fn is None:
+  print('dl_m3u8.py -j -A -M -o')
+  exit()
 df = pd.read_json(json_fn, dtype={'expirationDate':int})
 df['domain'] = df.apply(lambda x: x.domain if x.domain[0]=='.' else '.' + x.domain, axis=1)
 df['True'] = 'TRUE'
@@ -45,14 +55,28 @@ txt  = '''# Netscape HTTP Cookie File
 ''' + df.to_csv(header=False, index=False, sep='\t')
 sio = io.StringIO(txt)
 
-ydl_opts = {
-    'cookiefile': sio,
-    'outtmpl': f'{output_fn}.%(ext)s',
-    'ffmpeg_location': os.environ['HOME']+'/software/ffmpeg/bin', 
-    #"external_downloader": "ffmpeg",
-    "hls_use_mpegts": True,
-    "skip_unavailable_fragments":False,
+if audio_only:
+    # Options for downloading only audio
+    ydl_opts = {
+        'format': 'bestaudio/best',  # Select the best audio format
+        'postprocessors': [{
+            'key': 'FFmpegExtractAudio', # Extract audio using FFmpeg
+            'preferredcodec': 'mp3',     # Convert to MP3
+            'preferredquality': '192',   # Set preferred quality (e.g., 192kbps)
+        }],
+        'outtmpl': f'{output_fn}.%(ext)s', # Output filename template
+        'cookiefile': sio,
+    }
+else:
+    ydl_opts = {
+        'cookiefile': sio,
+        'outtmpl': f'{output_fn}.%(ext)s',
+        'ffmpeg_location': os.environ['HOME']+'/software/ffmpeg/bin', 
+        #"external_downloader": "ffmpeg",
+        "hls_use_mpegts": True,
+        "skip_unavailable_fragments":False,
 }
+
 with yt_dlp.YoutubeDL(ydl_opts) as ydl:
     for n in range(9):
         try:

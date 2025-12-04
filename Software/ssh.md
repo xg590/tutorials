@@ -37,3 +37,13 @@ Host 192.168.*.* 10.0.*.*
     StrictHostKeyChecking no
     UserKnownHostsFile /dev/null
 ```
+* Two hosts in two networks with identical ip address.
+```sh
+Host siteA
+    HostName 192.168.3.3
+    HostKeyAlias siteA
+
+Host siteB
+    HostName 192.168.3.3
+    HostKeyAlias siteB
+```

@@ -71,14 +71,7 @@
     ```
   * NIS client
     ```shell 
-    seq $CNT_BGN $CNT_END | xargs -I % scp /etc/{passwd,group,shadow,gshadow} node-%:/etc/ 
-    
-    seq $CNT_BGN $CNT_END | xargs -I % scp /etc/{defaultdomain,yp.conf,nsswitch.conf} node-%:/etc/ 
-    seq $CNT_BGN $CNT_END | xargs -I % ssh node-% systemctl restart rpcbind nscd ypbind  
-    seq $CNT_BGN $CNT_END | xargs -I % ssh node-% ypwhich # test the NIS
-    seq $CNT_BGN $CNT_END | xargs -I % ssh node-% ypcat passwd # test again and see the populated identity
-
-    parallel-ssh -i -h /root/sys_conf/pssh_new_host_file 'systemctl enable rpcbind nscd ypbind'
+    seq $CNT_BGN $CNT_END | xargs -I % scp /etc/{passwd,group,shadow,gshadow} node-%:/etc/
     ```
   * Munge Client
     ```shell

@@ -1,5 +1,5 @@
 echo "${USER} ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/nopw
-sudo sudo apt autoremove -y unattended-upgrades update-notifier update-manager
+sudo apt autoremove -y unattended-upgrades update-notifier update-manager
 sudo systemctl stop    cups cups-browsed
 sudo systemctl disable cups cups-browsed
 sudo apt remove -y brltty
@@ -12,3 +12,6 @@ EOF
 hostnamectl set-hostname $hostname
 
 apt install -y nvidia-driver-565-server
+
+sudo systemctl disable avahi-daemon.socket avahi-daemon.service nbmd
+sudo systemctl stop    avahi-daemon.socket avahi-daemon.service nbmd

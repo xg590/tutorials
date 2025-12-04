@@ -7,24 +7,6 @@ sudo bash -c "echo -e 'a\na\n' | smbpasswd -a $USER"
 * Config
 ```
 cat << EOF | sudo tee /etc/samba/smb.conf 
-
-[global]
-  workgroup = WORKGROUP
-  server string = %h server (Samba, Ubuntu)
-  security = user
-  guest account = ${USER}
-  passdb backend = tdbsam 
-
-[samba]
-    comment = Samba on Ubuntu
-    path = /var/www/html/samba
-    writable = yes
-    public = yes
-    guest ok  = yes
-    create mask = 0644
-    directory mask = 0755
-    force user = ${USER}
-
 [global]
    workgroup = WORKGROUP
    server string = %h server (Samba, Ubuntu)
@@ -53,7 +35,6 @@ cat << EOF | sudo tee /etc/samba/smb.conf
     directory mask = 0755
     public = yes
     force user = ${USER}
-
 EOF
 sudo systemctl restart smbd
 ```

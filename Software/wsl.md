@@ -18,3 +18,17 @@ netsh advfirewall firewall add rule name="Allow sshd" dir=in protocol=TCP action
 ```shell
 sudo apt update -y && sudo apt install -y openssh-server
 ```
+#### Jump to cmd or PS from WSL
+
+```sh
+alias powershell="/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe"
+alias cmd="/mnt/c/Windows/System32/cmd.exe"
+```
+
+#### new
+
+```sh
+netsh interface portproxy add v4tov4 connectaddress=127.0.0.1 connectport=22 listenaddress=0.0.0.0 listenport=2222
+netsh advfirewall firewall add rule name="Allow sshd" dir=in protocol=TCP action=allow localport=2222
+sudo apt update -y && sudo apt install -y openssh-server
+```

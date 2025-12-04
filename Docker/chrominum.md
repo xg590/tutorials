@@ -1,7 +1,7 @@
 [Chrominum Homepage @ dockerhub](https://hub.docker.com/r/linuxserver/chromium)
 ```shell
 docker run -d                                               \
-  --name=chromium                                           \
+  --name=chromium_cn                                        \
   --security-opt seccomp=unconfined                         \
   -e PUID=1000                                              \
   -e PGID=1000                                              \
@@ -9,8 +9,8 @@ docker run -d                                               \
   -e DOCKER_MODS=linuxserver/mods:universal-package-install \
   -e INSTALL_PACKAGES=fonts-noto-cjk                        \
   -e LC_ALL=zh_CN.UTF-8                                     \
-  -p 0.0.0.0:9000:3000                                      \
-  -v $PWD:/config                                            \
+  -p 0.0.0.0:7001:3001                                      \
+  -v $PWD:/config                                           \
   --shm-size="2gb"                                          \
   --restart unless-stopped                                  \
   lscr.io/linuxserver/chromium:latest
@@ -18,12 +18,12 @@ docker run -d                                               \
 * Do not care i18n
 ```shell
 docker run -d                                \
-  --name=chromium                            \
+  --name=chromium_en                         \
   --security-opt seccomp=unconfined          \
   -e PUID=1000                               \
   -e PGID=1000                               \
   -e TZ=Etc/UTC                              \
-  -p 0.0.0.0:9000:3000                       \
+  -p 0.0.0.0:8001:3001                       \
   -v $PWD:/config                            \
   --shm-size="2gb"                           \
   --restart unless-stopped                   \
