@@ -39,3 +39,31 @@ conda env export > environment.yml
 ```
 conda env create -f environment.yml
 ``` 
+### RDKit
+```
+conda create -n py310 python=3.10
+"%USERPROFILE%\anaconda3\Scripts\activate.bat" py310
+"%USERPROFILE%\anaconda3\jupyter"
+pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+pip install notebook==7.2.2 rdkit==2025.09.3
+```
+### Windows
+```bat
+mkdir "%USERPROFILE%\notebook"
+mkdir "%USERPROFILE%\.jupyter"
+
+set "HOME2=%USERPROFILE%"
+set "HOME2=%HOME2:\=/%"
+
+(
+  echo c.ServerApp.ip = "0.0.0.0"
+  echo c.ServerApp.token = ""
+  echo c.ServerApp.password = ""
+  echo c.ServerApp.allow_root = True
+  echo c.ServerApp.open_browser = False
+  echo c.ServerApp.root_dir = "%HOME2%/notebook"
+) > "%USERPROFILE%\.jupyter\jupyter_notebook_config.py"
+
+
+%USERPROFILE%\anaconda3\Scripts\activate.bat py310
+```

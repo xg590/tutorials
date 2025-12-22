@@ -1,28 +1,29 @@
 ### IDF Docker Image
 * Get the image and print its version. [Ref](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/tools/idf-docker-image.html)
   ```
-  docker run --rm espressif/idf bash -c "echo \$ESP_IDF_VERSION"
+  docker run --rm espressif/idf:release-v5.5 bash -c "echo \$ESP_IDF_VERSION"
   ```
 * See the print of "docker run" and We get the ESP-IDF 5.2
   ``` 
-  Detecting the Python interpreter
-  Checking "python3" ... 
-  Adding ESP-IDF tools to PATH...
-  Checking if Python packages are up to date...
-  Python requirements are satisfied.
-  Requirement files:
-   - /opt/esp/idf/tools/requirements/requirements.core.txt
-  Python being checked: ...
-  Added the following directories to PATH:
-    /opt/esp/idf/components/espcoredump
-    ...
-    /opt/esp/idf/tools
+  Checking "python3" ...
+  Python 3.12.3
+  "python3" has been detected
+  Activating ESP-IDF 5.5
+  Setting IDF_PATH to '/opt/esp/idf'.
+  * Checking python version ... 3.12.3
+  * Checking python dependencies ... OK
+  * Deactivating the current ESP-IDF environment (if any) ... OK
+  * Establishing a new ESP-IDF environment ... OK
+  * Identifying shell ... bash
+  * Detecting outdated tools in system ... OK - no outdated tools found
+  * Shell completion ... Autocompletion code generated
+
   Done! You can now compile ESP-IDF projects.
   Go to the project directory and run:
-  
+
     idf.py build
-  
-  5.2
+
+  5.5
   ```
 * Clone a test project
   ```
@@ -30,7 +31,7 @@
   ```
 * Use the image interactively
   ```
-  docker run --rm -v $PWD:/project -w /project -u $UID -e HOME=/tmp -it espressif/idf
+  docker run --name idf -v $PWD:/project -w /project -u $UID -e HOME=/tmp -it espressif/idf:release-v5.5
   ```
 * Now we are in the working directory (which is $PWD in our host machine and /project in our container) so build it
   ``` 
@@ -40,7 +41,7 @@
   ```
   or 
   ```
-  docker run --rm -v $PWD:/project -w /project -u $UID -e HOME=/tmp espressif/idf bash -c "idf.py set-target esp32 && idf.py build" 
+  docker run --rm -v $PWD:/project -w /project -u $UID -e HOME=/tmp espressif/idf:release-v5.5 bash -c "idf.py set-target esp32 && idf.py build" 
   ```
 
 * Flash it.

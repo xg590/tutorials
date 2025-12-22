@@ -70,6 +70,10 @@ vboxmanage snapshot $vmname restore fresh
 ```
 ### Tricks
 * [Manual](https://www.virtualbox.org/manual/ch08.html)
+* Get IP 
+```
+vboxmanage guestproperty enumerate $vmname
+```
 * List virtual machines
 ```
 vboxmanage list vms
@@ -133,6 +137,10 @@ VBoxManage setextradata <VM-name> "VBoxInternal/Devices/VMMDev/0/Config/GetHostT
 * Accelerate the virtual guest clock 200%. 
 ```
 VBoxManage setextradata <VM-name> "VBoxInternal/TM/WarpDrivePercentage" 200
+```
+#### Convert VDI → raw disk image
+```sh
+vboxmanage clonemedium --format RAW disk input.vdi output.img
 ```
 #### Troubleshooting
 * In case of "No USB devices available" on linux host, set proper group id for current user (credit to [csorig](https://superuser.com/a/957636))

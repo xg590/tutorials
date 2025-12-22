@@ -89,45 +89,7 @@
     showmount -e $HOSTNAME
 
     systemctl enable nfs-kernel-server
-    ```
-    * NIS Server
-    ```shell
-
-    sed -i 's/NISSERVER=false/NISSERVER=master/g' /etc/default/nis
-    cat << EOF > /etc/ypserv.securenets 
-    255.0.0.0       127.0.0.0
-    host            ::1 
-    255.255.0.0     192.168.0.0
-    EOF
-    ypdomainname login
-    echo "login" > /etc/defaultdomain 
-    # domain <nisdomain> server <nisserver>
-    echo "domain login server login" >> /etc/yp.conf
-    cat << EOF > /etc/nsswitch.conf 
-    # /etc/nsswitch.conf 
-
-    passwd:         files nis 
-    group:          files nis
-    shadow:         files nis
-    gshadow:        files
-
-    hosts:          files dns nis
-    networks:       files
-
-    protocols:      db files
-    services:       db files
-    ethers:         db files
-    rpc:            db files
-
-    netgroup:       nis
-    EOF
-    /usr/lib/yp/ypinit -m
-
-    systemctl restart rpcbind ypserv yppasswdd ypxfrd
-    rpcinfo -p localhost | grep -E 'ypserv|yppasswdd'
-
-    systemctl enable  rpcbind ypserv yppasswdd ypxfrd
-    ```
+    ``` 
   * Slurm Server
     ```shell
     cat << EOF > /etc/slurm/cgroup.conf 
@@ -141,7 +103,7 @@
     chown slurm:slurm /var/spool/slurmctld /var/spool/slurmd 
     chmod 755         /var/spool/slurmctld /var/spool/slurmd 
     touch /var/log/slurm/slurmctld.log /var/log/slurm/slurm_jobacct.log /var/log/slurm/slurm_jobcomp.log
-ip add
+    
     sinfo
 
     systemctl enable  slurmctld slurmd      

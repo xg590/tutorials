@@ -5,8 +5,7 @@
 ```shell
 apt install -y apache2 python3 python3-pip
 a2enmod cgid 
-systemctl restart apache2
-sed -i 's,/usr/lib,/var/www,g' /etc/apache2/conf-available/serve-cgi-bin.conf
+sed -i 's,/usr/lib,/var/www,g' /etc/apache2/conf-enabled/serve-cgi-bin.conf
 mkdir -p /var/www/cgi-bin /var/www/upload
 ```
 
@@ -62,7 +61,7 @@ systemctl restart apache2
 ## Client side
 
 ```sh
-echo 'curl -F "filename=@$2" https://$1/cgi-bin/save_file.py' > /usr/local/bin/upload.py
+echo 'curl -F "filename=@$2" https://$1/cgi-bin/save_file.py' | sudo tee /usr/local/bin/upload.py
 chmod 755  /usr/local/bin/upload.py
 ```
 
