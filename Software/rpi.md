@@ -1,23 +1,24 @@
 ### Firmware
 
 * To my experience, bookworm does not work for Raspberry Pi Zero W, but bullseye does.
+* SOBs keep changing the headless setup, why, Fuk!!! I am sticking to bookworm. 
 * Raspberry Pi OS: [Homepage](https://www.raspberrypi.com/software/operating-systems/)
-* Visit [this page](https://mirrors4.tuna.tsinghua.edu.cn/raspberry-pi-os-images/) from Tsinghua Univ or [this page](https://mirror.sjtu.edu.cn/raspberry-pi-os-images/) from Shanghai Jiaotong Univ to download 2025-10-01-raspios-trixie-arm64-lite.img.xz
+* Visit [this page](https://mirrors4.tuna.tsinghua.edu.cn/raspberry-pi-os-images/) from Tsinghua Univ or [this page](https://mirror.sjtu.edu.cn/raspberry-pi-os-images/) from Shanghai Jiaotong Univ to download 2025-05-13-raspios-bookworm-arm64-lite.img.xz
 
   ```sh
-  wget https://mirrors4.tuna.tsinghua.edu.cn/raspberry-pi-os-images/raspios_lite_arm64/images/raspios_lite_arm64-2025-10-02/2025-10-01-raspios-trixie-arm64-lite.img.xz
+  wget https://mirrors4.tuna.tsinghua.edu.cn/raspberry-pi-os-images/raspios_lite_arm64/images/raspios_lite_arm64-2025-05-13/2025-05-13-raspios-bookworm-arm64-lite.img.xz
   ```
 
-* Visit to download 2025-10-01-raspios-trixie-arm64-lite.img.xz
+* Visit to download 2025-05-13-raspios-bookworm-arm64-lite.img.xz
 
   ```sh
-  wget https://mirrors4.tuna.tsinghua.edu.cn/raspberry-pi-os-images/raspios_lite_arm64/images/raspios_lite_arm64-2025-10-02/2025-10-01-raspios-trixie-arm64-lite.img.xz.sha256
+  wget https://mirrors4.tuna.tsinghua.edu.cn/raspberry-pi-os-images/raspios_lite_arm64/images/raspios_lite_arm64-2025-05-13/2025-05-13-raspios-bookworm-arm64-lite.img.xz.sha256
   ```
 
 * Checksum
 
   ```sh
-  IMG=2025-10-01-raspios-trixie-arm64-lite.img
+  IMG=2025-05-13-raspios-bookworm-arm64-lite.img
   awk '{print $1}' ${IMG}.xz.sha256 | xargs -I % echo % ${IMG}.xz | sha256sum -c
   ```
 
@@ -75,11 +76,8 @@
     cat /tmp/raspbian_img/home/pi/.ssh/id_ed25519
     # bookworm arm64 
     sed -i 's/deb.debian.org/mirrors.tuna.tsinghua.edu.cn/g'                    /tmp/raspbian_img/etc/apt/sources.list
-    # trixie   arm64
-    sed -i 's/deb.debian.org/mirrors.tuna.tsinghua.edu.cn/g'                    /tmp/raspbian_img/etc/apt/sources.list.d/debian.sources
     # bookworm armhf
     sed -i 's,raspbian.raspberrypi.com,mirrors.tuna.tsinghua.edu.cn/raspbian,g' /tmp/raspbian_img/etc/apt/sources.list
-    sed -i 's/deb.debian.org/mirrors.tuna.tsinghua.edu.cn/g'                    /tmp/raspbian_img/etc/apt/sources.list
     mkdir -p                                                                    /tmp/raspbian_img/home/pi/.config/pip/
     echo -e "[global]\nindex-url = https://pypi.tuna.tsinghua.edu.cn/simple" >  /tmp/raspbian_img/home/pi/.config/pip/pip.conf
     chown -R 1000:1000                                                          /tmp/raspbian_img/home/pi/.config/pip/
@@ -128,6 +126,7 @@
     keymap = "us"
     timezone = "US/Eastern"
     EOF
+    cat /tmp/raspbian_img/custom.toml
     ```
 
   * Enable nvme
@@ -140,7 +139,6 @@
     ```
 
     ```sh
-    cat /tmp/raspbian_img/custom.toml
     umount /tmp/raspbian_img
     ```
 
@@ -149,7 +147,9 @@
 * Flash
 
   ```sh
-  dd bs=1M status=progress if=${IMG} of=/dev/sdb && udisksctl power-off -b /dev/sdb
+  dd bs=1M status=progress if=${IMG} of=/dev/sd
+  
+  udisksctl power-off -b /dev/sd
   ```
 
 ### Configuration

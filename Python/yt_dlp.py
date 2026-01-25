@@ -75,6 +75,7 @@ else:
         #"external_downloader": "ffmpeg",
         "hls_use_mpegts": True,
         "skip_unavailable_fragments":False,
+        'js_runtimes': { 'deno': {} },
 }
 
 with yt_dlp.YoutubeDL(ydl_opts) as ydl:

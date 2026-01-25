@@ -47,3 +47,20 @@ Host siteB
     HostName 192.168.3.3
     HostKeyAlias siteB
 ```
+
+
+type nul >> %userprofile%/.ssh/config
+
+notepad %userprofile%/.ssh/config
+
+
+host kr-1
+  hostname xx.xx.xx.xx
+  port 2222
+  user xxx
+
+host xg590
+ hostname localhost
+ user py
+ port 44444
+ proxyjump kr-1 

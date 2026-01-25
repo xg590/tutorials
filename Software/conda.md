@@ -31,6 +31,34 @@ export PATH=$PATH:
 conda install -c conda-forge conda-pack
 conda pack -n my_env -o out_name.tar.gz 
 ```
+#### Activate Conda by default in all PowerShell
+* Conda env is unavailable (in VSCode terminal for example) by default outside Anaconda PowerShell Prompt
+```ps
+PS C:\Users\abc123>
+```
+* Enable it in Anaconda PowerShell Prompt
+```
+(base) PS C:\Users\abc123> conda init
+no change     C:\Users\abc123\anaconda3\Scripts\activate.bat
+modified      C:\Users\abc123\anaconda3\Scripts\activate
+modified      C:\Users\abc123\Documents\WindowsPowerShell\profile.ps1
+==> For changes to take effect, close and re-open your current shell. <==
+```
+* Not working at first in VSCode terminal
+```ps
+. : 无法加载文件 C:\Users\abc123\Documents\WindowsPowerShell\profile.ps1，因为在此系统上禁止运行脚本。有关详细信息，请参阅 https:/go.microsoft.com/fwlink/?LinkID=135170 中的 
+about_Execution_Policies。
+```
+* Solve it in VSCode terminal
+```
+PS > Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+PS > exit
+```
+* Restart Powershell
+```
+加载个人及系统配置文件用了 3373 毫秒。
+(base) PS Microsoft.PowerShell.Core\FileSystem::\\wsl.localhost\Ubuntu-24.04\home\abc123> 
+```
 #### New Shenanigan
 * In China
 ```sh

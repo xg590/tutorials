@@ -1,4 +1,6 @@
-[Chrominum Homepage @ dockerhub](https://hub.docker.com/r/linuxserver/chromium)
+# [Chrominum Homepage @ dockerhub](https://hub.docker.com/r/linuxserver/chromium)
+## Use Port 7001 via https protocol
+* visit https://192.168.3.3:7001
 ```shell
 docker run -d                                               \
   --name=chromium_cn                                        \
@@ -9,6 +11,7 @@ docker run -d                                               \
   -e DOCKER_MODS=linuxserver/mods:universal-package-install \
   -e INSTALL_PACKAGES=fonts-noto-cjk                        \
   -e LC_ALL=zh_CN.UTF-8                                     \
+  -p 0.0.0.0:7000:3000                                      \
   -p 0.0.0.0:7001:3001                                      \
   -v $PWD:/config                                           \
   --shm-size="2gb"                                          \

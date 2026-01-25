@@ -7,6 +7,12 @@ function FindProxyForURL(url, host) {
   )
   return "PROXY 1.2.3.4:8080";
   
+  // Connect to a specific host. 
+  if ( isInNet(dnsResolve(host), "11.0.0.0", "255.0.0.0")  
+    || isInNet(dnsResolve(host), "172.17.0.1",  "255.255.255.255")  
+  )
+  return "SOCKS5 127.0.0.1:1081";
+
   // Protocol or URL matches 
   if (
     url.substring(0, 4)=="ftp:"

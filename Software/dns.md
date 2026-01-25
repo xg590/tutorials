@@ -3,6 +3,7 @@
 resolvectl status
 nmcli device show <interfacename> | grep IP4.DNS
 nmcli con mod "IKEv2_123" ipv4.dns "8.8.8.8 8.8.4.4"
+journalctl -u dnsmasq -f
 ```
 ### Persistent Nameserver
 ```
@@ -49,19 +50,13 @@ EOF
 systemctl restart dnsmasq
 ```
 ### Dependency
-* Edit systemctl
 ```
-sudo update-alternatives --config editor
-sudo systemctl edit dnsmasq
-```
-* Insert new content
-```
+mkdir -p     /etc/systemd/system/dnsmasq.service.d
+cat << EOF > /etc/systemd/system/dnsmasq.service.d/network-online.conf
 [Unit]
 After=network-online.target
-Requires=network-online.target 
-```
-* Make it happen
-```
-sudo systemctl daemon-reexec
-sudo systemctl restart dnsmasq
+Requires=network-online.target
+EOF
+sudo systemctl daemon-reload
+systemctl restart dnsmasq
 ```

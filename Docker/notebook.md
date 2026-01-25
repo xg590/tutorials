@@ -66,8 +66,15 @@
 
   echo $PIP_ROOT $PIP_PREFIX $PATH $PYTHONPATH $JUPYTER_CONFIG_DIR 
   ```
-
-
-  ```
-  sed -i 's/deb.debian.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list.d/debian.sources 
-  ```
+* Config
+```
+mkdir .jupyter
+cat << EOF >  .jupyter/jupyter_notebook_config.py
+c.ServerApp.ip = '0.0.0.0'
+c.ServerApp.token = ''
+c.ServerApp.password = ''
+c.ServerApp.allow_root = True
+c.ServerApp.open_browser = False
+c.ServerApp.root_dir = '/workspace'
+EOF
+```

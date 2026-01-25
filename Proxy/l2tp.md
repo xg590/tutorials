@@ -30,8 +30,8 @@ nmcli connection add type vpn vpn-type l2tp  \
 
 nmcli connection up ${CONNECTION_NAME}
 
-# (crontab -l ; echo "@reboot root sleep 30 && nmcli connection up ${CONNECTION_NAME}") | crontab -
-echo "@reboot root sleep 30 && nmcli connection up ${CONNECTION_NAME}" > /etc/cron.d/l2tp_autoconnect     
+# (crontab -l ; echo "@reboot sleep 30 && /usr/bin/nmcli connection up ${CONNECTION_NAME}") | crontab -
+echo "@reboot sleep 30 && /usr/bin/nmcli connection up ${CONNECTION_NAME}" > /etc/cron.d/l2tp_autoconnect     
 ```
 * Forward
 ```
