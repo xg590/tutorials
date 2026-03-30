@@ -1,9 +1,6 @@
 ### New compute nodes   
   * Login as gateway
-    ```
-    ip route add 192.168.11.0/24 via 192.168.11.1 
-    iptables -P FORWARD ACCEPT
-    # provide internet for subnet via the internet-connected NIC $IFNAME0
+    ```sh
     iptables -t nat -A POSTROUTING -s 192.168.11.0/24 -o $IFNAME0 -j MASQUERADE 
     # DNS 210.42.249.132
     ``` 
@@ -65,13 +62,11 @@
     ```
   * NFS Client
     ```shell
-    parallel-ssh -i -t 0 -h /root/sys_conf/pssh_new_host_file 'mount -t nfs login:/home/share /home/share'
     parallel-ssh -i -t 0 -h /root/sys_conf/pssh_new_host_file 'mkdir /home/share'
+    parallel-ssh -i -t 0 -h /root/sys_conf/pssh_new_host_file 'mount -t nfs login:/home/share /home/share'
     # seq $CNT_BGN $CNT_END| xargs -I % ssh node-% 'echo "login:/home/share /home/share nfs _netdev,nofail,x-systemd.mount-timeout=30 0 0" >> /etc/fstab'
     ```
-
-
-  * NIS client
+  * Sync User Account
     ```shell 
     seq $CNT_BGN $CNT_END | xargs -I % scp /etc/{passwd,group,shadow,gshadow} node-%:/etc/
     ```
@@ -86,7 +81,6 @@
   * Munge Client
     ```shell
     seq $CNT_BGN $CNT_END | xargs -I % scp /etc/munge/munge.key node-%:/etc/munge/munge.key 
-    
     parallel-ssh -i -h /root/sys_conf/pssh_new_host_file 'systemctl daemon-reload'
     parallel-ssh -i -h /root/sys_conf/pssh_new_host_file 'systemctl restart munge'
     for i in `seq $CNT_BGN $CNT_END`; do munge -n | ssh node-$i unmunge; done # test munge to see if it works well between login node and node0
@@ -148,20 +142,24 @@
     PartitionName=cmpt Nodes=node-[2-$CNT_END] Default=YES MaxTime=INFINITE State=UP
     EOF
     tail /etc/slurm/slurm.conf
+    
+    seq 2 $CNT_END | xargs -I % scp /etc/slurm/{slurm.conf,cgroup.conf} node-%:/etc/slurm/
+    ```
+    ```
+    echo "export PATH=$PATH:/home/share/script" >> /etc/profile.d/xg590.sh
     ```
       * Stop slurmctld  
       * Restart all slurmd processes  
       * Start slurmctld
-    ```
-    seq 2 $CNT_END | xargs -I % scp /etc/{passwd,group,shadow,gshadow}  node-%:/etc/
-    seq 2 $CNT_END | xargs -I % scp /etc/slurm/{slurm.conf,cgroup.conf} node-%:/etc/slurm/
-
+    ```sh
     systemctl stop  slurmctld slurmd 
     echo > /root/sys_conf/pssh_every_host_file
     seq 2 $CNT_END | xargs -I % echo "192.168.11.%" >> /root/sys_conf/pssh_every_host_file
     parallel-ssh -i -h /root/sys_conf/pssh_every_host_file 'systemctl daemon-reload'
     parallel-ssh -i -h /root/sys_conf/pssh_every_host_file 'systemctl restart slurmd' 
-    systemctl start slurmctld slurmd 
+    systemctl start slurmctld slurmd
+    sinfo
+
     scontrol update nodename=node-[2-$CNT_END] state=idle
     
     srun --nodelist=node-3 --chdir /tmp --pty /bin/bash
@@ -171,8 +169,10 @@
 
     parallel-ssh -i -h /root/sys_conf/pssh_every_host_file 'mkdir /s1; chmod 777 /s1'
 
-    adduser --gid 1001 --home /home/share/xg590 xg590
-    sudo -u xg590 mkdir                  /home/share/xg590/.ssh
-    sudo -u xg590 ssh-keygen -t ed25519 -C '' -N '' -f /home/share/xg590/.ssh/id_ed25519
-    sudo -u xg590 cp /home/share/xg590/.ssh/id_ed25519 /home/share/xg590/.ssh/authorized_keys
+    parallel-ssh -i -h /root/sys_conf/pssh_every_host_file "lscpu | awk '/Socket/ {s=\$2} /Core/ {c=\$4} END {print s*c}'"  
+
+    cat /var/lib/misc/dnsmasq.leases | awk '{print $3}' > /tmp/pssh_host_file
+    rm /root/.ssh/known_hosts
+    cat /tmp/pssh_host_file | xargs -I % ssh-keyscan % >> /root/.ssh/known_hosts
+    parallel-ssh -i -h /tmp/pssh_host_file 'init 0' 
     ```

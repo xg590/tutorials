@@ -11,9 +11,9 @@ wget https://github.com/hpcng/singularity/releases/download/v${VERSION}/singular
 ```
 * Choose 1 or 2
 ### 1. Vanila Build
-* Install Go 1.14.12
+* Install Go 1.16.15
 ```
-export VERSION=1.14.12 OS=linux ARCH=amd64 && wget https://dl.google.com/go/go$VERSION.$OS-$ARCH.tar.gz && sudo tar -C /usr/local -xzvf go$VERSION.$OS-$ARCH.tar.gz && rm go$VERSION.$OS-$ARCH.tar.gz
+export VERSION=1.16.15 OS=linux ARCH=amd64 && wget https://dl.google.com/go/go$VERSION.$OS-$ARCH.tar.gz && sudo tar -C /usr/local -xzvf go$VERSION.$OS-$ARCH.tar.gz && rm go$VERSION.$OS-$ARCH.tar.gz
 echo 'export PATH=/usr/local/go/bin:$PATH' >> ~/.bashrc && source ~/.bashrc
 ```
 * Build Singularity

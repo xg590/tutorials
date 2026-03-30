@@ -1,31 +1,21 @@
 ## Offline Installation of OpenSSH-server
 
-* Download apt-offline on the online machine (Ubuntu2404) for the offline machine
+* [Online Host] Download apt-offline from the internet <br/> The apt-offline_1.8.4-1_all.deb in the offical depo of Ubuntu 2204 since it has bugs. <br/> Visit https://github.com/rickysarraf/apt-offline/releases to get the latest [apt-offline 1.8.6](https://github.com/rickysarraf/apt-offline/releases/download/v1.8.6/apt-offline-1.8.6.tar.gz)
 
   ```sh
-  apt download apt-offline python3-magic # python3-magic is needed for apt-offline
-  # get apt-offline_1.8.5-1_all.deb python3-magic_2%3a0.4.27-3_all.deb
+  wget https://github.com/rickysarraf/apt-offline/releases/download/v1.8.6/apt-offline-1.8.6.tar.gz
+  apt download python3-magic # python3-magic_2:0.4.27-3_all.deb is needed for apt-offline
+  sudo dpkg -i python3-magic_2%3a0.4.24-2_all.deb
+  sudo apt-offline set --update abc123.sig --install-packages fcitx5 fcitx5-rime fcitx5-config-qt fcitx5-frontend-gtk3 fcitx5-frontend-gtk4 fcitx5-frontend-qt5
+  sed -i 's/security.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/g;s/archive.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/g' abc123.sig
+  apt-offline get --bundle efg456.zip abc123.sig  
   ```
-
-* On the offline machine, create abc123.sig
-
-  ```sh
-  dpkg -i apt-offline_1.8.5-1_all.deb python3-magic_2%3a0.4.27-3_all.deb
-  apt-offline set --install-packages openssh-server --update abc123.sig
-  ```
-
-* Back to the online machine. (The apt-offline_1.8.4-1_all.deb in the offical depo of Ubuntu 2204 since it has bugs. Visit https://github.com/rickysarraf/apt-offline/releases to get the latest [apt-offline](https://github.com/rickysarraf/apt-offline/releases/download/v1.8.5/apt-offline-1.8.5.tar.gz)).
+* [Offline Host] Back to the offline machine.
 
   ```sh
-  # sed -i 's/security.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/g;s/archive.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/g' abc123.sig
-  apt-offline get --bundle efg456.zip abc123.sig 
-  ```
-
-* Back to the offline machine.
-
-  ```sh
+  dpkg -i python3-magic_2%3a0.4.24-2_all.deb
   apt-offline install efg456.zip
-  apt-get install -y openssh-server
+  apt-get install -y fcitx5 fcitx5-rime fcitx5-config-qt fcitx5-frontend-gtk3 fcitx5-frontend-gtk4 fcitx5-frontend-qt5
   ```
 
 ## APT source

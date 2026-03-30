@@ -1,0 +1,2 @@
+* Install code-server so 
+* Goto GitHub [release](https://github.com/coder/code-server/releases) and get [code-server-4.109.2-linux-amd64.tar.gz](https://github.com/coder/code-server/releases/download/v4.109.2/code-server-4.109.2-linux-amd64.tar.gz)

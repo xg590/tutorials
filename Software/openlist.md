@@ -1,4 +1,9 @@
 # OpenList: A Personal Hub of Cloud Storage Services
+|IP|Port|Note|
+|-|-|-|
+|192.168.3.3|6880|Aria UI|
+|192.168.3.3|5244|OpenList| 
+---
 * You need aria2
   * OpenList only lists and previews files in your cloud storage and lets you manually download through your browser. 
 * You need aria2-pro and ariang

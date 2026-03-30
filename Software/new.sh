@@ -28,12 +28,14 @@ hostnamectl set-hostname $hostname
 apt install -y nvidia-driver-565-server
 
 ```
+snap list
 
-sudo apt update -y && sudo apt install -y openssh-server apache2
-netsh interface portproxy add v4tov4 connectaddress=127.0.0.1 connectport=22 listenaddress=0.0.0.0 listenport=22 
-netsh interface portproxy add v4tov4 connectaddress=127.0.0.1 connectport=80 listenaddress=0.0.0.0 listenport=80 
-netsh advfirewall firewall add rule name="Allow sshd"  dir=in protocol=TCP action=allow localport=22
-netsh advfirewall firewall add rule name="Allow httpd" dir=in protocol=TCP action=allow localport=80
-
-
+sudo snap remove --purge firefox
+sudo snap remove --purge snap-store
+sudo snap remove --purge gnome-42-2204    
+sudo snap remove --purge gtk-common-themes
+sudo snap remove --purge snapd-desktop-integration
+sudo snap remove --purge bare
+sudo snap remove --purge core22
+sudo snap remove --purge snapd
 ```

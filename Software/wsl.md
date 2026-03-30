@@ -12,7 +12,7 @@ wsl --install
 ```shell
 sudo apt update -y && sudo apt install -y openssh-server
 # Port Forwarding
-netsh interface portproxy add v4tov4 connectaddress=127.0.0.1 connectport=22 listenaddress=0.0.0.0 listenport=22
+netsh interface portproxy add v4tov4 connectaddress={private_ip_in_wsl} connectport=22 listenaddress=0.0.0.0 listenport=22
 
 # Enabling Inbound Rule on Windows Firewall
 netsh advfirewall firewall add rule name="Allow sshd" dir=in protocol=TCP action=allow localport=22
@@ -63,4 +63,12 @@ netsh winhttp reset proxy
 ipconfig /flushdns
 
 wsl --shutdown
+```
+### New
+```sh
+sudo apt update -y && sudo apt install -y openssh-server apache2
+netsh interface portproxy add v4tov4 connectaddress=127.0.0.1 connectport=22 listenaddress=0.0.0.0 listenport=22 
+netsh interface portproxy add v4tov4 connectaddress=127.0.0.1 connectport=80 listenaddress=0.0.0.0 listenport=80 
+netsh advfirewall firewall add rule name="Allow sshd"  dir=in protocol=TCP action=allow localport=22
+netsh advfirewall firewall add rule name="Allow httpd" dir=in protocol=TCP action=allow localport=80
 ```

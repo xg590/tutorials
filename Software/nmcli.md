@@ -60,3 +60,7 @@ nmcli conn reload
 ```
 nmcli conn mod <connectionName> ipv4.route-metric 50
 ```
+* Add new conn
+```
+nmcli conn add type ethernet con-name lan0 ifname ens3
+```

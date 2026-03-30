@@ -37,8 +37,11 @@ ip addr del 192.168.1.2/32 dev <interface-name>
 ```
 nmcli conn mod "LAN_1" ipv4.method manual ipv4.addresses 192.168.1.102/24 ipv4.gateway 192.168.1.1 ipv4.dns 210.42.249.132 ipv4.route-metric 50
 ```
-
 * fatal: unable to access 'https://github.com/nvm-sh/nvm.git/': gnutls_handshake() failed: Error in the pull function.
 ```sh
 ip link set mtu 1200 tun0
+```
+* Add an Additional IP
+```
+nmcli conn mod "Wired connection 1" +ipv4.addresses 192.168.1.20/24
 ```

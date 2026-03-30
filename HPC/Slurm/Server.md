@@ -13,7 +13,6 @@
     ```shell
     systemctl stop unattended-upgrades
     apt purge -y unattended-upgrades
-    mkdir /root/sys_conf 
     cat << EOF > /etc/hosts
     127.0.0.1               localhost
     127.0.1.1               localhost
@@ -64,6 +63,13 @@
     dhcp-option=$IFNAME1,3,192.168.11.1  
     dhcp-option=$IFNAME1,6,8.8.8.8,8.8.4.4       # DHCP Option 6 (Primary DNS Server) 
     EOF
+    mkdir -p     /etc/systemd/system/dnsmasq.service.d
+    cat << EOF > /etc/systemd/system/dnsmasq.service.d/network-online.conf
+    [Unit]
+    After=network-online.target
+    Requires=network-online.target
+    EOF
+    sudo systemctl daemon-reload
     systemctl restart dnsmasq
     sleep 5
     systemctl status  dnsmasq # journalctl -u dnsmasq -f 
@@ -111,6 +117,7 @@
   
   * Create a /root/sys_conf/set_nic.sh for compute node
     ```shell
+    mkdir /root/sys_conf 
     cat << ABC > /root/sys_conf/set_nic.sh
     CNT=\`cat /tmp/.cnt\`
     IP=192.168.11.\$CNT

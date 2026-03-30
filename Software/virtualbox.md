@@ -142,6 +142,10 @@ VBoxManage setextradata <VM-name> "VBoxInternal/TM/WarpDrivePercentage" 200
 ```sh
 vboxmanage clonemedium --format RAW disk input.vdi output.img
 ```
+#### hostonlyif with other range than 192.168.56.0/21
+```
+echo "* 192.168.11.0/24" > /etc/vbox/networks.conf
+```
 #### Troubleshooting
 * In case of "No USB devices available" on linux host, set proper group id for current user (credit to [csorig](https://superuser.com/a/957636))
 ```

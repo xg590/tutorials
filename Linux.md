@@ -24,6 +24,8 @@ EOF
 sudo ip link set wlan0 down
 sudo ip link set wlan0 up
 ``` 
+## CentOS
+* Disable DNS reverse lookup for fast SSH login
 ## iptables <a name="iptables"></a>
 #### Example
 ```shell
