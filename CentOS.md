@@ -84,7 +84,7 @@ Credit to vbird @ http://linux.vbird.org/linux_server/0250simple_firewall.php
 ### Install InfiniBand Network
 Understand InfiniBand [doc](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-Configure_InfiniBand_and_RDMA_Networks)
 Get info on hardware (<b>Mellanox</b> NIC)
-```
+```y
 # lspci | grep Mellanox
 01:00.0 Network controller: Mellanox Technologies MT27500 Family [ConnectX-3]
 ``` 
@@ -98,11 +98,11 @@ https://docs.mellanox.com/pages/viewpage.action?pageId=12004991
 ## 8.0 
 Install Extra Packages for Enterprise Linux
 ```
-dnf install epel-release -y
+yum install epel-release -y
 ```
 Install screen
 ```
-dnf install screen
+yum install screen
 ```
 
 * Repo

@@ -30,6 +30,12 @@
        linux  (loop)/casper/vmlinuz boot=casper iso-scan/filename=\$isofile quiet splash ---
        initrd (loop)/casper/initrd
    }
+    menuentry "Rocky 8.8 minimal Installer ISO" {
+        set isofile="/img/Rocky-8.8-x86_64-minimal.iso"
+        loopback loop (hd0,3)$isofile
+        linux (loop)/images/pxeboot/vmlinuz inst.stage2=hd:LABEL=Rocky-8-8-x86_64-minimal
+        initrd (loop)/images/pxeboot/initrd.img
+    }
    EOF
 
    sed -i -e 's/GRUB_TIMEOUT_STYLE=hidden/GRUB_TIMEOUT_STYLE=menu/' -e 's/GRUB_TIMEOUT=0/GRUB_TIMEOUT=30/' /etc/default/grub
@@ -38,9 +44,8 @@
    这样就能从 GRUB 启动 ISO。
 
 5. update-grub
-
-  ```sh
-  sudo update-grub
-  ```
+    ```sh
+    sudo update-grub
+    ```
 
 ---

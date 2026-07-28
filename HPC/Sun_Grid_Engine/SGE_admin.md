@@ -24,17 +24,13 @@ qmod -sj | -usf (suspend | unsuspend)
 ```
 qconf -msconf
 ```
+ 
 
-
-node84 node94 node95 node96 node97 node100 node105 node109
-
-
-node75 node77    
-
-Fair share policy
+* Fair share policy
+```
 There are two types of fair shares: share tree versus functional.
 
 Make 2 changes in the main SGE configuration ('qconf -mconf'): * enforce_user auto * auto_user_fshare 100
 
 Make 1 change in the SGE scheduler configuration ('qconf -msconf'): * weight_tickets_functional 10000
-
+```

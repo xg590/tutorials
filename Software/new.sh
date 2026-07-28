@@ -39,3 +39,22 @@ sudo snap remove --purge bare
 sudo snap remove --purge core22
 sudo snap remove --purge snapd
 ```
+### RockyLinux8.8
+```sh
+echo "${USER} ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/nopw
+sudo su
+yum install epel-release -y && yum install screen -y 
+cat << EOF | sudo tee /etc/NetworkManager/conf.d/Auto.conf
+[main]
+no-auto-default=
+EOF
+systemctl restart NetworkManager
+
+swapoff   
+dd     of=/swapfile if=/dev/zero bs=1M count=4
+chmod 600 /swapfile
+mkswap    /swapfile
+swapon    /swapfile
+echo     '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+swapon --show
+``` 

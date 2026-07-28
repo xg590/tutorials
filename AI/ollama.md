@@ -1,0 +1,1 @@
+1. Install Ollama as a ordinary user

@@ -63,8 +63,10 @@ PS > exit
 * In China
 ```sh
 wget https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/Miniconda3-latest-Linux-x86_64.sh
+# https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/Miniconda3-py313_26.1.1-1-Linux-aarch64.sh
 bash Miniconda3-latest-Linux-x86_64.sh -b -f -p ~/software/miniconda3
 export PATH=$PATH:~/software/miniconda3/bin
+echo "export PATH=$PATH:~/software/miniconda3/bin" >> ~/.bashrc
 rm ~/software/miniconda3/.condarc
 conda config --show-sources
 conda config --remove channels defaults # it would fail if defaults is not in ${HOME}/.condarc

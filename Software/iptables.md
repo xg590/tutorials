@@ -1,9 +1,25 @@
-/sbin/iptables-save    > /root/iptables.sav
-sh -c '/sbin/iptables-restore < /root/iptables.sav'
-/sbin/iptables-restore < /etc/iptables/rules.v4'
+### Persistent
+* App
+```sh
+sudo apt install iptables-persistent
+```
+* Rules
+```sh
+iptables -F
+iptables -P INPUT DROP
+iptables -P FORWARD DROP
+iptables -P OUTPUT ACCEPT
 
-
-
+iptables -A INPUT -i lo -j ACCEPT
+iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+iptables -A INPUT -p tcp --dport 22 -m conntrack --ctstate NEW -m limit --limit 10/min --limit-burst 20 -j ACCEPT
+iptables -A INPUT -p icmp -j ACCEPT
+```
+* save
+```sh
+sudo iptables-save > /etc/iptables/rules.v4
+```
 ### [Policy Routing](https://superuser.com/a/1010516)
 * Add a firewall rule to mark certain packets:
   ```
@@ -70,16 +86,4 @@ ip route show table 456
 ip rule list lookup 456
 iptables-save
 ```
-
-```
-iptables -F
-iptables -P INPUT DROP
-iptables -P FORWARD DROP
-iptables -P OUTPUT ACCEPT
-
-iptables -A INPUT -i lo -j ACCEPT
-iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
-iptables -A INPUT -p tcp --dport 22 -j ACCEPT
-iptables -A INPUT -p tcp --dport 22 -m conntrack --ctstate NEW -m limit --limit 10/min --limit-burst 20 -j ACCEPT
-iptables -A INPUT -p icmp -j ACCEPT
 ```

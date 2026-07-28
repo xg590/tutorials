@@ -1,4 +1,6 @@
-### SLURM
+
+
+### 
 * Restart all nodes
   ```
   parallel-ssh -i -h /root/sys_conf/pssh_new_host_file 'init 6'

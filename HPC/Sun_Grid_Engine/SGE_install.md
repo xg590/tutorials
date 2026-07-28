@@ -23,7 +23,7 @@ The above question will be asked twice, first for the communication of the progr
 * Do you want to enable the JMX MBean server (y/n) [y] >> n  <br> 
 * Do you want to add your shadow host(s) now? (y/n) [y] >> n 
 
-#### Interactive Installation of execd
+#### Interactive Installation of execd on each node
 ```
 source /home/sge/default/common/settings.sh
 cd $SGE_ROOT
@@ -51,10 +51,21 @@ chkconfig --level 35 sgeexecd.cluster_name_is_not_important on
 ```
 qlogin -l h[ostname]=master # Run job on a host whose name is master. -l option is to list the requested resource
 ``` 
-#### Configuration
+### Configuration
 #### Turn on scheduler info 
-Otherwise, see "scheduling info: (Collecting of scheduler job information is turned off)" when use qstat -j job_id
+* Otherwise, see "scheduling info: (Collecting of scheduler job information is turned off)" when use ```qstat -j job_id```
 ```
 qconf -msconf # Modify scheduler configuration
-``` 
 schedd_job_info: false -> true 
+```
+#### 
+* list hostgroup 
+```sh
+# qconf -shgrpl
+@allhosts
+```
+* list all queues
+```sh
+# qconf -sql
+all.q
+```

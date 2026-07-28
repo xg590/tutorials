@@ -1,4 +1,3 @@
-
 ### Network Manager <a name="nmcli"></a>
 On Ubuntu 20.04, the network is managed by Network Manager ([CLI](https://developer.gnome.org/NetworkManager/stable/nmcli.html)) by default. <b>IT SUCKS!!!</b>. 
 * Show current connection
@@ -8,10 +7,12 @@ On Ubuntu 20.04, the network is managed by Network Manager ([CLI](https://develo
 * Show available SSID
 ```
   nmcli dev wifi
+  nmcli dev wifi list ifname wlx40a5ef5a28b8
 ```
 * Add a connection (Quotation mark is required)
 ```
   nmcli dev wifi con "SSID" password "PASSWORD" name "ALIAS"
+  nmcli dev wifi con "ustc_vpn" password "xxx" ifname wlx40a5ef5a28b8 name "usbWiFi"
 ```
 * Connect/disconnect
 ```
@@ -28,7 +29,7 @@ On Ubuntu 20.04, the network is managed by Network Manager ([CLI](https://develo
   nmcli> save persistent
   nmcli> quit
   
-  sudo nmcli conn mod  "Wired connection 1" ipv4.method manual ipv4.addr "192.168.0.123/24" ipv4.gateway 192.168.0.1 ipv4.dns 8.8.8.8
+  sudo nmcli conn mod  "Wired connection 1" ipv4.method manual ipv4.addr "192.168.0.123/24" ipv4.gateway 192.168.0.1 ipv4.route-metric 200 ipv4.dns 8.8.8.8
 ```
 * Disable WIFI
 ```
@@ -63,4 +64,18 @@ nmcli conn mod <connectionName> ipv4.route-metric 50
 * Add new conn
 ```
 nmcli conn add type ethernet con-name lan0 ifname ens3
+```
+#### Let NetworkManager configure new NICs automatically
+* See the current conf
+```sh
+
+nmcli -f NAME,AUTOCONNECT connection show
+```
+* Let's make it happen
+```sh
+cat << EOF | sudo tee /etc/NetworkManager/conf.d/Auto.conf
+[main]
+no-auto-default=
+EOF
+sudo systemctl restart NetworkManager
 ```

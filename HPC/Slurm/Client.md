@@ -158,21 +158,39 @@
     parallel-ssh -i -h /root/sys_conf/pssh_every_host_file 'systemctl daemon-reload'
     parallel-ssh -i -h /root/sys_conf/pssh_every_host_file 'systemctl restart slurmd' 
     systemctl start slurmctld slurmd
-    sinfo
-
-    scontrol update nodename=node-[2-$CNT_END] state=idle
-    
-    srun --nodelist=node-3 --chdir /tmp --pty /bin/bash
 
     export CNT_END=56
-    parallel-ssh -i -h /root/sys_conf/pssh_every_host_file 'systemctl enable slurmd'
+    parallel-ssh -i -h /root/sys_conf/pssh_every_host_file 'systemctl enable slurmd' 
+    parallel-ssh -i -h /root/sys_conf/pssh_every_host_file 'mkdir /s1; chmod 777 /s1' 
 
-    parallel-ssh -i -h /root/sys_conf/pssh_every_host_file 'mkdir /s1; chmod 777 /s1'
-
-    parallel-ssh -i -h /root/sys_conf/pssh_every_host_file "lscpu | awk '/Socket/ {s=\$2} /Core/ {c=\$4} END {print s*c}'"  
-
-    cat /var/lib/misc/dnsmasq.leases | awk '{print $3}' > /tmp/pssh_host_file
-    rm /root/.ssh/known_hosts
-    cat /tmp/pssh_host_file | xargs -I % ssh-keyscan % >> /root/.ssh/known_hosts
-    parallel-ssh -i -h /tmp/pssh_host_file 'init 0' 
+    scontrol update nodename=node-[2-$CNT_END] state=idle
+    scontrol update nodename=node-2 state=idle
+    
+    srun --nodelist=node-3 --chdir /tmp --pty /bin/bash
+ 
+    cat /tmp/pssh_host_file | xargs -I % ssh-keyscan % >> /root/.ssh/known_hosts 
     ```
+    ### Disable Intel HT (HyperThreading) or AMD SMT (Simultaneous Multithreading)
+    * Drain the nodes
+    ```sh
+    scontrol update nodename=node-[10-15,18,20-31] state=drain reason="maintenance"
+    ```
+    * Test the problem
+    ```sh
+    parallel-ssh -i -h /root/sys_conf/pssh_every_host_file ' lscpu | grep -E "Thread\(s\)" ' 
+    # parallel-ssh -i -h /root/sys_conf/pssh_every_host_file ' lscpu | grep -E "Thread|CPU\(s\)|Core" '  
+    ```
+    * Disable HT/SMT on kernel level
+    ```sh
+    parallel-ssh -i -h /root/sys_conf/pssh_every_host_file 'grep GRUB_CMDLINE_LINUX /etc/default/grub'
+    parallel-ssh -i -h /root/sys_conf/pssh_every_host_file 'sed -i "s/quiet splash/quiet splash nosmt/g" /etc/default/grub'
+    parallel-ssh -i -h /root/sys_conf/pssh_every_host_file 'grep GRUB_CMDLINE_LINUX /etc/default/grub'
+    parallel-ssh -i -h /root/sys_conf/pssh_every_host_file 'update-grub' 
+    sinfo -h -N -t drain -p cmpt -o "%N" | tee /tmp/drained_node
+    parallel-ssh -i -h /tmp/drained_node 'init 6' 
+
+    sinfo -h -N -t idle -p cmpt -o "%N" | tee /tmp/idle_node
+    
+    cat /tmp/idle_node | xargs -I % ssh-keyscan % >> ~/.ssh/known_hosts 
+    parallel-ssh -i -h /tmp/idle_node 'df' 
+    ``` 

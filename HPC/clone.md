@@ -4,11 +4,12 @@
 dd if=/dev/zero of=swap.img bs=1M count=4
 mkswap swap.img
 ```
-* 如何知道分区最小可以压缩到的块数 Resize to 8GB (= 1969387 / 1024 / 1024 * 4KB)
+* 如何知道分区最小可以压缩到的块数 Resize to 8GB (= 1969387 / 1024 * 4MB)
 ```sh
 # resize2fs -P /dev/sdb2 
 resize2fs 1.47.0 (5-Feb-2023)
 Estimated minimum size of the filesystem: 1969387
+echo "1969387/1024*4" | bc
 ```
 * Get 9182 MB (18806783 / 2 / 1024 MB)
 ```sh
@@ -18,6 +19,8 @@ Units: sectors of 1 * 512 = 512 bytes
 Device       Start      End  Sectors  Size Type
 /dev/sda1     2048  2203647  2201600    1G EFI System
 /dev/sda2  2203648 18806783 16603136  7.9G Linux filesystem
+# echo "18806783/2/1024+10" | bc
+9192
 ```
 * dd 
 ```sh
@@ -30,7 +33,7 @@ sgdisk --move-second-header ubuntu2404.disk
 ## Restore
 * Restore script for Ubuntu2404
 ```
-cat << EOF > clone.sh
+cat << EOF > clone2.sh
 IMG=\$1
 DISK=/dev/\$2
 dd if=\$IMG of=\${DISK} bs=1M status=progress
@@ -48,7 +51,7 @@ EOF
 ```
 * Restore script for Ubuntu2204
 ```
-cat << EOF > clone.sh
+cat << EOF > clone3.sh
 IMG=\$1
 DISK=/dev/\$2
 dd if=\$IMG of=\${DISK} bs=1M status=progress

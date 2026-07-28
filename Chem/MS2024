@@ -1,0 +1,66 @@
+# Materials Studio + Rocky Linux 8.8 + RTX3090 + nVidia-driver 470 + CUDA 10.1
+## CUDA
+```sh
+sudo dnf groupinstall "Development Tools" -y 
+sudo dnf update kernel kernel-core kernel-modules kernel-devel kernel-headers -y
+sudo dnf install kernel-devel-$(uname -r) kernel-headers-$(uname -r) gcc make elfutils-libelf-devel
+sudo dnf install dkms -y # Dynamic Kernel Module Support (DKMS) is a program used to rebuild kernel modules automatically:
+sudo dnf config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/cuda-rhel8.repo
+sudo dnf install kernel-headers kernel-devel tar bzip2 make automake gcc gcc-c++ pciutils elfutils-libelf-devel libglvnd-opengl libglvnd-glx libglvnd-devel acpid pkgconf -y
+sudo grubby --args="nouveau.modeset=0 rd.driver.blacklist=nouveau" --update-kernel=ALL 
+sudo dnf module install nvidia-driver:470-dkms -y
+sudo dnf install cuda-toolkit-10-1 -y
+sudo dkms autoinstall
+```
+### Verify
+```
+$ dkms status
+nvidia/470.256.02: added
+```
+## MS2024
+### Prerequsite 
+yum install -y audit-libs bzip2-libs fontconfig freetype glibc keyutils-libs krb5-libs libcap-ng libcom_err libgcc libnsl libpng libselinux libstdc++ libuuid libX11 libXau libxcb libxcrypt libXext libXrender openssl-libs pam pcre2 zlib redhat-lsb-core shadow-utils tcsh 
+
+### Install MS2024
+#### You MUST Enter password for gatekeeper: Edf456@@
+```sh
+$ /home/a/MaterialsStudio2024SP1/install 
+```
+### Licensing
+1. source env
+```sh
+source /opt/BIOVIA/BIOVIA_LicensePack/etc/lp_profile
+```
+2. install license
+```sh
+/opt/BIOVIA/BIOVIA_LicensePack/linux/bin/lp_install /home/a/msi2024.lic
+```
+3. re-source env 
+### Configuring
+```
+$ cat << EOF | sudo tee /opt/BIOVIA/MaterialsStudio24.1/etc/Gateway/configurations/default/conf/gwport.conf
+Listen 0.0.0.0:18888
+EOF
+$ /opt/BIOVIA/MaterialsStudio24.1/etc/Gateway/gwstart
+$ /opt/BIOVIA/MaterialsStudio24.1/etc/Gateway/gwstop 
+```
+### Admin (```$ cd /opt/BIOVIA/MaterialsStudio24.1/etc/Gateway```) 
+* DSMgr.exe 提示的用户名和密码 You should add a new account to give access to a Windows client.
+```sh
+$ ./gwusers -list
+$ ./gwusers -add a # Edf456@@
+$ ./gwusers -update gatekeeper
+```
+* make gpu available
+```sh 
+$ ./gwstop
+$ sed -i 's/gpuavailable=no/gpuavailable=yes/' config/srv_templates/root/dsd/conf/gw-info.sbd.srv.rw.template
+$ rm -rf root_default/dsd/conf/ 
+$ ./gwstart
+``` 
+* Modify memory
+```sh
+$ sed -i '/installedmemory/d'        root_default/dsd/conf/gw-info.sbd.srv.ro
+$ echo "installedmemory=29000 MB" >> root_default/dsd/conf/gw-info.sbd.srv.ro 
+$ ./gwrestart
+```

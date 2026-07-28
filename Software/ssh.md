@@ -46,21 +46,28 @@ Host siteA
 Host siteB
     HostName 192.168.3.3
     HostKeyAlias siteB
-```
+``` 
+* remote
 
+```sh
+ssh-keygen -t ed25519 -C abc123
+type %userprofile%\.ssh\id_ed25519.pub
+type nul >> %userprofile%\.ssh\config
+notepad %userprofile%\.ssh\config
 
-type nul >> %userprofile%/.ssh/config
+host aliyun
+ hostname 60.205.xx.xx
+ user xxxx 
 
-notepad %userprofile%/.ssh/config
-
-
-host kr-1
-  hostname xx.xx.xx.xx
-  port 2222
-  user xxx
-
-host xg590
+host Office
  hostname localhost
- user py
  port 44444
- proxyjump kr-1 
+ user py
+ Proxyjump  aliyun
+
+host pi
+  hostname 172.16.100.103 
+  dynamicforward 8080
+  user pi
+  Proxyjump  Office
+```

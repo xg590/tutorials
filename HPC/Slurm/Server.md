@@ -25,7 +25,7 @@
     EOF
     source ~/.bashrc
     echo $IFNAME0 $IFNAME1
-    nmcli connection add type ethernet con-name cn_hpc1 ip4 192.168.11.1/24 gw4 192.168.11.1 ifname $IFNAME1
+    nmcli connection add type ethernet con-name cn_hpc1 ip4 192.168.11.1/24 gw4 192.168.11.1 ipv4.route-metric 200 ifname $IFNAME1
     # nmcli conn del cn_hpc1
     sleep 5
     ```
@@ -88,7 +88,7 @@
   * NFS Server
     ```shell
     cat << EOF >> /etc/exports
-    /home 192.168.11.0/24(rw,sync,no_root_squash,no_subtree_check)
+    /home/share 192.168.11.0/24(rw,sync,no_root_squash,no_subtree_check)
     EOF
     systemctl restart nfs-kernel-server
     exportfs -ra

@@ -81,3 +81,8 @@
         sudo loginctl unlock-sessions
         ```
   2. "May 24 11:18:12 office gnome-remote-de[269597]: [RDP] Username is not set, denying client"
+  3. "The password you use to log in to your computer no longer matches that of your login keyring"
+        ```
+        # Just delete the old keyring and reboot. 
+        rm ~/.local/share/keyrings/login.keyring
+        ```

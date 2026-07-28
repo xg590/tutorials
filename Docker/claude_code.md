@@ -59,8 +59,8 @@ docker image prune -f
 ```sh
 ANTHROPIC_AUTH_TOKEN=
 
-cat << EOF > .bashrc
-export ANTHROPIC_BASE_URL="https://api.aicodemirror.com/api/claudecode"
+cat << EOF >> .bashrc
+export ANTHROPIC_BASE_URL="https://api.aicodemirror.ai/api/claudecode"
 export ANTHROPIC_AUTH_TOKEN="$ANTHROPIC_AUTH_TOKEN"
 umask 0000
 cd ${PWD}

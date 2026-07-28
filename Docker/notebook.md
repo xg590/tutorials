@@ -68,13 +68,12 @@
   ```
 * Config
 ```
-mkdir .jupyter
-cat << EOF >  .jupyter/jupyter_notebook_config.py
+mkdir ~/.jupyter
+cat << EOF >  ~/.jupyter/jupyter_notebook_config.py
 c.ServerApp.ip = '0.0.0.0'
 c.ServerApp.token = ''
 c.ServerApp.password = ''
 c.ServerApp.allow_root = True
-c.ServerApp.open_browser = False
-c.ServerApp.root_dir = '/workspace'
+c.ServerApp.open_browser = False 
 EOF
 ```

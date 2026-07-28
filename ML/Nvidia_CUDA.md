@@ -3,9 +3,10 @@
 1. Install the RTX2060 driver
 
     ```sh
-    sudo su
-    apt install -y nvidia-driver-535
-    reboot
+    $ sudo su
+    # apt list | grep ^nvidia-driver
+    # apt install -y nvidia-driver-535
+    # reboot
     ```
 
     * Configuring Secure Boot -> Enter any password -> Enroll Key 
